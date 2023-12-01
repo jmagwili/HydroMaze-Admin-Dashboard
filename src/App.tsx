@@ -3,10 +3,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "@/components/ui/button"
 
 function App() {
   const [count, setCount] = useState(0)
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const { loginWithRedirect, isAuthenticated} = useAuth0();
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -41,6 +42,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Button>Click me</Button>
     </>
   )
 }
