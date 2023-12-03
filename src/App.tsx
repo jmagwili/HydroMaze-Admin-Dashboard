@@ -39,7 +39,7 @@ function App() {
           <Sidebar />
             <Routes>
               {routes.map((route, index)=>{
-                return(<Route path={route.path} element={<route.element />} />)
+                return(<Route path={route.path} element={<route.element />} key={index} />)
               })}
             </Routes>
       </Router>
