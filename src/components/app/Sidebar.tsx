@@ -5,12 +5,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
+import { Link } from "react-router-dom";
+
 
 export const Sidebar = () => {
     return(
         <div className="sidebar">
             <div><h2>Hydro<span>Maze</span></h2></div>
-            <Button><MdDashboard className="sidebar-icons"/>Dashboard</Button>
+            <Button><MdDashboard className="sidebar-icons"/><Link to={'/test'}>Dashboard</Link></Button>
             <Button><FaShoppingCart className="sidebar-icons"/>Orders</Button>
             <Button><FaPerson className="sidebar-icons"/>Customers</Button>
             <Button><IoMdAnalytics className="sidebar-icons"/>Analytics</Button>
