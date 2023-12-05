@@ -7,34 +7,49 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { Test } from './pages/Test'
-
+import Dashboard from './pages/Dashboard';
+import Orders from './pages/Orders';
+import Customers from './pages/Customers';
+import Analytics from './pages/Analytics';
 // if there is a typescript error at auth0 import, run: 
 // 'npm uninstall @auth0/auth0-react'
 // 'npm i @auth0/auth0-react'
 
 function App() {
-  const { loginWithRedirect, isAuthenticated} = useAuth0();
+  //const { loginWithRedirect, isAuthenticated} = useAuth0();
 
   const routes = [
     {
-      path: "/test",
-      element: Test
-    }
+      path: "/Dashboard",
+      element: Dashboard
+    },
+    {
+      path: "/Orders",
+      element: Orders
+    },
+    {
+      path: "/Customers",
+      element: Customers
+    },
+    {
+      path: "/Analytics",
+      element: Analytics
+    },
+    
   ]
 
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      if (!isAuthenticated) {
-        loginWithRedirect();
-      }
-    }, 2000); 
+  // useEffect(() => {
+  //   const delay = setTimeout(() => {
+  //     if (!isAuthenticated) {
+  //       loginWithRedirect();
+  //     }
+  //   }, 2000); 
   
-    return () => clearTimeout(delay);
-  }, [isAuthenticated, loginWithRedirect]);
+  //   return () => clearTimeout(delay);
+  // }, [isAuthenticated, loginWithRedirect]);
 
   return (
-    isAuthenticated && (
+    // isAuthenticated && (
       <Router>
           <Sidebar />
             <Routes>
@@ -43,7 +58,7 @@ function App() {
               })}
             </Routes>
       </Router>
-    )
-  );
+  //   )
+   );
 }
 export default App

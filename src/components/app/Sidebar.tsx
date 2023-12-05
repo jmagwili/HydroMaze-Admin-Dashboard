@@ -12,10 +12,10 @@ export const Sidebar = () => {
     return(
         <div className="sidebar">
             <div><h2>Hydro<span>Maze</span></h2></div>
-            <Button><MdDashboard className="sidebar-icons"/><Link to={'/test'}>Dashboard</Link></Button>
-            <Button><FaShoppingCart className="sidebar-icons"/>Orders</Button>
-            <Button><FaPerson className="sidebar-icons"/>Customers</Button>
-            <Button><IoMdAnalytics className="sidebar-icons"/>Analytics</Button>
+            <Button><MdDashboard className="sidebar-icons"/><Link to={'/Dashboard'}>Dashboard</Link></Button>
+            <Button><FaShoppingCart className="sidebar-icons"/><Link to={'/Orders'}>Orders</Link></Button>
+            <Button><FaPerson className="sidebar-icons"/><Link to={'/Customers'}>Customers</Link></Button>
+            <Button><IoMdAnalytics className="sidebar-icons"/><Link to={'/Analytics'}>Analytics</Link></Button>
             <Button className="sidebar-logout"><IoLogOut className="sidebar-icons"/>Log Out</Button>
         </div>
     )
