@@ -1,11 +1,9 @@
-import {Order} from "../database.js";
-
-
+import {Orders} from "../database.js";
 
 const getAllOrders = async (req, res) => {
   try {
     
-    const orders = await Order.find({});
+    const orders = await Orders.find({});
     console.log(orders);
     res.json(orders);
   } catch (error) {
