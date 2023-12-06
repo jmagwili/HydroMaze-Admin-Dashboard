@@ -7,35 +7,20 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Dashboard from './pages/Dashboard';
-import Orders from './pages/Orders';
-import Customers from './pages/Customers';
-import Analytics from './pages/Analytics';
+import { Test } from './pages/Test'
+
 // if there is a typescript error at auth0 import, run: 
 // 'npm uninstall @auth0/auth0-react'
 // 'npm i @auth0/auth0-react'
 
 function App() {
-  //const { loginWithRedirect, isAuthenticated} = useAuth0();
+  // const { loginWithRedirect, isAuthenticated} = useAuth0();
 
   const routes = [
     {
-      path: "/Dashboard",
-      element: Dashboard
-    },
-    {
-      path: "/Orders",
-      element: Orders
-    },
-    {
-      path: "/Customers",
-      element: Customers
-    },
-    {
-      path: "/Analytics",
-      element: Analytics
-    },
-    
+      path: "/test",
+      element: Test
+    }
   ]
 
   // useEffect(() => {
@@ -58,7 +43,7 @@ function App() {
               })}
             </Routes>
       </Router>
-  //   )
-   );
+    // )
+  );
 }
 export default App
