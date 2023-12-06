@@ -12,17 +12,5 @@ export const databaseInit = () => {
     db.once('open', ()=>console.log('CONNECTED TO THE DATABASE'))
 }
 
-export const client = new MongoClient(url);
+export const Order = mongoose.model('Order', new mongoose.Schema(), 'orders');
 
-
-//testing mongoclient
-const clientInit = async () => {
-  
-  await client.connect();
-  console.log('Connected successfully to server');
-}
-
-clientInit()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
