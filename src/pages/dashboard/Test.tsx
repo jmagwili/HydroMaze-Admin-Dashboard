@@ -34,8 +34,8 @@ export const Test = () => {
             /> */}
             <div className="datacard-container">
               <DataCard title="TODAY'S ORDERS" content={100} color="#2554da"/>
-              <DataCard title="TODAY'S REVENUE" content={100}color="#2554da"/>
-              <DataCard title="SALES THIS MONTH" content={100}color="#2554da"/>
+              <DataCard title="TODAY'S REVENUE" content={100}color="#a51ce6"/>
+              <DataCard title="SALES THIS MONTH" content={100}color="#008080"/>
             </div>
         </div>
     )
