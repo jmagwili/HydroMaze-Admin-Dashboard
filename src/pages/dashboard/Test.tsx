@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
+import { DataCard } from "./components/DataCard.tsx";
+import './styles/Dashboard.css'
 
 export const Test = () => {
     const [options, setOptions] = useState({
@@ -19,9 +21,8 @@ export const Test = () => {
       ])
 
     return(
-        <div>
-            <h1>Testing</h1>
-            <Chart
+        <div className="dashboard">
+            {/* <Chart
               options={options}
               series={series}
               type="bar"
@@ -30,7 +31,12 @@ export const Test = () => {
                 position: "absolute",
                 right: "30vw"
               }}
-            />
+            /> */}
+            <div className="datacard-container">
+              <DataCard title="TODAY'S ORDERS" content={100} color="#2554da"/>
+              <DataCard title="TODAY'S REVENUE" content={100}color="#2554da"/>
+              <DataCard title="SALES THIS MONTH" content={100}color="#2554da"/>
+            </div>
         </div>
     )
 }

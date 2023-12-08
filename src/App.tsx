@@ -7,7 +7,8 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { Test } from './pages/Test'
+import { Test } from './pages/dashboard/Test'
+import './App.css'
 
 // if there is a typescript error at auth0 import, run: 
 // 'npm uninstall @auth0/auth0-react'

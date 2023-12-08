@@ -1,0 +1,15 @@
+.dashboard{
+    height: auto;
+    width: calc(100vw - 250px);
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 20px;
+    background-color:  #ECECEC;
+    min-height: 100vh;
+}
+
+.datacard-container{
+    display: flex;
+    gap: 20px;
+}

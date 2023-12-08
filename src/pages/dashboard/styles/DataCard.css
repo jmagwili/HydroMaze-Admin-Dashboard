@@ -1,0 +1,23 @@
+.datacard{
+    width: 30%;
+    height: 140px;
+    text-align: left;
+    padding: 20px;
+    flex: 1;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.datacard-title{
+    font-size: 20px;
+    color: white;
+}
+
+.datacard-content{
+    font-size: 40px;
+    font-weight: 500;
+    color: white;
+}
