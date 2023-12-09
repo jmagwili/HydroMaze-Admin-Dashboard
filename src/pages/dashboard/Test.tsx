@@ -44,7 +44,7 @@ export const Test = () => {
           options={pieOptions}
           series={pieOptions.series}
           type="pie"
-          width="450"
+          width="90%"
           style={{
      
             backgroundColor: "#FFFFFF",
@@ -57,11 +57,14 @@ export const Test = () => {
           options={lineOptions}
           series={lineOptions.series}
           type="line"
-          width="450"
+          width="90%"
           style={{
             backgroundColor: "#FFFFFF",
             width:"450px",
-            flex:"1"
+            flex:"1",
+            display:"flex",
+            justifyContent:"center",
+            alignItems: "center"
           }}
         />
       </section>
