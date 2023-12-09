@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
-import { DataCard } from "./components/DataCard.tsx";
-import './styles/Dashboard.css';
+import { DataCard } from "../../components/Dashboard/DataCard.tsx";
+import '../../styles/Dashboard.css';
 import { IoCartSharp } from "react-icons/io5";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
-export const Test = () => {
+export const Dashboard = () => {
   const [pieOptions, setPieOptions] = useState({
     series: [44, 55, 13, 33],
     labels: ['Delivered', 'Confirmed', 'Pending', 'Rejected'],

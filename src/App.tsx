@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { useAuth0 } from "@auth0/auth0-react";
-import { Sidebar } from './components/app/Sidebar';
+import { Sidebar } from './components/Sidebar';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
 } from "react-router-dom";
-import { Test } from './pages/dashboard/Test'
+import { Dashboard } from './pages/dashboard/Dashboard.tsx'
 import './App.css'
 
 // if there is a typescript error at auth0 import, run: 
@@ -19,8 +19,8 @@ function App() {
 
   const routes = [
     {
-      path: "/test",
-      element: Test
+      path: "/dashboard",
+      element: Dashboard
     }
   ]
 
