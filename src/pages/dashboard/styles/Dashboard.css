@@ -16,10 +16,17 @@
     margin: 0 20px;
 }
 
-.charts-container{
+.charts-section{
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
     padding: 15px 10px;
     margin: 0 10px;
+}
+
+.table-section{
+    text-align: left;
+    margin: 0 20px;
+    padding: 15px 10px;
+    background-color: #FFFFFF;
 }

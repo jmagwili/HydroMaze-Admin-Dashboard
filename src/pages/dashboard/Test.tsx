@@ -2,6 +2,9 @@ import { useState } from "react";
 import Chart from "react-apexcharts";
 import { DataCard } from "./components/DataCard.tsx";
 import './styles/Dashboard.css';
+import { IoCartSharp } from "react-icons/io5";
+import { BsGraphUpArrow } from "react-icons/bs";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
 export const Test = () => {
   const [pieOptions, setPieOptions] = useState({
@@ -34,22 +37,39 @@ export const Test = () => {
   return (
     <div className="dashboard">
       <div className="datacard-container">
-        <DataCard title="TODAY'S ORDERS" content={100} color="#2554da" />
-        <DataCard title="TODAY'S REVENUE" content={100} color="#a51ce6" />
-        <DataCard title="SALES THIS MONTH" content={100} color="#008080" />
+        <DataCard 
+          title="TODAY'S ORDERS" 
+          content={100} 
+          color="#2554da" 
+          icon={<IoCartSharp />}
+        />
+        <DataCard 
+          title="TODAY'S REVENUE" 
+          content={100} 
+          color="#a51ce6" 
+          icon={<BsGraphUpArrow />}
+        />
+        <DataCard 
+          title="SALES THIS MONTH" 
+          content={100} 
+          color="#008080" 
+          icon={<FaMoneyBillTrendUp />}
+        />
       </div>
 
-      <section className="charts-container">
+      <section className="charts-section">
         <Chart
           options={pieOptions}
           series={pieOptions.series}
           type="pie"
           width="90%"
           style={{
-     
             backgroundColor: "#FFFFFF",
             width:"450px",
-            flex:"1"
+            flex:"1",
+            display:"flex",
+            justifyContent:"center",
+            alignItems: "center"
           }}
         />
 
@@ -68,7 +88,9 @@ export const Test = () => {
           }}
         />
       </section>
-      
+      <section className="table-section">
+        <h3>Recent Orders</h3>
+      </section>
     </div>
   );
 };
