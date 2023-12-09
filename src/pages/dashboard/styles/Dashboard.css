@@ -4,7 +4,6 @@
     position: absolute;
     right: 0;
     top: 0;
-    padding: 20px;
     background-color:  #ECECEC;
     min-height: 100vh;
 }
@@ -12,4 +11,15 @@
 .datacard-container{
     display: flex;
     gap: 20px;
+    background-color: #FFFFFF;
+    padding: 15px 10px;
+    margin: 0 20px;
+}
+
+.charts-container{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 15px 10px;
+    margin: 0 10px;
 }
