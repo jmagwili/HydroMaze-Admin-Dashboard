@@ -14,12 +14,32 @@
     background-color: #FFFFFF;
     padding: 15px 10px;
     margin: 0 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.charts-container{
+.charts-section{
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 15px;
     padding: 15px 10px;
     margin: 0 10px;
+}
+
+.dashboard-charts{
+    background-color: #FFFFFF;
+    width: 450px;
+    flex: 1;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.table-section{
+    margin: 0 20px;
+    padding: 15px 10px;
+    background-color: #FFFFFF;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    color: navy;
 }

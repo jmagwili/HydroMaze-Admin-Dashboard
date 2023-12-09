@@ -63,14 +63,7 @@ export const Dashboard = () => {
           series={pieOptions.series}
           type="pie"
           width="90%"
-          style={{
-            backgroundColor: "#FFFFFF",
-            width:"450px",
-            flex:"1",
-            display:"flex",
-            justifyContent:"center",
-            alignItems: "center"
-          }}
+          className="dashboard-charts"
         />
 
         <Chart
@@ -78,14 +71,7 @@ export const Dashboard = () => {
           series={lineOptions.series}
           type="line"
           width="90%"
-          style={{
-            backgroundColor: "#FFFFFF",
-            width:"450px",
-            flex:"1",
-            display:"flex",
-            justifyContent:"center",
-            alignItems: "center"
-          }}
+          className="dashboard-charts"
         />
       </section>
       <section className="table-section">
