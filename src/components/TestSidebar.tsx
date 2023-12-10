@@ -1,6 +1,8 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
 import restapi from "../assets/restapi.jpg";
+import { Link } from 'react-router-dom';
+
 interface SidebarProps {
   children: ReactNode;
 }
@@ -10,6 +12,7 @@ interface SidebarItemProps {
   text: string;
   active?: boolean;
   alert?: boolean;
+  to: any;
 }
 
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
@@ -63,50 +66,52 @@ export default function NewSidebar({ children }: SidebarProps) {
   );
 }
 
-export function SidebarItem({ icon, text, active, alert }: SidebarItemProps) {
-  const { expanded } = useContext(SidebarContext);
-
-  return (
-    <li
-      className={`
-        relative flex items-center py-4 px-3 my-4
-        font-medium rounded-md cursor-pointer
-        transition-colors group mt-6
-        ${
-          active
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:bg-indigo-50 text-gray-600"
-        }
-    `}
-    >
-      {icon}
-      <span
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
-        }`}
-      >
-        {text}
-      </span>
-      {alert && (
-        <div
-          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-            expanded ? "" : "top-2"
-          }`}
-        />
-      )}
-
-      {!expanded && (
-        <div
+export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps) {
+    const { expanded } = useContext(SidebarContext);
+  
+    return (
+      <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <li
           className={`
-          absolute left-full rounded-md px-2 py-1 ml-6
-          bg-indigo-100 text-indigo-800 text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
-      `}
+            relative flex items-center py-4 px-3 my-4
+            font-medium rounded-md cursor-pointer
+            transition-colors group mt-6
+            ${
+              active
+                ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+                : "hover:bg-indigo-50 text-gray-600"
+            }
+          `}
         >
-          {text}
-        </div>
-      )}
-    </li>
-  );
-}
+          {icon}
+          <span
+            className={`overflow-hidden transition-all ${
+              expanded ? "w-52 ml-3" : "w-0"
+            }`}
+          >
+            {text}
+          </span>
+          {alert && (
+            <div
+              className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+                expanded ? "" : "top-2"
+              }`}
+            />
+          )}
+  
+          {!expanded && (
+            <div
+              className={`
+                absolute left-full rounded-md px-2 py-1 ml-6
+                bg-indigo-100 text-indigo-800 text-sm
+                invisible opacity-20 -translate-x-3 transition-all
+                group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+              `}
+            >
+              {text}
+            </div>
+          )}
+        </li>
+      </Link>
+    );
+  }

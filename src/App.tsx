@@ -14,8 +14,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
-import { IoLogOut } from "react-icons/io5";
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
+
 
 // if there is a typescript error at auth0 import, run:
 // 'npm uninstall @auth0/auth0-react'
@@ -58,10 +57,10 @@ function App() {
     <Router>
       <div className="flex">
         <NewSidebar>
-          <SidebarItem icon={<MdDashboard />} text="Dashboard" active/>
-          <SidebarItem icon={<FaShoppingCart/>} text="Orders" />
-          <SidebarItem icon={<FaPerson/>} text="Customers" />
-          <SidebarItem icon={<IoMdAnalytics/>} text="Analytics"/>
+          <SidebarItem icon={<MdDashboard />} text="Dashboard" to={'/'} active/>
+          <SidebarItem icon={<FaShoppingCart/>} text="Orders" to={'/orders'} />
+          <SidebarItem icon={<FaPerson/>} text="Customers" to={'/customers'} />
+          <SidebarItem icon={<IoMdAnalytics/>} text="Analytics" to={'/analytics'}/>
         </NewSidebar>
         <div className="ml-30"> 
           <Routes>
