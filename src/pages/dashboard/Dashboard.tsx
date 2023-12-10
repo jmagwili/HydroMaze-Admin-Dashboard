@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { DataCard } from "../../components/Dashboard/DataCard.tsx";
-import '../../styles/Dashboard.css';
 import { IoCartSharp } from "react-icons/io5";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import axios from "axios";
+import '../../styles/Dashboard.css';
+
+
 
 export const Dashboard = () => {
+  const [orderData, setOrderData] = useState()
   const [pieOptions, setPieOptions] = useState({
     series: [44, 55, 13, 33],
     labels: ['Delivered', 'Confirmed', 'Pending', 'Rejected'],
@@ -34,6 +38,14 @@ export const Dashboard = () => {
       ]
     }
   )
+
+  useEffect(()=>{
+    axios.get('http://localhost:4001/api/v1/dashboard/orders-today/')
+    .then(res => setOrderData(res.data))
+    .catch((err)=>console.log("server reponded with an error\n",err))
+  },[])
+
+ 
   return (
     <div className="dashboard">
       <div className="datacard-container">
@@ -62,7 +74,8 @@ export const Dashboard = () => {
           options={pieOptions}
           series={pieOptions.series}
           type="pie"
-          width="90%"
+          width="450"
+          height="450"
           className="dashboard-charts"
         />
 
@@ -70,7 +83,8 @@ export const Dashboard = () => {
           options={lineOptions}
           series={lineOptions.series}
           type="line"
-          width="90%"
+          width="450"
+          height="300"
           className="dashboard-charts"
         />
       </section>
