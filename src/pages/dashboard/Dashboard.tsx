@@ -10,10 +10,11 @@ import '../../styles/Dashboard.css';
 
 
 export const Dashboard = () => {
+  const [revenue, setRevenue] = useState(0)
   const [orderData, setOrderData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [pieOptions, setPieOptions] = useState({
-    series: [44, 55, 13, 33],
+    series: [0,0,0,0],
     labels: ['Delivered', 'Confirmed', 'Pending', 'Rejected'],
     plotOptions: {
       pie: {
@@ -50,6 +51,7 @@ export const Dashboard = () => {
         let confirmedCount = 0
         let rejectedCount = 0
         let deliveredCount = 0
+        let totalRevenue = 0
 
         for(let i in orderData.data){
           switch(orderData.data[i].status){
@@ -64,9 +66,11 @@ export const Dashboard = () => {
               break
             case "delivered":
               deliveredCount++
+              totalRevenue += orderData.data[i].total
               break
           }
         }
+        setRevenue(totalRevenue)
         setPieOptions({
           ...pieOptions,
           series: [
@@ -97,7 +101,7 @@ export const Dashboard = () => {
         />
         <DataCard 
           title="TODAY'S REVENUE" 
-          content={100} 
+          content={revenue} 
           color="#a51ce6" 
           icon={<BsGraphUpArrow />}
         />
