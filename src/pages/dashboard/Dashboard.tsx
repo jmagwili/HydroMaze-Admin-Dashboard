@@ -124,7 +124,7 @@ export const Dashboard = () => {
         />
 
         <Chart
-          options={lineOptions}
+          options={lineOptions.options}
           series={lineOptions.series}
           type="line"
           width="450"
