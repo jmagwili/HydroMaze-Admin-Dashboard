@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input"
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 // PAGE STYLES
 import '../../styles/Customer.css'
@@ -24,40 +25,10 @@ import { RiUserSearchFill } from "react-icons/ri";
 export default function Customers() {
     const [visibleRows, setVisibleRows] = useState(2);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true)
     const pageSize = 4;
 
-    const [customers, setCustomers] = useState([
-        {
-            id: 1,
-            picture: "https://github.com/shadcn.png",
-            name: "Shanny Sins"
-        },
-        {
-            id: 2,
-            picture: "https://github.com/shadcn.png",
-            name: "Joshua Mark Salsalani"
-        },
-        {
-            id: 3,
-            picture: "https://github.com/shadcn.png",
-            name: "Garret Espanto"
-        },
-        {
-            id: 4,
-            picture: "https://github.com/shadcn.png",
-            name: "Jasper Espanto"
-        },
-        {
-            id: 5,
-            picture: "https://github.com/shadcn.png",
-            name: "Lance Espanto"
-        },
-        {
-            id: 6,
-            picture: "https://github.com/shadcn.png",
-            name: "Jonel Lang Sakalam"
-        }
-    ]);
+    const [customers, setCustomers] = useState([]);
 
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
     const [searchTerm, setSearchTerm] = useState('');
@@ -73,6 +44,29 @@ export default function Customers() {
         setFilteredCustomers(filtered);
         setCurrentPage(1); // Reset page to 1 when search term changes
     }, [searchTerm, customers]);
+
+    useEffect(()=>{
+        const fetchData = async () => {
+            try{
+                const userData = await axios.get('http://localhost:4001/api/v1/customers/')
+                
+                let structuredData = []
+                
+                for(let i in userData.data){
+                    structuredData.push({
+                        id: userData.data[i].username,
+                        picture: userData.data[i].picture ? userData.data[i].picture : "https://github.com/shadcn.png",
+                        name: userData.data[i].username,
+                    })
+                }
+                setCustomers(customers.concat(structuredData))
+                setIsLoading(false)
+            }catch(err){
+                console.log("Failed to fetch data\n", err)
+            }
+        }
+        fetchData()
+    },[])
 
     const handleNextClick = () => {
         if (currentPage < totalPages) {
@@ -91,6 +85,7 @@ export default function Customers() {
     
 
     return (
+        !isLoading &&
         <>
         <div className='customers-container'>
             <section className='customers-searchBar'>
@@ -105,7 +100,7 @@ export default function Customers() {
                     <TableHeader>
                     <TableRow>
                         <TableHead className="w-[100px]">Picture</TableHead>
-                        <TableHead>User ID</TableHead>
+                        <TableHead>Username</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead className="text-right">Details</TableHead>
                     </TableRow>
