@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import { Dashboard } from './pages/dashboard/Dashboard.tsx'
 import Customer from './pages/dashboard/Customers.tsx'
+import Orders from './pages/dashboard/Orders.tsx';
+import Analytics from './pages/dashboard/Analytics.tsx';
 import './App.css'
 
 // if there is a typescript error at auth0 import, run: 
@@ -24,8 +26,16 @@ function App() {
       element: Dashboard
     },
     {
-      path: "/customer",
+      path: "/customers",
       element: Customer
+    },
+    {
+      path: "/orders",
+      element: Orders
+    },
+    {
+      path: "/analytics",
+      element: Analytics
     }
   ]
 

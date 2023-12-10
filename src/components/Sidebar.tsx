@@ -13,9 +13,9 @@ export const Sidebar = () => {
         <div className="sidebar">
             <div><h2>Hydro<span>Maze</span></h2></div>
             <Button><MdDashboard className="sidebar-icons"/><Link to={'/'}>Dashboard</Link></Button>
-            <Button><FaShoppingCart className="sidebar-icons"/>Orders</Button>
-            <Button><FaPerson className="sidebar-icons"/><Link to={'/customer'}>Customers</Link></Button>
-            <Button><IoMdAnalytics className="sidebar-icons"/>Analytics</Button>
+            <Button><FaShoppingCart className="sidebar-icons"/><Link to={'/orders'}>Orders</Link></Button>
+            <Button><FaPerson className="sidebar-icons"/><Link to={'/customers'}>Customers</Link></Button>
+            <Button><IoMdAnalytics className="sidebar-icons"/><Link to={'/analytics'}>Analytics</Link></Button>
             <Button className="sidebar-logout"><IoLogOut className="sidebar-icons"/>Log Out</Button>
         </div>
     )
