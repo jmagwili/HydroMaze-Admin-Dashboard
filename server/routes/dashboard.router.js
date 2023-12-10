@@ -10,6 +10,7 @@ const router = express.Router();
 router.route('/orders-today/').get(getOrdersToday);
 router.route('/customers-today/').get(getCustomersToday);
 router.route('/revenue-today/').get(getRevToday);
+//routes for the charts
 router.route('/status-data/').get(getStatusData);
 router.route('/daily-sales/').get(getDailySales);
 
