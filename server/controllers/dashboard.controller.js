@@ -1,5 +1,5 @@
 import {Orders} from "../database.js";
-
+import { Customers } from "../database.js";
 
 var start = new Date();
 start.setHours(0,0,0,0)
@@ -20,13 +20,39 @@ const getOrdersToday = async (req, res) => {
   const getCustomersToday = async (req, res) => {
     try {
       
-      const customersToday = await Customers.find({created_on:{$gte: start, $lt:end}});
+      const customersToday = await Customers.find({createdAt:{$gte: start, $lt:end}});
       res.json(customersToday);
     } catch (error) {
       res.status(500).json({ message: error.message });
       console.log(error);
     }
   };
+
+  const getRevToday = async (req, res) => {
+    try {
+      const revenueToday = await Orders.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: start, $lt: end }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            revenue: {
+              $sum: "$total"
+            }
+          }
+        }
+      ]);
+      res.json(revenueToday);
+      
+    }catch(error){
+      res.status(500).json({ message: error.message });
+      console.log(error);
+    }
+
+  }
   
-  export { getOrdersToday, getCustomersToday };
+  export { getOrdersToday, getCustomersToday, getRevToday };
   
