@@ -8,11 +8,11 @@ interface SidebarProps {
 }
 
 interface SidebarItemProps {
-  icon: any;
+  icon: ReactNode;
   text: string;
   active?: boolean;
   alert?: boolean;
-  to: any;
+  to: string;
 }
 
 const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
@@ -26,11 +26,11 @@ export default function NewSidebar({ children }: SidebarProps) {
         <div className="p-4 pb-2 flex justify-between items-center">
           <div
             className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
+              expanded ? "w-62" : "w-0"
+            } text-center`}
           >
-            <span className="text-blue-600 font-bold font-xl">Hydro</span>
-            <span className="text-blue-400 font-bold">Maze</span>
+            <span className="text-blue-600 font-bold text-3xl">Hydro</span>
+            <span className="text-blue-400 font-bold text-3xl">Maze</span>
           </div>
           <button
             onClick={() => setExpanded((curr) => !curr)}
@@ -70,7 +70,7 @@ export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps)
     const { expanded } = useContext(SidebarContext);
   
     return (
-      <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link to={to}  >
         <li
           className={`
             relative flex items-center py-4 px-3 my-4
@@ -79,7 +79,7 @@ export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps)
             ${
               active
                 ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-                : "hover:bg-indigo-50 text-gray-600"
+                : "hover:bg-indigo-100 text-gray-600"
             }
           `}
         >

@@ -92,12 +92,15 @@ export const Dashboard = () => {
   return (
     !isLoading &&
     <div className="dashboard">
+      <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">DASHBOARD</h1>
+      <hr className="m-2" />
       <div className="datacard-container">
         <DataCard 
           title="TODAY'S ORDERS" 
           content={orderData.length} 
           color="#2554da" 
           icon={<IoCartSharp />}
+         
         />
         <DataCard 
           title="TODAY'S REVENUE" 
