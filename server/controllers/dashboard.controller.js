@@ -54,18 +54,21 @@ const getOrdersToday = async (req, res) => {
 
   }
 
+  var startWeekDate = start.setDate(start.getDate()-7);
+
+
   const getStatusData = async (req, res) => {
     try {
       const statusData = await Orders.aggregate([
         {
           $match: {
-            createdAt: { $gte: start, $lt: end }
+            createdAt: { $gte: startWeekDate, $lt: end }
           }
         },
         {
           $group: {
-            _id: "$status", // Grouping by status
-            count: { $sum: 1 } // Counting occurrences of each status
+            _id: "$createdAt", // Grouping by status
+            revenue: { $sum: 1 } // Counting occurrences of each status
           }
         },{
           "$project":{
@@ -84,6 +87,38 @@ const getOrdersToday = async (req, res) => {
     }
 
   }
+  const getDailySales = async (req, res) => {
+    try {
+      const statusData = await Orders.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: start, $lt: end }
+          }
+        },
+        {
+          $group: {
+            _id: "$createdAt", 
+            revenue: {
+              $sum : "$total"
+            } 
+          }
+        },{
+          "$project":{
+            _id: 0,
+            date: "$_id",
+            revenue: 1
+          }
+         }
+       
+      ]);
+      res.json(statusData);
+      
+    }catch(error){
+      res.status(500).json({ message: error.message });
+      console.log(error);
+    }
+
+  }
   
-  export { getOrdersToday, getCustomersToday, getRevToday, getStatusData};
+  export { getOrdersToday, getCustomersToday, getRevToday, getStatusData, getDailySales};
   
