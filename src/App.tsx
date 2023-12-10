@@ -8,8 +8,10 @@ import Customer from "./pages/dashboard/Customers.tsx";
 import Orders from "./pages/dashboard/Orders.tsx";
 import Analytics from "./pages/dashboard/Analytics.tsx";
 import "./App.css";
+
 import { SidebarItem } from "./components/TestSidebar.tsx";
 import NewSidebar from "./components/TestSidebar.tsx";
+
 import { MdDashboard } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
@@ -62,7 +64,7 @@ function App() {
           <SidebarItem icon={<FaPerson/>} text="Customers" to={'/customers'} />
           <SidebarItem icon={<IoMdAnalytics/>} text="Analytics" to={'/analytics'}/>
         </NewSidebar>
-        <div className="ml-30"> 
+        <div> 
           <Routes>
             {routes.map((route, index) => {
               return (
