@@ -53,6 +53,37 @@ const getOrdersToday = async (req, res) => {
     }
 
   }
+
+  const getStatusData = async (req, res) => {
+    try {
+      const statusData = await Orders.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: start, $lt: end }
+          }
+        },
+        {
+          $group: {
+            _id: "$status", // Grouping by status
+            count: { $sum: 1 } // Counting occurrences of each status
+          }
+        },{
+          "$project":{
+            _id: 0,
+            status: "$_id",
+            count: 1
+          }
+         }
+       
+      ]);
+      res.json(statusData);
+      
+    }catch(error){
+      res.status(500).json({ message: error.message });
+      console.log(error);
+    }
+
+  }
   
-  export { getOrdersToday, getCustomersToday, getRevToday };
+  export { getOrdersToday, getCustomersToday, getRevToday, getStatusData};
   
