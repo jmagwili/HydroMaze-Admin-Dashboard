@@ -41,15 +41,50 @@ export const Dashboard = () => {
   )
 
   useEffect(()=>{
-    axios.get('http://localhost:4001/api/v1/dashboard/orders-today/')
-    .then(res => {
-      setOrderData(res.data)
-      setIsLoading(false)
-    })
-    .catch((err)=>console.log("server reponded with an error\n",err))
+    const fetchData = async () => {
+      try{
+        const orderData = await axios.get('http://localhost:4001/api/v1/dashboard/orders-today/')
+        setOrderData(orderData.data)
+        
+        let pendingCount = 0
+        let confirmedCount = 0
+        let rejectedCount = 0
+        let deliveredCount = 0
+
+        for(let i in orderData.data){
+          switch(orderData.data[i].status){
+            case "pending":
+              pendingCount++
+              break
+            case "confirmed":
+              confirmedCount++
+              break
+            case "rejected":
+              rejectedCount++
+              break
+            case "delivered":
+              deliveredCount++
+              break
+          }
+        }
+        setPieOptions({
+          ...pieOptions,
+          series: [
+            deliveredCount,
+            confirmedCount,
+            pendingCount,
+            rejectedCount
+          ] 
+        })
+        setIsLoading(false)
+      }catch(err){
+        console.log("failed to fetch data\n",err)
+      }
+    }
+    fetchData()
   },[])
 
- 
+  
   return (
     !isLoading &&
     <div className="dashboard">
