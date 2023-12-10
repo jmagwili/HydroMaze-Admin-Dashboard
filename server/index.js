@@ -7,7 +7,7 @@ import orderRouter from './routes/orders.router.js'
 import customerRouter from './routes/customers.router.js'
 import dashboardRouter from './routes/dashboard.router.js'
 const app = express();
-const port = 3000;
+const port = 4001;
 
 dotenv.config();
 databaseInit();
