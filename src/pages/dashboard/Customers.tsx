@@ -22,13 +22,19 @@ import '../../styles/Customer.css'
 // ICONS
 import { RiUserSearchFill } from "react-icons/ri";
 
+interface Customer {
+    id: string;
+    picture: string;
+    name: string;
+}
+
 export default function Customers() {
     const [visibleRows, setVisibleRows] = useState(2);
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true)
     const pageSize = 4;
 
-    const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState<Customer[]>([]);
 
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
     const [searchTerm, setSearchTerm] = useState('');
@@ -59,7 +65,7 @@ export default function Customers() {
                         name: userData.data[i].username,
                     })
                 }
-                setCustomers(customers.concat(structuredData))
+                setCustomers(structuredData)
                 setIsLoading(false)
             }catch(err){
                 console.log("Failed to fetch data\n", err)
