@@ -10,7 +10,8 @@ import '../../styles/Dashboard.css';
 
 
 export const Dashboard = () => {
-  const [orderData, setOrderData] = useState()
+  const [orderData, setOrderData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [pieOptions, setPieOptions] = useState({
     series: [44, 55, 13, 33],
     labels: ['Delivered', 'Confirmed', 'Pending', 'Rejected'],
@@ -41,17 +42,21 @@ export const Dashboard = () => {
 
   useEffect(()=>{
     axios.get('http://localhost:4001/api/v1/dashboard/orders-today/')
-    .then(res => setOrderData(res.data))
+    .then(res => {
+      setOrderData(res.data)
+      setIsLoading(false)
+    })
     .catch((err)=>console.log("server reponded with an error\n",err))
   },[])
 
  
   return (
+    !isLoading &&
     <div className="dashboard">
       <div className="datacard-container">
         <DataCard 
           title="TODAY'S ORDERS" 
-          content={100} 
+          content={orderData.length} 
           color="#2554da" 
           icon={<IoCartSharp />}
         />
