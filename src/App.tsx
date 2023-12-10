@@ -19,7 +19,7 @@ function App() {
 
   const routes = [
     {
-      path: "/dashboard",
+      path: "/",
       element: Dashboard
     }
   ]
