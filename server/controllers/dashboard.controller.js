@@ -6,10 +6,9 @@ start.setHours(0,0,0,0)
 var end = new Date();
 end.setHours(23,59,59,999)
 
-
 const getOrdersToday = async (req, res) => {
     try {    
-      const ordersToday = await Orders.find({created_on:{$gte: start, $lt:end}});
+      const ordersToday = await Orders.find({createdAt: {$gte: start, $lt:end}});
       console.log(ordersToday);
       res.json(ordersToday);
     } catch (error) {
