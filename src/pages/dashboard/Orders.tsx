@@ -9,6 +9,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 interface Orders {
   _id: string;
   username: string;
@@ -25,7 +26,7 @@ interface Orders {
 const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage] = useState(10); 
+  const [ordersPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +82,18 @@ const Orders = () => {
                 <TableCell>{order.total}</TableCell>
                 <TableCell>{order.date}</TableCell>
                 <TableCell>{order.time}</TableCell>
-                <TableCell>{order.status}</TableCell>
+                <TableCell>
+                  {order.status === "pending" && (
+                    <Badge variant="secondary">Pending</Badge>
+                  )}
+                  {order.status === "delivered" && <Badge>Delivered</Badge>}
+                  {order.status === "for delivery" && (
+                    <Badge>For Delivery</Badge>
+                  )}
+                  {order.status === "rejected" && (
+                    <Badge variant="destructive">Rejected</Badge>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -90,17 +102,20 @@ const Orders = () => {
 
       {/* Pagination Controls */}
       <div className="flex justify-center mt-4">
-        {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 border ${
-              currentPage === index + 1 ? 'bg-gray-300' : 'bg-white'
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
+        {Array.from(
+          { length: Math.ceil(orders.length / ordersPerPage) },
+          (_, index) => (
+            <button
+              key={index}
+              onClick={() => paginate(index + 1)}
+              className={`px-3 py-1 mx-1 border ${
+                currentPage === index + 1 ? "bg-gray-300" : "bg-white"
+              }`}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
       </div>
     </div>
   );
