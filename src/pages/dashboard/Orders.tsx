@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-interface Orders {
-  _id: string;
-  round: number;
-  slim: number;
-  total: number;
-  isOwned: boolean;
-  status: string;
-  createdAt: Date;
-}
 
 const Orders = () => {
-  const [orders, setOrders] = useState<Orders[]>([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
