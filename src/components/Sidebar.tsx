@@ -7,7 +7,7 @@ import { IoMdAnalytics } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
+
 
 
 export const Sidebar = () => {
