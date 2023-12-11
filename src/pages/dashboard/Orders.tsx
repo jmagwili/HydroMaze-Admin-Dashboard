@@ -19,7 +19,9 @@ interface Orders {
   total: number;
   isOwned: boolean;
   status: string;
-  createdAt: Date;
+  createdAt: string;
+  date: string;
+  time: string;
 }
 const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
@@ -30,15 +32,21 @@ const Orders = () => {
         const userData = await axios.get(
           "http://localhost:4001/api/v1/orders/"
         );
-        setOrders(userData.data);
-        console.log(userData.data);
+        const ordersWithDateTime = userData.data.map(orders => {
+          const dateTime = new Date(orders.createdAt);
+          const date = dateTime.toLocaleDateString();
+          const time = dateTime.toLocaleTimeString();
+          return { ...orders, date, time };
+        });
+        setOrders(ordersWithDateTime);
+        console.log(ordersWithDateTime);
       } catch (e) {
         console.log("Failed to fetch data\n", e);
       }
     };
     fetchData();
   },[]);
-
+ 
   return (
     <div>
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
@@ -54,6 +62,8 @@ const Orders = () => {
                   <TableHead>Round Orders</TableHead>
                   <TableHead>Slim Orders</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Date Ordered</TableHead>
+                  <TableHead>Time Ordered</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
@@ -64,6 +74,8 @@ const Orders = () => {
                     <TableCell>{order.round}</TableCell>
                     <TableCell>{order.slim}</TableCell>
                     <TableCell>{order.total}</TableCell>
+                    <TableCell>{order.date}</TableCell>
+                    <TableCell>{order.time}</TableCell>
                     <TableCell>{order.status}</TableCell>
                   </TableRow>
                 ))}

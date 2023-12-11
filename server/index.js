@@ -27,3 +27,6 @@ app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 
 app.listen(port, console.log(`App is running \nListening to port ${port}`));
+
+
+  
