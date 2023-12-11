@@ -1,11 +1,15 @@
 import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
-var start = new Date();
-start.setHours(0, 0, 0, 0);
-var end = new Date();
-end.setHours(23, 59, 59, 999);
-
+const today = new Date(); 
+const start = new Date(today.getFullYear(), today.getMonth(), today.getDate()); 
+const end = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate() + 1
+); 
+console.log(start);
+console.log(end);
 const getOrdersToday = async (req, res) => {
   try {
     const ordersToday = await Orders.find({
@@ -55,7 +59,7 @@ const getRevToday = async (req, res) => {
   }
 };
 
-var startWeekDate = start.setDate(start.getDate() - 7);
+const startWeekDate = start.setDate(start.getDate() - 7);
 
 const getStatusData = async (req, res) => {
   try {
