@@ -64,7 +64,7 @@ function App() {
           <SidebarItem icon={<FaPerson/>} text="Customers" to={'/customers'} />
           <SidebarItem icon={<IoMdAnalytics/>} text="Analytics" to={'/analytics'}/>
         </NewSidebar>
-        <div> 
+        <div className="pl-100"> 
           <Routes>
             {routes.map((route, index) => {
               return (

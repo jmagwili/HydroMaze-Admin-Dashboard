@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect } from "react";
 import {
   Table,
-  TableBody,
   TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 interface Orders {
   _id: string;
   username: string;
@@ -23,8 +21,11 @@ interface Orders {
   date: string;
   time: string;
 }
+
 const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage] = useState(10); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,59 +33,75 @@ const Orders = () => {
         const userData = await axios.get(
           "http://localhost:4001/api/v1/orders/"
         );
-        const ordersWithDateTime = userData.data.map(orders => {
-          const dateTime = new Date(orders.createdAt);
+        const ordersWithDateTime = userData.data.map((order: Orders) => {
+          const dateTime = new Date(order.createdAt);
           const date = dateTime.toLocaleDateString();
           const time = dateTime.toLocaleTimeString();
-          return { ...orders, date, time };
+          return { ...order, date, time };
         });
         setOrders(ordersWithDateTime);
-        console.log(ordersWithDateTime);
       } catch (e) {
         console.log("Failed to fetch data\n", e);
       }
     };
     fetchData();
-  },[]);
- 
+  }, []);
+
+  // Pagination logic
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
-    <div>
+    <div className="w-100vw">
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
-      <hr className="m-2" />
-      <div>
-          <Table>
-              <TableCaption>
-                All of your orders
-              </TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Round Orders</TableHead>
-                  <TableHead>Slim Orders</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Date Ordered</TableHead>
-                  <TableHead>Time Ordered</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {orders.map((order) => (
-                  <TableRow key={order._id}>
-                    <TableCell>{order.username}</TableCell>
-                    <TableCell>{order.round}</TableCell>
-                    <TableCell>{order.slim}</TableCell>
-                    <TableCell>{order.total}</TableCell>
-                    <TableCell>{order.date}</TableCell>
-                    <TableCell>{order.time}</TableCell>
-                    <TableCell>{order.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-          </Table>
-
-
+      <hr className="mt-2 mb-20" />
+      <div className="ml-20 ">
+        <Table className="text-lg">
+          <TableCaption>All of your orders</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Username</TableHead>
+              <TableHead>Round Orders</TableHead>
+              <TableHead>Slim Orders</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Date Ordered</TableHead>
+              <TableHead>Time Ordered</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentOrders.map((order) => (
+              <TableRow key={order._id}>
+                <TableCell>{order.username}</TableCell>
+                <TableCell>{order.round}</TableCell>
+                <TableCell>{order.slim}</TableCell>
+                <TableCell>{order.total}</TableCell>
+                <TableCell>{order.date}</TableCell>
+                <TableCell>{order.time}</TableCell>
+                <TableCell>{order.status}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
 
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: Math.ceil(orders.length / ordersPerPage) }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-3 py-1 mx-1 border ${
+              currentPage === index + 1 ? 'bg-gray-300' : 'bg-white'
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
