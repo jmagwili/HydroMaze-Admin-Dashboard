@@ -9,9 +9,25 @@ console.log(start);
 console.log(end);
 const getOrdersToday = async (req, res) => {
   try {
-    const ordersToday = await Orders.find({
-      createdAt: { $gte: start, $lt: end },
-    });
+    const ordersToday = await Orders.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: start, $lt: end }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          count: 1
+        }
+      }
+    ]);
     console.log(ordersToday);
     res.json(ordersToday);
   } catch (error) {
