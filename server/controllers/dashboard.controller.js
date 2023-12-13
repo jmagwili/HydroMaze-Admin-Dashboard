@@ -8,8 +8,6 @@ const end = new Date(
   today.getMonth(),
   today.getDate() + 1
 ); 
-console.log(start);
-console.log(end);
 const getOrdersToday = async (req, res) => {
   try {
     const ordersToday = await Orders.find({
@@ -22,7 +20,22 @@ const getOrdersToday = async (req, res) => {
     console.log(error);
   }
 };
-
+const getRecentOrders = async (req, res) => {
+  try {
+    // Get recent orders for current day
+    const recentOrders = await Orders.aggregate([
+      {$sort : { createdAt: 1}},
+      {
+        $limit: 5,
+      },
+    ]);
+    console.log(recentOrders);
+    res.json(recentOrders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log(error);
+  }
+};
 const getCustomersToday = async (req, res) => {
   try {
     const customersToday = await Customers.find({
@@ -129,4 +142,5 @@ export {
   getRevToday,
   getStatusData,
   getDailySales,
+  getRecentOrders,
 };
