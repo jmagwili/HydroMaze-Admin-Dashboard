@@ -54,7 +54,6 @@ const getRevToday = async (req, res) => {
       {
         $match: {
           createdAt: { $gte: start, $lt: end },
-          
         },
       },
       {
@@ -66,13 +65,7 @@ const getRevToday = async (req, res) => {
         },
       },
     ]);
-    
-
-    if (revenueToday.length === 0) {
-      res.json({ revenue: 0 });
-    } else {
-      res.json(revenueToday);
-    }
+    res.json(revenueToday);
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
@@ -91,8 +84,8 @@ const getStatusData = async (req, res) => {
       },
       {
         $group: {
-          _id: "$createdAt", // Grouping by status
-          revenue: { $sum: 1 }, // Counting occurrences of each status
+          _id: "$createdAt",
+          revenue: { $sum: 1 },
         },
       },
       {
@@ -103,7 +96,7 @@ const getStatusData = async (req, res) => {
         },
       },
     ]);
-    //return 0 if null
+
     if (statusData.length === 0) {
       res.json({ status: 0 });
     } else {
