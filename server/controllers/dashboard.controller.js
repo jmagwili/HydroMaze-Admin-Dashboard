@@ -87,8 +87,8 @@ const getRevToday = async (req, res) => {
   }
 };
 
-const startWeekDate = start.setDate(start.getDate() - 7);
-
+const startWeekDate  = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+console.log(startWeekDate);
 const getStatusData = async (req, res) => {
   try {
     const statusData = await Orders.aggregate([
@@ -99,17 +99,12 @@ const getStatusData = async (req, res) => {
       },
       {
         $group: {
-          _id: "$createdAt",
-          revenue: { $sum: 1 },
+          _id: "$status",
+          count: { $sum: 1 },
         },
       },
-      {
-        $project: {
-          _id: 0,
-          status: "$_id",
-          count: 1,
-        },
-      },
+      
+  
     ]);
 
     if (statusData.length === 0) {
