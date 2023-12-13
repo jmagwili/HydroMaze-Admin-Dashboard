@@ -2,12 +2,11 @@ import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
 const today = new Date();
-const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-const end = new Date(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate() + 1
-);
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+console.log(start);
+console.log(end);
 const getOrdersToday = async (req, res) => {
   try {
     const ordersToday = await Orders.find({
@@ -53,7 +52,7 @@ const getRevToday = async (req, res) => {
     const revenueToday = await Orders.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lt: end },
+          createdAt: { $gte: start, $lt: end},
         },
       },
       {
