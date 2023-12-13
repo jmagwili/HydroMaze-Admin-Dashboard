@@ -96,7 +96,11 @@ const getStatusData = async (req, res) => {
         },
       },
     ]);
-    res.json(statusData);
+    //return 0 if null
+    if (statusData.length === 0) {
+      res.json({ status: 0})
+    }else { res.json(statusData); }
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
