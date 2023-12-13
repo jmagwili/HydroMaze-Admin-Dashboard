@@ -1,13 +1,13 @@
 import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
-const today = new Date(); 
-const start = new Date(today.getFullYear(), today.getMonth(), today.getDate()); 
+const today = new Date();
+const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 const end = new Date(
   today.getFullYear(),
   today.getMonth(),
   today.getDate() + 1
-); 
+);
 const getOrdersToday = async (req, res) => {
   try {
     const ordersToday = await Orders.find({
@@ -24,7 +24,7 @@ const getRecentOrders = async (req, res) => {
   try {
     // Get recent orders for current day
     const recentOrders = await Orders.aggregate([
-      {$sort : { createdAt: 1}},
+      { $sort: { createdAt: 1 } },
       {
         $limit: 5,
       },
@@ -54,6 +54,7 @@ const getRevToday = async (req, res) => {
       {
         $match: {
           createdAt: { $gte: start, $lt: end },
+          
         },
       },
       {
@@ -65,7 +66,13 @@ const getRevToday = async (req, res) => {
         },
       },
     ]);
-    res.json(revenueToday);
+    
+
+    if (revenueToday.length === 0) {
+      res.json({ revenue: 0 });
+    } else {
+      res.json(revenueToday);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
@@ -98,9 +105,10 @@ const getStatusData = async (req, res) => {
     ]);
     //return 0 if null
     if (statusData.length === 0) {
-      res.json({ status: 0})
-    }else { res.json(statusData); }
-    
+      res.json({ status: 0 });
+    } else {
+      res.json(statusData);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
@@ -108,7 +116,7 @@ const getStatusData = async (req, res) => {
 };
 const getDailySales = async (req, res) => {
   try {
-    const statusData = await Orders.aggregate([
+    const dailySales = await Orders.aggregate([
       {
         $match: {
           createdAt: { $gte: start, $lt: end },
@@ -133,7 +141,11 @@ const getDailySales = async (req, res) => {
         $sort: { date: 1 },
       },
     ]);
-    res.json(statusData);
+    if (dailySales.length === 0) {
+      res.json({ dailySales: 0 });
+    } else {
+      res.json(dailySales);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
