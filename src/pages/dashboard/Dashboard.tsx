@@ -8,6 +8,10 @@ import axios from "axios";
 import "../../styles/Dashboard.css";
 
 type StatusData = { _id: string; count: number };
+type SalesData = {
+  date: Date;
+  revenue: number;
+};
 
 export const Dashboard = () => {
   const [revenue, setRevenue] = useState(0);
@@ -16,6 +20,7 @@ export const Dashboard = () => {
   const [todaysOrders, setTodaysOrders] = useState(0);
   const [todaysRevenue, setTodaysRevenue] = useState(0);
   const [statusData, setStatusData] = useState<StatusData[]>([]);
+  const [dailySales, setDailySales] = useState<SalesData[]>([]);
   const pieOptions = {
     labels: statusData.map((data) => data._id),
     series: statusData.map((data) => data.count),
@@ -23,7 +28,7 @@ export const Dashboard = () => {
     legend: {
       show: true,
     },
-    
+
     chart: {
       toolbar: {
         show: true,
@@ -31,22 +36,33 @@ export const Dashboard = () => {
     },
   };
 
-  const [lineOptions, setLineOptions] = useState({
+  const chartOptions = {
     options: {
-      chart: {
-        id: "basic-bar",
-      },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        categories: dailySales.map((data) => data.date),
+        type: "datetime",
+      labels: {
+        format: "dd MMM",
+      },
+      },
+
+      colors: ["#0084ff", "#00b8d9", "#00c7b6", "#00e396", "#0acf97"],
+      legend: {
+        show: true,
+      },
+      chart: {
+        type: "area",
+        background: "white",
       },
     },
+
     series: [
       {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        name: "Revenue",
+        data: dailySales.map((data) => data.revenue),
       },
     ],
-  });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +84,12 @@ export const Dashboard = () => {
         );
         console.log(statusData.data);
         setStatusData(statusData.data);
+
+        const salesData = await axios.get(
+          "http://localhost:4001/api/v1/dashboard/daily-sales/"
+        );
+        console.log(salesData.data);
+        setDailySales(salesData.data);
         setIsLoading(false);
       } catch (err) {
         console.log("failed to fetch data\n", err);
@@ -115,9 +137,9 @@ export const Dashboard = () => {
           />
 
           <Chart
-            options={lineOptions.options}
-            series={lineOptions.series}
-            type="line"
+            options={chartOptions}
+            series={chartOptions.series}
+            type="area"
             width="450"
             height="300"
             className="dashboard-charts"
