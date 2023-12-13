@@ -48,7 +48,7 @@ const Orders = () => {
     fetchData();
   }, []);
 
-  // Pagination logic
+  
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -56,7 +56,7 @@ const Orders = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div className="w-100vw">
+    <div>
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-20" />
       <div className="ml-20 ">
@@ -100,7 +100,7 @@ const Orders = () => {
         </Table>
       </div>
 
-      {/* Pagination Controls */}
+      
       <div className="flex justify-center mt-4">
         {Array.from(
           { length: Math.ceil(orders.length / ordersPerPage) },
