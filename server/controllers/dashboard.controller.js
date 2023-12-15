@@ -28,8 +28,17 @@ const getOrdersToday = async (req, res) => {
         }
       }
     ]);
+
+    if(ordersToday.length !== 0){
+      res.json(ordersToday);
+    }else{
+      res.send([{
+        _id: null,
+        count: 0
+      }])
+    }
+
     console.log(ordersToday);
-    res.json(ordersToday);
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
