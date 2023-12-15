@@ -131,6 +131,7 @@ const getDailySales = async (req, res) => {
     const dailySales = await Orders.aggregate([
       {
         $match: {
+          status: "delivered",
           createdAt: { $gte: startWeekDate, $lt: end },
         },
       },
