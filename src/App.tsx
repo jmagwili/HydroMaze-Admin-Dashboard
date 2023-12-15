@@ -25,6 +25,17 @@ import { IoMdAnalytics } from "react-icons/io";
 function App() {
   // const { loginWithRedirect, isAuthenticated} = useAuth0();
 
+  // useEffect(() => {
+  //   const delay = setTimeout(() => {
+  //     if (!isAuthenticated) {
+  //       loginWithRedirect();
+  //     }
+  //   }, 2000);
+
+  //   return () => clearTimeout(delay);
+  // }, [isAuthenticated, loginWithRedirect]);
+
+
   const routes = [
     {
       path: "/",
@@ -44,60 +55,49 @@ function App() {
     },
   ];
 
-  // useEffect(() => {
-  //   const delay = setTimeout(() => {
-  //     if (!isAuthenticated) {
-  //       loginWithRedirect();
-  //     }
-  //   }, 2000);
-
-  //   return () => clearTimeout(delay);
-  // }, [isAuthenticated, loginWithRedirect]);
 
   const sidebarItems = [
     {
       icon: MdDashboard,
       text: "Dashboard",
       to: "/",
-      active: false
     },
     {
       icon: FaShoppingCart,
       text: "Orders",
       to: "/orders",
-      active: false
     },
     {
       icon: FaPerson,
       text: "Customers",
       to: "/customers",
-      active: false
     },
     {
       icon: IoMdAnalytics,
       text: "Analytics",
       to: "/analytics",
-      active: false
-    }
-  ]
-
+    },
+  ];
+  
   return (
     <Router>
       <div className="flex">
         <NewSidebar>
-          {sidebarItems.map((item,index)=>{
-            return( 
-              <SidebarItem 
+          {sidebarItems.map((item, index) => {
+            return (
+              <SidebarItem
                 icon={<item.icon />}
                 text={item.text}
                 to={item.to}
-                active={item.active}
+                onItemClick={() => {
+                  console.log(`Clicked on ${item.text}`);
+                }}
                 key={index}
               />
-            )
+            );
           })}
         </NewSidebar>
-        <div className="pl-100"> 
+        <div className="pl-100">
           <Routes>
             {routes.map((route, index) => {
               return (
@@ -114,4 +114,4 @@ function App() {
     </Router>
   );
 }
-export default App;
+export default App
