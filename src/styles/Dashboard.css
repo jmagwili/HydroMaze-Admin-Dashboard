@@ -1,8 +1,9 @@
 .dashboard{
     height: auto;
     width: calc(100vw - 300px);
-    
     min-height: 100vh;
+    position: relative;
+    left: 285px;
 }
 
 .datacard-container{

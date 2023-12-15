@@ -6,6 +6,8 @@
     background-color: white;
     gap: 30px;
     height: 100vh;
+    position: relative;
+    left: 300px;
 }
 
 .customers-container section{

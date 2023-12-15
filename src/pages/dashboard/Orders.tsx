@@ -56,7 +56,7 @@ const Orders = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div>
+    <div className="relative left-[285px]">
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-20" />
       <div className="ml-20 ">

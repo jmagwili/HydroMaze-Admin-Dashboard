@@ -96,7 +96,7 @@ export default function Customers() {
     !isLoading && (
       <>
         <div>
-          <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
+          <h1 className="relative left-[285px] ml-5 mt-5 font-semibold text-gray-800 text-3xl">
             CUSTOMERS
           </h1>
           <hr className="m-2" />
