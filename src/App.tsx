@@ -54,15 +54,48 @@ function App() {
   //   return () => clearTimeout(delay);
   // }, [isAuthenticated, loginWithRedirect]);
 
-  
+  const sidebarItems = [
+    {
+      icon: MdDashboard,
+      text: "Dashboard",
+      to: "/",
+      active: false
+    },
+    {
+      icon: FaShoppingCart,
+      text: "Orders",
+      to: "/orders",
+      active: false
+    },
+    {
+      icon: FaPerson,
+      text: "Customers",
+      to: "/customers",
+      active: false
+    },
+    {
+      icon: IoMdAnalytics,
+      text: "Analytics",
+      to: "/analytics",
+      active: false
+    }
+  ]
+
   return (
     <Router>
       <div className="flex">
         <NewSidebar>
-          <SidebarItem icon={<MdDashboard />} text="Dashboard" to={'/'} active/>
-          <SidebarItem icon={<FaShoppingCart/>} text="Orders" to={'/orders'} />
-          <SidebarItem icon={<FaPerson/>} text="Customers" to={'/customers'} />
-          <SidebarItem icon={<IoMdAnalytics/>} text="Analytics" to={'/analytics'}/>
+          {sidebarItems.map((item,index)=>{
+            return( 
+              <SidebarItem 
+                icon={<item.icon />}
+                text={item.text}
+                to={item.to}
+                active={item.active}
+                key={index}
+              />
+            )
+          })}
         </NewSidebar>
         <div className="pl-100"> 
           <Routes>

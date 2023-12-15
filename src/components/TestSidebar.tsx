@@ -1,6 +1,7 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
-import { useContext, createContext, useState, ReactNode } from "react";
-import restapi from "../assets/restapi.jpg";
+import React from 'react';
+import { MoreVertical, ChevronLast, ChevronFirst } from 'lucide-react';
+import { useContext, createContext, useState, ReactNode } from 'react';
+import restapi from '../assets/restapi.jpg';
 import { Link } from 'react-router-dom';
 
 interface SidebarProps {
@@ -10,15 +11,22 @@ interface SidebarProps {
 interface SidebarItemProps {
   icon: ReactNode;
   text: string;
-  active?: boolean;
-  alert?: boolean;
   to: string;
+  onItemClick: (to: string) => void; // Add this line
 }
 
-const SidebarContext = createContext<{ expanded: boolean }>({ expanded: true });
+const SidebarContext = createContext<{ expanded: boolean, activeItem: string | null }>({
+  expanded: true,
+  activeItem: null
+});
 
 export default function NewSidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
+  const [activeItem, setActiveItem] = useState<string | null>(null);
+
+  const handleItemClick = (to: string) => {
+    setActiveItem(to);
+  };
 
   return (
     <aside className="h-screen">
@@ -40,8 +48,12 @@ export default function NewSidebar({ children }: SidebarProps) {
           </button>
         </div>
 
-        <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+        <SidebarContext.Provider value={{ expanded, activeItem }}>
+          <ul className="flex-1 px-3">
+            {React.Children.map(children, (child) =>
+              React.cloneElement(child as React.ReactElement, { onItemClick: handleItemClick })
+            )}
+          </ul>
         </SidebarContext.Provider>
 
         <div className="border-t flex p-3">
@@ -66,23 +78,24 @@ export default function NewSidebar({ children }: SidebarProps) {
   );
 }
 
-export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps) {
-    const { expanded } = useContext(SidebarContext);
-  
-    return (
-      <Link to={to}  >
-        <li
-          className={`
-            relative flex items-center py-4 px-3 my-4
-            font-medium rounded-md cursor-pointer
-            transition-colors group mt-6
-            ${
-              active
-                ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-                : "hover:bg-indigo-100 text-gray-600"
-            }
-          `}
-        >
+export function SidebarItem({ icon, text, to, onItemClick }: SidebarItemProps) {
+  const { expanded, activeItem } = useContext(SidebarContext);
+
+  return (
+    <Link to={to}>
+      <li
+        onClick={() => onItemClick(to)}
+        className={`
+          relative flex items-center py-4 px-3 my-4
+          font-medium rounded-md cursor-pointer
+          transition-colors group mt-6 z-50
+          ${
+            activeItem === to
+              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
+              : "hover:bg-indigo-100 text-gray-600"
+          }
+        `}
+      >
           {icon}
           <span
             className={`overflow-hidden transition-all ${
@@ -91,13 +104,13 @@ export function SidebarItem({ icon, text, active, alert, to }: SidebarItemProps)
           >
             {text}
           </span>
-          {alert && (
+          {/* {alert && (
             <div
               className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
                 expanded ? "" : "top-2"
               }`}
             />
-          )}
+          )} */}
   
           {!expanded && (
             <div
