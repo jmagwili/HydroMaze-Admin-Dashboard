@@ -16,10 +16,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://127.0.0.1:4000",
+    origin: [
+      "http://127.0.0.1:4000",
+      "http://localhost:4000"
+    ],
     credentials: true,
   })
 );
+
 
 //routes
 app.use("/api/v1/orders", orderRouter);
