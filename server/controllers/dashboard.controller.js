@@ -68,6 +68,7 @@ const getRevToday = async (req, res) => {
     const revenueToday = await Orders.aggregate([
       {
         $match: {
+          status: "delivered", //order must not be added to revenue if status is other than delivered
           createdAt: { $gte: start, $lt: end},
         },
       },
@@ -80,12 +81,20 @@ const getRevToday = async (req, res) => {
         },
       },
     ]);
-    res.json(revenueToday);
+
+    if(revenueToday.length !== 0){
+      res.json(revenueToday);
+    }else{
+      res.json({
+        _id: null,
+        revenue: 0
+      })
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
   }
-};
+}
 
 const startWeekDate  = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
 console.log(startWeekDate);
