@@ -68,7 +68,7 @@ const getRevToday = async (req, res) => {
     const revenueToday = await Orders.aggregate([
       {
         $match: {
-          status: "delivered", //order must not be added to revenue if status is other than delivered
+          status: "delivered", //order must not be added to revenue if status is not delivered
           createdAt: { $gte: start, $lt: end},
         },
       },
@@ -85,10 +85,10 @@ const getRevToday = async (req, res) => {
     if(revenueToday.length !== 0){
       res.json(revenueToday);
     }else{
-      res.json({
+      res.json([{
         _id: null,
         revenue: 0
-      })
+      }])
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
