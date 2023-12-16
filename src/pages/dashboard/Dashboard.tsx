@@ -127,23 +127,28 @@ export const Dashboard = () => {
         </div>
 
         <section className="charts-section">
-          <Chart
-            options={pieOptions}
-            series={pieOptions.series}
-            type="pie"
-            width="450"
-            height="450"
-            className="dashboard-charts"
-          />
-
-          <Chart
-            options={chartOptions}
-            series={chartOptions.series}
-            type="area"
-            width="450"
-            height="300"
-            className="dashboard-charts"
-          />
+          <div className="chart-container">
+            <h2>Orders this Week</h2>
+            <Chart
+              options={pieOptions}
+              series={pieOptions.series}
+              type="pie"
+              width="450"
+              height="450"
+              className="dashboard-charts"
+            />
+          </div>
+          <div className="chart-container">
+            <h2>Revenue this Week</h2>
+            <Chart
+              options={chartOptions}
+              series={chartOptions.series}
+              type="area"
+              width="450"
+              height="300"
+              className="dashboard-charts"
+            />
+          </div>
         </section>
         <section className="table-section">
           <h3>Recent Orders</h3>

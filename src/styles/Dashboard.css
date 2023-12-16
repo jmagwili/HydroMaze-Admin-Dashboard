@@ -24,12 +24,18 @@
 }
 
 .dashboard-charts{
-    background-color: #FFFFFF;
-    width: 450px;
-    flex: 1;
     display: flex;
     justify-content:center;
     align-items: center;
+}
+
+.chart-container{
+    background-color: #FFFFFF;
+    flex: 1;
+    width: 450px;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 10px 20px 0 20px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
