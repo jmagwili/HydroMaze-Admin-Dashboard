@@ -1,8 +1,9 @@
 import React from 'react';
 import { MoreVertical, ChevronLast, ChevronFirst } from 'lucide-react';
-import { useContext, createContext, useState, ReactNode } from 'react';
+import { useContext, useState, ReactNode } from 'react';
 import restapi from '../assets/restapi.jpg';
 import { Link } from 'react-router-dom';
+import SidebarContext from '@/SidebarContext';
 
 interface SidebarProps {
   children: ReactNode;
@@ -15,14 +16,8 @@ interface SidebarItemProps {
   onItemClick: (to: string) => void; // Add this line
 }
 
-const SidebarContext = createContext<{ expanded: boolean, activeItem: string | null }>({
-  expanded: true,
-  activeItem: null
-});
-
 export default function NewSidebar({ children }: SidebarProps) {
-  const [expanded, setExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState<string | null>("/");
+  const {expanded, setExpanded, activeItem, setActiveItem} = useContext(SidebarContext)
 
   const handleItemClick = (to: string) => {
     setActiveItem(to);
@@ -48,13 +43,11 @@ export default function NewSidebar({ children }: SidebarProps) {
           </button>
         </div>
 
-        <SidebarContext.Provider value={{ expanded, activeItem }}>
-          <ul className="flex-1 px-3">
-            {React.Children.map(children, (child) =>
-              React.cloneElement(child as React.ReactElement, { onItemClick: handleItemClick })
-            )}
-          </ul>
-        </SidebarContext.Provider>
+        <ul className="flex-1 px-3">
+          {React.Children.map(children, (child) =>
+            React.cloneElement(child as React.ReactElement, { onItemClick: handleItemClick })
+          )}
+        </ul>
 
         <div className="border-t flex p-3">
           <img src={restapi} alt="" className="w-10 h-10 rounded-md" />
