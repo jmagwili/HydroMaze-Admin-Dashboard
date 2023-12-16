@@ -22,7 +22,7 @@ const SidebarContext = createContext<{ expanded: boolean, activeItem: string | n
 
 export default function NewSidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [activeItem, setActiveItem] = useState<string | null>("/");
 
   const handleItemClick = (to: string) => {
     setActiveItem(to);
