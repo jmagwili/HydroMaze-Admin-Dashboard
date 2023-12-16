@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { DataCard } from "../../components/Dashboard/DataCard.tsx";
 import { IoCartSharp } from "react-icons/io5";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import axios from "axios";
+import SidebarContext from "@/SidebarContext.ts";
 import "../../styles/Dashboard.css";
 
 type StatusData = { _id: string; count: number };
@@ -14,8 +15,8 @@ type SalesData = {
 };
 
 export const Dashboard = () => {
-  const [revenue, setRevenue] = useState(0);
-  const [orderData, setOrderData] = useState([]);
+  const { expanded } = useContext(SidebarContext)
+  const [expandedClass, setExpandedClass] = useState("")
   const [isLoading, setIsLoading] = useState(true);
   const [todaysOrders, setTodaysOrders] = useState(0);
   const [todaysRevenue, setTodaysRevenue] = useState(0);
@@ -98,9 +99,14 @@ export const Dashboard = () => {
     fetchData();
   }, []);
 
+  useEffect(()=>{
+    !expanded ? setExpandedClass("notExpanded") : setExpandedClass("")
+    
+  },[expanded])
+
   return (
     !isLoading && (
-      <div className="dashboard">
+      <div className={`dashboard ${expandedClass}`}>
         <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
           DASHBOARD
         </h1>

@@ -4,6 +4,7 @@
     min-height: 100vh;
     position: relative;
     left: 285px;
+    transition: 0.1s;
 }
 
 .datacard-container{
@@ -45,4 +46,9 @@
     background-color: #FFFFFF;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     text-align: left;
+}
+
+.notExpanded{
+    left: 70px;
+    width: calc(100vw - 85px);
 }
