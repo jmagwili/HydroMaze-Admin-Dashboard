@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, CSSProperties } from "react";
+import SidebarContext from "@/SidebarContext";
 
 // COMPONENTS
 import {
@@ -29,6 +30,10 @@ interface Customer {
 }
 
 export default function Customers() {
+  const { expanded } = useContext(SidebarContext)
+  const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
+    transition: "0.1s"
+  })
   const [visibleRows, setVisibleRows] = useState(2);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -78,6 +83,20 @@ export default function Customers() {
     fetchData();
   }, []);
 
+  useEffect(()=>{
+    if(!expanded){
+      setExpandedStyle({
+        left: "70px",
+        width: "calc(100vw - 85px)",
+        transition: "0.1s"
+      })
+    }else{
+      setExpandedStyle({
+        transition: "0.1s"
+      })
+    }
+  },[expanded])
+
   const handleNextClick = () => {
     if (currentPage < totalPages) {
       setVisibleRows((prevVisibleRows) => prevVisibleRows + pageSize);
@@ -96,12 +115,15 @@ export default function Customers() {
     !isLoading && (
       <>
         <div>
-          <h1 className="relative left-[285px] ml-5 mt-5 font-semibold text-gray-800 text-3xl">
+          <h1 
+            className="relative left-[285px] ml-5 mt-5 font-semibold text-gray-800 text-3xl"
+            style={expandedStyle}
+          >
             CUSTOMERS
           </h1>
           <hr className="m-2" />
         </div>
-        <div className="customers-container">
+        <div className="customers-container" style={expandedStyle}>
           <section className="customers-searchBar">
             <span>
               <RiUserSearchFill className="customers-search-icon" />
