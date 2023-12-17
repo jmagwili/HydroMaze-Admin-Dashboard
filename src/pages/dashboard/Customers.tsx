@@ -106,7 +106,7 @@ export default function Customers() {
             <span>
               <RiUserSearchFill className="customers-search-icon" />
             </span>
-            <span>
+            <span className="search-input">
               <Input
                 placeholder="Search Customer"
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -114,7 +114,7 @@ export default function Customers() {
             </span>
           </section>
           <section>
-            <Table style={{ width: "800px" }}>
+            <Table style={{ width: "900px" }}>
               <TableCaption>A list of your Customers.</TableCaption>
               <TableHeader>
                 <TableRow>

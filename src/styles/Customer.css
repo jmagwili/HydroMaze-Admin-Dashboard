@@ -1,18 +1,19 @@
 .customers-container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: white;
     gap: 30px;
     height: 100vh;
     position: relative;
     left: 300px;
+    width: calc(100vw - 320px);
+    margin-top: 50px;
 }
 
 .customers-container section{
-    position: relative;
-    
+    position: relative;;
 }
 
 .customers-container span{
@@ -24,6 +25,12 @@
     display: flex; 
     position: relative;
     gap: 30px;
+    width: 800px;
+
+}
+
+.search-input input{
+    width: 700px;
 }
 
 .customers-search-icon{
