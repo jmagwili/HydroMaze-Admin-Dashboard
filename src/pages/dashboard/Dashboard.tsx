@@ -100,8 +100,7 @@ export const Dashboard = () => {
   }, []);
 
   useEffect(()=>{
-    !expanded ? setExpandedClass("notExpanded") : setExpandedClass("")
-    
+    setExpandedClass(!expanded ? "notExpanded" : "")
   },[expanded])
 
   return (
