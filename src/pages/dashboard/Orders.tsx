@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, CSSProperties } from "react";
 import axios from "axios";
 import {
   Table,
@@ -22,11 +22,16 @@ interface Orders {
   date: string;
   time: string;
 }
+import SidebarContext from "@/SidebarContext";
 
 const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(10);
+  const {expanded} = useContext(SidebarContext)
+  const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
+    transition: "0.1s"
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +53,20 @@ const Orders = () => {
     fetchData();
   }, []);
 
-  
+  useEffect(()=>{
+    !expanded 
+    ? setExpandedStyle({
+      left: "70px",
+      width: "calc(100vw - 85px)",
+      transition: "0.1s"
+    }) 
+    : setExpandedStyle({
+      transition: "0.1s"
+    })
+    
+  },[expanded])
+
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -56,7 +74,7 @@ const Orders = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div className="relative left-[285px]">
+    <div className={`relative left-[285px]`} style={expandedStyle}>
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-20" />
       <div className="ml-20 ">
