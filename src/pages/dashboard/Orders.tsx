@@ -40,7 +40,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-
 interface Orders {
   _id: string;
   username: string;
@@ -106,11 +105,6 @@ const Orders:React.FC<orderProp> = ({className}) => {
     
   },[expanded])
 
-  const searchStyle:CSSProperties = {
-    //border:"solid"
-  }
-
-
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -120,12 +114,11 @@ const Orders:React.FC<orderProp> = ({className}) => {
   return (
     <div className={`relative left-[285px]`} style={expandedStyle}>
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
-      <hr className="mt-2 mb-20" />
+      <hr className="mt-2 mb-10" />
       <div className="ml-20 ">
-      <Card className="w-[350px]">
+      <Card className="w-[70%] ml-auto mr-auto mb-[60px]">
       <CardHeader>
         <CardTitle>Search Order</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
@@ -135,42 +128,46 @@ const Orders:React.FC<orderProp> = ({className}) => {
               <Input id="name" placeholder="Name of your customer" />
             </div>
             <div className={cn("grid gap-2", className)}>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    id="date"
-                    variant={"outline"}
-                    className={cn(
-                      "w-[300px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date?.from ? (
-                      date.to ? (
-                        <>
-                          {format(date.from, "LLL dd, y")} -{" "}
-                          {format(date.to, "LLL dd, y")}
-                        </>
+            <Label>Date Range</Label>
+              <div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="date"
+                      variant={"outline"}
+                      className={cn(
+                        "w-[100%] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date?.from ? (
+                        date.to ? (
+                          <>
+                            {format(date.from, "LLL dd, y")} -{" "}
+                            {format(date.to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(date.from, "LLL dd, y")
+                        )
                       ) : (
-                        format(date.from, "LLL dd, y")
-                      )
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    initialFocus
-                    mode="range"
-                    defaultMonth={date?.from}
-                    selected={date}
-                    onSelect={setDate}
-                    numberOfMonths={2}
-                  />
-                </PopoverContent>
-              </Popover>
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Order Status</Label>
@@ -189,8 +186,8 @@ const Orders:React.FC<orderProp> = ({className}) => {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button>Search</Button>
+      <CardFooter className="flex justify-start">
+        <Button className="w-[20%]">Search</Button>
       </CardFooter>
     </Card>
         <Table className="text-lg">
