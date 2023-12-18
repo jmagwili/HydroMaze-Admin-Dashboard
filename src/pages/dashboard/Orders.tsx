@@ -57,6 +57,11 @@ interface orderProp {
   className: string;
 }
 
+// interface searchInfo {
+//   name: string;
+//   status: string;
+// }
+
 import SidebarContext from "@/SidebarContext";
 
 const Orders:React.FC<orderProp> = ({className}) => {
@@ -64,6 +69,7 @@ const Orders:React.FC<orderProp> = ({className}) => {
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   })
+  const [searchInfo, setSearchInfo] = useState({})
   const [orders, setOrders] = useState<Orders[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(10);
@@ -105,6 +111,14 @@ const Orders:React.FC<orderProp> = ({className}) => {
     
   },[expanded])
 
+  useEffect(()=>{
+    console.log(searchInfo)
+  },[searchInfo])
+
+  useEffect(()=>{
+    setSearchInfo({...searchInfo, startDate: date?.from, endDate: date?.to})
+  },[date])
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -125,7 +139,10 @@ const Orders:React.FC<orderProp> = ({className}) => {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your customer" />
+              <Input 
+                id="name"
+                placeholder="Name of your customer" 
+                onChange={(e)=>setSearchInfo({...searchInfo, name: e.target.value})}/>
             </div>
             <div className={cn("grid gap-2", className)}>
             <Label>Date Range</Label>
@@ -171,15 +188,15 @@ const Orders:React.FC<orderProp> = ({className}) => {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Order Status</Label>
-              <Select>
+              <Select onValueChange={(value)=>setSearchInfo({...searchInfo, status: value})}>
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="next">confirmed</SelectItem>
-                  <SelectItem value="sveltekit">pending</SelectItem>
-                  <SelectItem value="astro">rejected</SelectItem>
-                  <SelectItem value="nuxt">delivered</SelectItem>
+                  <SelectItem value="confirmed">confirmed</SelectItem>
+                  <SelectItem value="pending">pending</SelectItem>
+                  <SelectItem value="rejected">rejected</SelectItem>
+                  <SelectItem value="delivered">delivered</SelectItem>
                 </SelectContent>
               </Select>
             </div>
