@@ -65,9 +65,10 @@ interface orderProp {
 import SidebarContext from "@/SidebarContext";
 
 const Orders:React.FC<orderProp> = ({className}) => {
+  const today = new Date()
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+    to: addDays(new Date(today.getFullYear(), today.getMonth(), today.getDate()),0),
   })
   const [searchInfo, setSearchInfo] = useState({})
   const [orders, setOrders] = useState<Orders[]>([]);
@@ -77,6 +78,7 @@ const Orders:React.FC<orderProp> = ({className}) => {
   const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
     transition: "0.1s"
   })
+
 
   useEffect(() => {
     const fetchData = async () => {
