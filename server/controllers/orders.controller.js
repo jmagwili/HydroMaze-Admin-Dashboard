@@ -1,10 +1,8 @@
 import {Orders} from "../database.js";
 
 const getAllOrders = async (req, res) => {
-  try {
-    
-    const orders = await Orders.find({});
-    
+  try {  
+    const orders = await Orders.find({});   
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -26,8 +24,6 @@ const searchOrder = async (req, res) => {
     if (req.body.name) query.username = await req.body.name;
     if (req.body.status && req.body.status !== "null") query.status = await req.body.status;
 
-    console.log(query);
-
     const orders = await Orders.find(query);
 
     console.log("Successfully fetched searched orders");
@@ -37,7 +33,5 @@ const searchOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 export { getAllOrders, searchOrder };
