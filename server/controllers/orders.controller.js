@@ -18,7 +18,7 @@ const searchOrder = async (req, res) => {
       username: req.body.name,
       status: req.body.status
     })
-
+    console.log(req.body)
     res.json(orders)
   }catch (error) {
     res.status(500).json({ message: error.message });
