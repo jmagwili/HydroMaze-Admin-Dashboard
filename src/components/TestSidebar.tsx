@@ -24,7 +24,7 @@ export default function NewSidebar({ children }: SidebarProps) {
   };
 
   return (
-    <aside className="h-screen fixed">
+    <aside className="h-screen fixed z-50">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div
@@ -81,7 +81,7 @@ export function SidebarItem({ icon, text, to, onItemClick }: SidebarItemProps) {
         className={`
           relative flex items-center py-4 px-3 my-4
           font-medium rounded-md cursor-pointer
-          transition-colors group mt-6 z-50
+          transition-colors group mt-6 
           ${
             activeItem === to
               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
