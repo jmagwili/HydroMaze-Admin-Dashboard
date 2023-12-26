@@ -126,7 +126,10 @@ const getStatusData = async (req, res) => {
     ]);
 
     if (statusData.length === 0) {
-      res.json({ status: 0 });
+      res.json([{ 
+        _id: 0,
+        count: 0,
+      }]);
     } else {
       res.json(statusData);
     }
@@ -164,7 +167,7 @@ const getDailySales = async (req, res) => {
       },
     ]);
     if (dailySales.length === 0) {
-      res.json({ dailySales: 0 });
+      res.json([{ revenue: 0 }]);
     } else {
       res.json(dailySales);
     }
