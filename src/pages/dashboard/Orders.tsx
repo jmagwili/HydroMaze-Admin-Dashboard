@@ -211,6 +211,7 @@ const Orders:React.FC<orderProp> = ({className}) => {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
+                <SelectItem value="null">Select</SelectItem>
                   <SelectItem value="confirmed">confirmed</SelectItem>
                   <SelectItem value="pending">pending</SelectItem>
                   <SelectItem value="rejected">rejected</SelectItem>
