@@ -24,7 +24,7 @@ const searchOrder = async (req, res) => {
     };
 
     if (req.body.name) query.username = await req.body.name;
-    if (req.body.status !== "null") query.status = await req.body.status;
+    if (req.body.status && req.body.status !== "null") query.status = await req.body.status;
 
     console.log(query);
 
