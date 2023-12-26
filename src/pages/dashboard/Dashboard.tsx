@@ -6,6 +6,16 @@ import { BsGraphUpArrow } from "react-icons/bs";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import axios from "axios";
 import SidebarContext from "@/SidebarContext.ts";
+import {
+  Table,
+  TableCaption,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import "../../styles/Dashboard.css";
 
 type StatusData = { _id: string; count: number };
@@ -64,6 +74,20 @@ export const Dashboard = () => {
       },
     ],
   };
+  
+ 
+  const currentOrders = [
+    {
+      _id: 1,
+      username: "joneltesting",
+      round: 1,
+      slim: 2,
+      total: 90,
+      date: "12/26/2023",
+      time: "12:00 PM",
+      status: "pending",
+    }
+  ]
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +181,44 @@ export const Dashboard = () => {
         </section>
         <section className="table-section">
           <h3>Recent Orders</h3>
+          <Table className="text-lg">
+          <TableCaption>All of your orders</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Username</TableHead>
+              <TableHead>Round Orders</TableHead>
+              <TableHead>Slim Orders</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Date Ordered</TableHead>
+              <TableHead>Time Ordered</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentOrders.map((order) => (
+              <TableRow key={order._id}>
+                <TableCell>{order.username}</TableCell>
+                <TableCell>{order.round}</TableCell>
+                <TableCell>{order.slim}</TableCell>
+                <TableCell>{order.total}</TableCell>
+                <TableCell>{order.date}</TableCell>
+                <TableCell>{order.time}</TableCell>
+                <TableCell>
+                  {order.status === "pending" && (
+                    <Badge variant="secondary">Pending</Badge>
+                  )}
+                  {order.status === "delivered" && <Badge>Delivered</Badge>}
+                  {order.status === "for delivery" && (
+                    <Badge>For Delivery</Badge>
+                  )}
+                  {order.status === "rejected" && (
+                    <Badge variant="destructive">Rejected</Badge>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
         </section>
       </div>
     )
