@@ -79,26 +79,42 @@ const Orders:React.FC<orderProp> = ({className}) => {
     transition: "0.1s"
   })
 
+  const handleSubmit = async () => {
+    try{
+      const orderData = await axios.post("http://localhost:4001/api/v1/orders/search", searchInfo)
+      const ordersWithDateTime = orderData.data.map((order: Orders) => {
+        const dateTime = new Date(order.createdAt);
+        const date = dateTime.toLocaleDateString();
+        const time = dateTime.toLocaleTimeString();
+        return { ...order, date, time };
+      });
+      setOrders(ordersWithDateTime);
+      setCurrentPage(1)
+    }catch(error){
+      console.log(error)
+    }
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await axios.get(
-          "http://localhost:4001/api/v1/orders/"
-        );
-        const ordersWithDateTime = userData.data.map((order: Orders) => {
-          const dateTime = new Date(order.createdAt);
-          const date = dateTime.toLocaleDateString();
-          const time = dateTime.toLocaleTimeString();
-          return { ...order, date, time };
-        });
-        setOrders(ordersWithDateTime);
-      } catch (e) {
-        console.log("Failed to fetch data\n", e);
-      }
-    };
-    fetchData();
-  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userData = await axios.get(
+  //         "http://localhost:4001/api/v1/orders/"
+  //       );
+  //       const ordersWithDateTime = userData.data.map((order: Orders) => {
+  //         const dateTime = new Date(order.createdAt);
+  //         const date = dateTime.toLocaleDateString();
+  //         const time = dateTime.toLocaleTimeString();
+  //         return { ...order, date, time };
+  //       });
+  //       setOrders(ordersWithDateTime);
+  //     } catch (e) {
+  //       console.log("Failed to fetch data\n", e);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   useEffect(()=>{
     !expanded 
@@ -206,7 +222,7 @@ const Orders:React.FC<orderProp> = ({className}) => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-start">
-        <Button className="w-[20%]">Search</Button>
+        <Button className="w-[20%]" onClick={handleSubmit}>Search</Button>
       </CardFooter>
     </Card>
         <Table className="text-lg">
