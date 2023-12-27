@@ -138,99 +138,104 @@ export const Dashboard = () => {
   },[expanded])
 
   return (
-    !isLoading && (
-      <div className={`dashboard ${expandedClass}`}>
-        <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
-          DASHBOARD
-        </h1>
-        <hr className="m-2" />
-        <div className="datacard-container">
-          <DataCard
-            title="TODAY'S ORDERS"
-            content={todaysOrders}
-            color="#2554da"
-            icon={<IoCartSharp />}
-          />
-          <DataCard
-            title="TODAY'S REVENUE"
-            content={todaysRevenue}
-            color="#a51ce6"
-            icon={<BsGraphUpArrow />}
-          />
-          <DataCard
-            title="SALES THIS MONTH"
-            content={100}
-            color="#008080"
-            icon={<FaMoneyBillTrendUp />}
-          />
-        </div>
+    <div className={`dashboard ${expandedClass}`}>
+      <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
+        DASHBOARD
+      </h1>
+      <hr className="m-2" />
 
-        <section className="charts-section">
-          <div className="chart-container">
-            <h2>Orders this Week</h2>
-            <Chart
-              options={pieOptions}
-              series={pieOptions.series}
-              type="pie"
-              width="450"
-              height="450"
-              className="dashboard-charts"
+      {!isLoading ?
+        <>
+          <div className="datacard-container">
+            <DataCard
+              title="TODAY'S ORDERS"
+              content={todaysOrders}
+              color="#2554da"
+              icon={<IoCartSharp />}
+            />
+            <DataCard
+              title="TODAY'S REVENUE"
+              content={todaysRevenue}
+              color="#a51ce6"
+              icon={<BsGraphUpArrow />}
+            />
+            <DataCard
+              title="SALES THIS MONTH"
+              content={100}
+              color="#008080"
+              icon={<FaMoneyBillTrendUp />}
             />
           </div>
-          <div className="chart-container">
-            <h2>Revenue this Week</h2>
-            <Chart
-              options={chartOptions}
-              series={chartOptions.series}
-              type="area"
-              width="450"
-              height="300"
-              className="dashboard-charts"
-            />
-          </div>
-        </section>
-        <section className="table-section">
-          <h3>Recent Orders</h3>
-          <Table className="text-lg">
-          <TableCaption>All of your orders</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Username</TableHead>
-              <TableHead>Round Orders</TableHead>
-              <TableHead>Slim Orders</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Date Ordered</TableHead>
-              <TableHead>Time Ordered</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {recentOrders.map((order) => (
-              <TableRow key={order._id}>
-                <TableCell>{order.username}</TableCell>
-                <TableCell>{order.round}</TableCell>
-                <TableCell>{order.slim}</TableCell>
-                <TableCell>{order.total}</TableCell>
-                <TableCell>{order.date}</TableCell>
-                <TableCell>{order.time}</TableCell>
-                <TableCell>
-                  {order.status === "pending" && (
-                    <Badge variant="secondary">Pending</Badge>
-                  )}
-                  {order.status === "delivered" && <Badge>Delivered</Badge>}
-                  {order.status === "for delivery" && (
-                    <Badge>For Delivery</Badge>
-                  )}
-                  {order.status === "rejected" && (
-                    <Badge variant="destructive">Rejected</Badge>
-                  )}
-                </TableCell>
+
+          <section className="charts-section">
+            <div className="chart-container">
+              <h2>Orders this Week</h2>
+              <Chart
+                options={pieOptions}
+                series={pieOptions.series}
+                type="pie"
+                width="450"
+                height="450"
+                className="dashboard-charts"
+              />
+            </div>
+            <div className="chart-container">
+              <h2>Revenue this Week</h2>
+              <Chart
+                options={chartOptions}
+                series={chartOptions.series}
+                type="area"
+                width="450"
+                height="300"
+                className="dashboard-charts"
+              />
+            </div>
+          </section>
+          <section className="table-section">
+            <h3>Recent Orders</h3>
+            <Table className="text-lg">
+            <TableCaption>All of your orders</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Username</TableHead>
+                <TableHead>Round Orders</TableHead>
+                <TableHead>Slim Orders</TableHead>
+                <TableHead>Total</TableHead>
+                <TableHead>Date Ordered</TableHead>
+                <TableHead>Time Ordered</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        </section>
-      </div>
-    )
+            </TableHeader>
+            <TableBody>
+              {recentOrders.map((order) => (
+                <TableRow key={order._id}>
+                  <TableCell>{order.username}</TableCell>
+                  <TableCell>{order.round}</TableCell>
+                  <TableCell>{order.slim}</TableCell>
+                  <TableCell>{order.total}</TableCell>
+                  <TableCell>{order.date}</TableCell>
+                  <TableCell>{order.time}</TableCell>
+                  <TableCell>
+                    {order.status === "pending" && (
+                      <Badge variant="secondary">Pending</Badge>
+                    )}
+                    {order.status === "delivered" && <Badge>Delivered</Badge>}
+                    {order.status === "for delivery" && (
+                      <Badge>For Delivery</Badge>
+                    )}
+                    {order.status === "rejected" && (
+                      <Badge variant="destructive">Rejected</Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          </section>
+        </>
+        :<p className="text-center mt-[50px] text-lg">Loading...</p>
+      }
+    </div>
+    
   );
 };
