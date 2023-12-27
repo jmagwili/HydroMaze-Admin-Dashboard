@@ -1,0 +1,47 @@
+.customer-details{
+    height: auto;
+    width: calc(100vw - 300px);
+    min-height: 100vh;
+    position: relative;
+    left: 285px;
+    transition: 0.1s;
+    
+}
+
+.notExpanded{
+    left: 70px;
+    width: calc(100vw - 85px);
+}
+
+.details-card{
+    display: flex;
+    width: 90%;
+    max-width: 900px;
+    height: 290px;
+    margin: 50px auto 0 auto;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.details-card button{
+    margin-top: 20px;
+}
+
+.customer-picture{
+    width: 25%;
+    border-right: solid rgb(218, 214, 214);
+}
+
+.personal-info{
+    padding: 10px;
+    line-height: 1.8;
+    padding: 0 30px;
+}
+
+.personal-info h3{
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
