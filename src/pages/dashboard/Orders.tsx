@@ -52,11 +52,6 @@ interface Orders {
   time: string;
 }
 
-// interface searchInfo {
-//   name: string;
-//   status: string;
-// }
-
 import SidebarContext from "@/SidebarContext";
 
 const Orders = () => {
