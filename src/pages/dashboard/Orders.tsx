@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, CSSProperties } from "react";
+import { useState, useEffect, useContext, CSSProperties } from "react";
 import axios from "axios";
 import {
   Table,
@@ -12,7 +12,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -53,10 +52,6 @@ interface Orders {
   time: string;
 }
 
-interface orderProp {
-  className: string;
-}
-
 // interface searchInfo {
 //   name: string;
 //   status: string;
@@ -64,7 +59,7 @@ interface orderProp {
 
 import SidebarContext from "@/SidebarContext";
 
-const Orders:React.FC<orderProp> = ({className}) => {
+const Orders = () => {
   const today = new Date()
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
@@ -162,7 +157,7 @@ const Orders:React.FC<orderProp> = ({className}) => {
                 placeholder="Name of your customer" 
                 onChange={(e)=>setSearchInfo({...searchInfo, name: e.target.value})}/>
             </div>
-            <div className={cn("grid gap-2", className)}>
+            <div className={cn("grid gap-2")}>
             <Label>Date Range</Label>
               <div>
                 <Popover>
