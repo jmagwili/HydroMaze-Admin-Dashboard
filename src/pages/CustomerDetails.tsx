@@ -124,7 +124,8 @@ export default function CustomerDetails() {
                                     longitude={viewports?.[index]?.longitude}
                                     latitude={viewports?.[index]?.latitude}
                                     zoom={13}
-                                    mapboxAccessToken= "pk.eyJ1Ijoiam1hZ3dpbGkiLCJhIjoiY2xwaGZwaHh0MDJtOTJqbzVkanpvYjRkNSJ9.fZFeViJyigw6k1ebFAbTYA"
+                                    mapboxAccessToken= {import.meta.env.VITE_MAPBOX_TOKEN} 
+                                    //token = "pk.eyJ1Ijoiam1hZ3dpbGkiLCJhIjoiY2xwaGZwaHh0MDJtOTJqbzVkanpvYjRkNSJ9.fZFeViJyigw6k1ebFAbTYA"                                  
                                     mapStyle="mapbox://styles/mapbox/streets-v12"
                                     interactive={true}
                                     onDrag={(e) => {
@@ -140,8 +141,7 @@ export default function CustomerDetails() {
                                                     : viewport
                                                 )
                                             })
-                                        )  
-                                          
+                                        )                                           
                                     }}
                                 >
                                     <Marker
