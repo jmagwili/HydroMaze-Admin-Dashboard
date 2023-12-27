@@ -136,7 +136,7 @@ export default function Customers() {
             </span>
           </section>
           <section>
-            <Table style={{ width: "900px" }}>
+            <Table style={{ width: "900px" }} className="text-lg">
               <TableCaption>A list of your Customers.</TableCaption>
               <TableHeader>
                 <TableRow>
@@ -159,7 +159,7 @@ export default function Customers() {
                       <TableCell>{customer.id}</TableCell>
                       <TableCell>{customer.name}</TableCell>
                       <TableCell className="text-right">
-                        <Link to={`/Customers/${customer.name}`}>
+                        <Link to={`/customers/details/${customer.id}`}>
                           <Button>See More</Button>
                         </Link>
                       </TableCell>
