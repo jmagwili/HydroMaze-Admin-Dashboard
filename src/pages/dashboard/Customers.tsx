@@ -112,40 +112,42 @@ export default function Customers() {
   };
 
   return (
-    !isLoading && (
-      <>
-        <div>
-          <h1 
-            className="relative left-[285px] ml-5 mt-5 font-semibold text-gray-800 text-3xl"
-            style={expandedStyle}
-          >
-            CUSTOMERS
-          </h1>
-          <hr className="m-2" />
-        </div>
-        <div className="customers-container" style={expandedStyle}>
-          <section className="customers-searchBar">
-            <span>
-              <RiUserSearchFill className="customers-search-icon" />
-            </span>
-            <span className="search-input">
-              <Input
-                placeholder="Search Customer"
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </span>
-          </section>
-          <section>
-            <Table style={{ width: "900px" }} className="text-lg">
-              <TableCaption>A list of your Customers.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Picture</TableHead>
-                  <TableHead>Username</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead className="text-right">Details</TableHead>
-                </TableRow>
-              </TableHeader>
+    <>
+      <div className="relative left-[285px]" style={expandedStyle}>
+        <h1 
+          className=" ml-5 mt-5 font-semibold text-gray-800 text-3xl"
+          
+        >
+          CUSTOMERS
+        </h1>
+        <hr className="m-2" />
+      </div>
+
+      <div className="customers-container" style={expandedStyle}>
+        <section className="customers-searchBar">
+          <span>
+            <RiUserSearchFill className="customers-search-icon" />
+          </span>
+          <span className="search-input">
+            <Input
+              placeholder="Search Customer"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </span>
+        </section>
+        <section>
+          <Table style={{ width: "900px" }} className="text-lg">
+            <TableCaption>{isLoading ? "Loading..." : "A list of your Customers."}</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Picture</TableHead>
+                <TableHead>Username</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead className="text-right">Details</TableHead>
+              </TableRow>
+            </TableHeader>
+
+            {!isLoading && (
               <TableBody>
                 {filteredCustomers
                   .slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -166,14 +168,18 @@ export default function Customers() {
                     </TableRow>
                   ))}
               </TableBody>
-            </Table>
-          </section>
+            )}
+          </Table>
+        </section>
+        
+        {totalPages > 1 &&
           <section className="customers-pageButtons">
             <Button onClick={handlePrevClick}>Previous</Button>
             <Button onClick={handleNextClick}>Next</Button>
           </section>
-        </div>
-      </>
-    )
+        }
+      </div>
+      
+    </>
   );
 }
