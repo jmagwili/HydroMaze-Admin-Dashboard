@@ -38,7 +38,7 @@ const getOrdersToday = async (req, res) => {
       }])
     }
 
-    console.log(ordersToday);
+    console.log("Successfully sent orders today");
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
@@ -53,7 +53,7 @@ const getRecentOrders = async (req, res) => {
         $limit: 5,
       },
     ]);
-    console.log(recentOrders);
+    console.log("Successfully sent recent orders");
     res.json(recentOrders);
   } catch (error) {
     res.status(500).json({ message: error.message });
