@@ -24,6 +24,19 @@ type SalesData = {
   revenue: number;
 };
 
+interface Orders {
+  _id: string;
+  username: string;
+  round: number;
+  slim: number;
+  total: number;
+  isOwned: boolean;
+  status: string;
+  createdAt: string;
+  date: string;
+  time: string;
+}
+
 export const Dashboard = () => {
   const { expanded } = useContext(SidebarContext)
   const [expandedClass, setExpandedClass] = useState("")
@@ -32,6 +45,7 @@ export const Dashboard = () => {
   const [todaysRevenue, setTodaysRevenue] = useState(0);
   const [statusData, setStatusData] = useState<StatusData[]>([]);
   const [dailySales, setDailySales] = useState<SalesData[]>([]);
+  const [recentOrders, setRecentOrders] = useState<Orders[]>([])
   const pieOptions = {
     labels: statusData.map((data) => data._id),
     series: statusData.map((data) => data.count),
@@ -75,20 +89,6 @@ export const Dashboard = () => {
     ],
   };
   
- 
-  const currentOrders = [
-    {
-      _id: 1,
-      username: "joneltesting",
-      round: 1,
-      slim: 2,
-      total: 90,
-      date: "12/26/2023",
-      time: "12:00 PM",
-      status: "pending",
-    }
-  ]
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,6 +115,16 @@ export const Dashboard = () => {
         );
         console.log(salesData.data);
         setDailySales(salesData.data);
+        const recentOrdersData = await axios.get(
+          "http://localhost:4001/api/v1/dashboard/recent-orders/"
+        );
+        const ordersWithDateTime = recentOrdersData.data.map((order: Orders) => {
+          const dateTime = new Date(order.createdAt);
+          const date = dateTime.toLocaleDateString();
+          const time = dateTime.toLocaleTimeString();
+          return { ...order, date, time };
+        });
+        setRecentOrders(ordersWithDateTime);
         setIsLoading(false);
       } catch (err) {
         console.log("failed to fetch data\n", err);
@@ -195,7 +205,7 @@ export const Dashboard = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentOrders.map((order) => (
+            {recentOrders.map((order) => (
               <TableRow key={order._id}>
                 <TableCell>{order.username}</TableCell>
                 <TableCell>{order.round}</TableCell>
