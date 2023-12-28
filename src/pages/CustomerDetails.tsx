@@ -54,10 +54,24 @@ interface UserData {
     zoom: number;
   }
 
+  interface OrderData{
+    _id: string;
+    round: number;
+    slim: number;
+    total: number;
+    isOwned: boolean;
+    status: string;
+    username: string;   
+    createdAt: string;
+    date: string;
+    time: string;
+  }
+
 export default function CustomerDetails() {
     const { expanded } = useContext(SidebarContext)
     const { id } = useParams()
     const [expandedClass, setExpandedClass] = useState("")
+    const [recentOrders, setRecentOrders] = useState<OrderData[]>([])
     const [userDetails, setUserDetails] = useState<UserData>()
     const [isLoading, setIsLoading] = useState(true)
     const [viewports, setViewports] = useState<Viewport[] | undefined>();
@@ -69,7 +83,6 @@ export default function CustomerDetails() {
                 setUserDetails(userData.data[0])
                 
                 let structuredLocData:Viewport[] = []
-
                 for(let i in userData.data[0].location){
                     structuredLocData.push({
                         longitude: userData.data[0].location[i].longitude,
@@ -79,6 +92,16 @@ export default function CustomerDetails() {
                 }
                 setViewports(structuredLocData)
 
+                const orders = await axios.get(`http://localhost:4001/api/v1/customers/recent-orders/${id}`)
+
+                const ordersWithDateTime = orders.data.map((order:OrderData) => {
+                    const dateTime = new Date(order.createdAt);
+                    const date = dateTime.toLocaleDateString();
+                    const time = dateTime.toLocaleTimeString();
+                    return { ...order, date, time };
+                });
+
+                setRecentOrders(ordersWithDateTime)
                 setIsLoading(false)
             }catch(err){
                 console.log(err)
@@ -95,18 +118,6 @@ export default function CustomerDetails() {
         console.log(userDetails)
     },[userDetails])
 
-    const currentOrders = [
-        {
-            _id: 1,
-            username: "joshuamagwili@gmail.com",
-            round: 1,
-            slim: 1,
-            total: 60,
-            date: "12/28/2023",
-            time: "8:30 AM",
-            status: "delivered",
-        }
-    ]
 
     return(
         <div className={`customer-details ${expandedClass}`}>
@@ -153,7 +164,6 @@ export default function CustomerDetails() {
                                     onZoom={(e)=>{
                                         setViewports(
                                             viewports?.map((viewport,j) => {
-                                                console.log(e.viewState.zoom)
                                                 return( 
                                                     j == index 
                                                     ? {
@@ -213,37 +223,35 @@ export default function CustomerDetails() {
                             <TableCaption>All of your orders</TableCaption>
                             <TableHeader>
                                 <TableRow>
-                                <TableHead>Username</TableHead>
+                                <TableHead>Date Ordered</TableHead>
+                                <TableHead>Time Ordered</TableHead>
                                 <TableHead>Round Orders</TableHead>
                                 <TableHead>Slim Orders</TableHead>
                                 <TableHead>Total</TableHead>
-                                <TableHead>Date Ordered</TableHead>
-                                <TableHead>Time Ordered</TableHead>
                                 <TableHead>Status</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {currentOrders.map((order) => (
-                                <TableRow key={order._id}>
-                                    <TableCell>{order.username}</TableCell>
-                                    <TableCell>{order.round}</TableCell>
-                                    <TableCell>{order.slim}</TableCell>
-                                    <TableCell>{order.total}</TableCell>
-                                    <TableCell>{order.date}</TableCell>
-                                    <TableCell>{order.time}</TableCell>
-                                    <TableCell>
-                                    {order.status === "pending" && (
-                                        <Badge variant="secondary">Pending</Badge>
-                                    )}
-                                    {order.status === "delivered" && <Badge>Delivered</Badge>}
-                                    {order.status === "for delivery" && (
-                                        <Badge>For Delivery</Badge>
-                                    )}
-                                    {order.status === "rejected" && (
-                                        <Badge variant="destructive">Rejected</Badge>
-                                    )}
-                                    </TableCell>
-                                </TableRow>
+                                {recentOrders.map((order) => (
+                                    <TableRow key={order._id}>
+                                        <TableCell>{order.date}</TableCell>
+                                        <TableCell>{order.time}</TableCell>
+                                        <TableCell>{order.round}</TableCell>
+                                        <TableCell>{order.slim}</TableCell>
+                                        <TableCell>{order.total}</TableCell>
+                                        <TableCell>
+                                        {order.status === "pending" && (
+                                            <Badge variant="secondary">Pending</Badge>
+                                        )}
+                                        {order.status === "delivered" && <Badge>Delivered</Badge>}
+                                        {order.status === "for delivery" && (
+                                            <Badge>For Delivery</Badge>
+                                        )}
+                                        {order.status === "rejected" && (
+                                            <Badge variant="destructive">Rejected</Badge>
+                                        )}
+                                        </TableCell>
+                                    </TableRow>
                                 ))}
                             </TableBody>
                             </Table>
