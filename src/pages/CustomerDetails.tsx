@@ -3,6 +3,16 @@ import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import ReactMapGL, { Marker } from "react-map-gl";
 import { Button } from "@/components/ui/button"
+import {
+    Table,
+    TableCaption,
+    TableHeader,
+    TableRow,
+    TableHead,
+    TableBody,
+    TableCell,
+  } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import axios from "axios"
 import { FaLocationDot } from "react-icons/fa6";
 import '../styles/CustomerDetails.css'
@@ -67,8 +77,8 @@ export default function CustomerDetails() {
                         zoom: 15,
                     })
                 }
-
                 setViewports(structuredLocData)
+
                 setIsLoading(false)
             }catch(err){
                 console.log(err)
@@ -85,6 +95,18 @@ export default function CustomerDetails() {
         console.log(userDetails)
     },[userDetails])
 
+    const currentOrders = [
+        {
+            _id: 1,
+            username: "joshuamagwili@gmail.com",
+            round: 1,
+            slim: 1,
+            total: 60,
+            date: "12/28/2023",
+            time: "8:30 AM",
+            status: "delivered",
+        }
+    ]
 
     return(
         <div className={`customer-details ${expandedClass}`}>
@@ -168,7 +190,47 @@ export default function CustomerDetails() {
                             </div>                 
                         )
                     })}
-
+                    </div>
+                    <div className="recent-orders-card">
+                        <h3>Recent Orders</h3>
+                        <Table className="text-lg">
+                            <TableCaption>All of your orders</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                <TableHead>Username</TableHead>
+                                <TableHead>Round Orders</TableHead>
+                                <TableHead>Slim Orders</TableHead>
+                                <TableHead>Total</TableHead>
+                                <TableHead>Date Ordered</TableHead>
+                                <TableHead>Time Ordered</TableHead>
+                                <TableHead>Status</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {currentOrders.map((order) => (
+                                <TableRow key={order._id}>
+                                    <TableCell>{order.username}</TableCell>
+                                    <TableCell>{order.round}</TableCell>
+                                    <TableCell>{order.slim}</TableCell>
+                                    <TableCell>{order.total}</TableCell>
+                                    <TableCell>{order.date}</TableCell>
+                                    <TableCell>{order.time}</TableCell>
+                                    <TableCell>
+                                    {order.status === "pending" && (
+                                        <Badge variant="secondary">Pending</Badge>
+                                    )}
+                                    {order.status === "delivered" && <Badge>Delivered</Badge>}
+                                    {order.status === "for delivery" && (
+                                        <Badge>For Delivery</Badge>
+                                    )}
+                                    {order.status === "rejected" && (
+                                        <Badge variant="destructive">Rejected</Badge>
+                                    )}
+                                    </TableCell>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                            </Table>
                     </div>
                 </>
                 :<p>Loading...</p>
