@@ -157,8 +157,8 @@ export default function CustomerDetails() {
                                                 return( 
                                                     j == index 
                                                     ? {
-                                                        longitude: e.viewState.longitude,
-                                                        latitude: e.viewState.latitude,
+                                                        longitude: viewport.longitude,
+                                                        latitude: viewport.latitude,
                                                         zoom: e.viewState.zoom,    
                                                     }
                                                     : viewport
@@ -172,9 +172,9 @@ export default function CustomerDetails() {
                                                 return( 
                                                     j == index 
                                                     ? {
-                                                        longitude: viewport.longitude,
-                                                        latitude: viewport.latitude,
-                                                        zoom: e.viewState.zoom,    
+                                                        longitude: e.viewState.longitude,
+                                                        latitude: e.viewState.latitude,
+                                                        zoom: viewport.zoom,    
                                                     }
                                                     : viewport
                                                 )
