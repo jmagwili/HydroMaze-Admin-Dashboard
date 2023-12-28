@@ -118,6 +118,15 @@ export default function CustomerDetails() {
         console.log(userDetails)
     },[userDetails])
 
+    const sendEmail = () => {
+        if (id) {
+          const mailtoUrl = `mailto:${encodeURIComponent(id)}?subject=Subject&body=Body`;
+          window.open(mailtoUrl, '_blank');
+        } else {
+          console.error('Email address is undefined');
+        }
+      };
+      
 
     return(
         <div className={`customer-details ${expandedClass}`}>
@@ -143,7 +152,7 @@ export default function CustomerDetails() {
                             <p>Last Name:</p>
                             <p>Email: &nbsp; {userDetails?.username}</p>
                             <p>Phone Number: &nbsp; {userDetails?.phone}</p>
-                            <Button>Send Email</Button>
+                            <Button onClick={sendEmail}>Send Email</Button>
                         </div>
                     </div>
                     <div className="location-card">
