@@ -145,20 +145,36 @@ export default function CustomerDetails() {
                                 <ReactMapGL
                                     longitude={viewports?.[index]?.longitude}
                                     latitude={viewports?.[index]?.latitude}
-                                    zoom={13}
+                                    zoom={viewports?.[index]?.zoom}
                                     mapboxAccessToken= {import.meta.env.VITE_MAPBOX_TOKEN} 
                                     //token = "pk.eyJ1Ijoiam1hZ3dpbGkiLCJhIjoiY2xwaGZwaHh0MDJtOTJqbzVkanpvYjRkNSJ9.fZFeViJyigw6k1ebFAbTYA"                                  
                                     mapStyle="mapbox://styles/mapbox/streets-v12"
                                     interactive={true}
+                                    onZoom={(e)=>{
+                                        setViewports(
+                                            viewports?.map((viewport,j) => {
+                                                console.log(e.viewState.zoom)
+                                                return( 
+                                                    j == index 
+                                                    ? {
+                                                        longitude: e.viewState.longitude,
+                                                        latitude: e.viewState.latitude,
+                                                        zoom: e.viewState.zoom,    
+                                                    }
+                                                    : viewport
+                                                )
+                                            })
+                                        )      
+                                    }}
                                     onDrag={(e) => {
                                         setViewports(
                                             viewports?.map((viewport,j) => {
                                                 return( 
                                                     j == index 
                                                     ? {
-                                                        longitude: e.viewState.longitude,
-                                                        latitude: e.viewState.latitude,
-                                                        zoom: viewport.zoom,    
+                                                        longitude: viewport.longitude,
+                                                        latitude: viewport.latitude,
+                                                        zoom: e.viewState.zoom,    
                                                     }
                                                     : viewport
                                                 )
