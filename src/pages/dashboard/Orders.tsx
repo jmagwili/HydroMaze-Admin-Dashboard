@@ -93,6 +93,19 @@ const Orders = () => {
     : setSelectedOrders(selectedOrders.filter((order)=>order !== orderID))
   }
 
+  const handleConfirm = async () => {
+    try{
+      const confirmedOrders = await axios.post(
+        "http://localhost:4001/api/v1/orders/confirm",
+        selectedOrders
+      )
+      console.log(confirmedOrders.data)
+
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     setActiveItem("/orders")
     // const fetchData = async () => {
@@ -226,7 +239,7 @@ const Orders = () => {
     </Card>
     <div className="relative h-[50px]">
       <div className="absolute right-0">
-        <Button className="mr-2">Accept</Button>
+        <Button className="mr-2" onClick={handleConfirm}>Accept</Button>
         <Button>Reject</Button>
       </div>
     </div>                    

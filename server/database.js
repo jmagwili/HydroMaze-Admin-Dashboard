@@ -12,8 +12,15 @@ export const databaseInit = () => {
     db.once('open', ()=>console.log('CONNECTED TO THE DATABASE'))
 }
 
+const ordersSchema = new mongoose.Schema({ 
+    round: Number,
+    slim: Number,
+    total: Number,
+    isOwned: Boolean,
+    status: String,
+    username: String,
+});
 
-
-export const Orders = mongoose.model('Order', new mongoose.Schema(), 'orders');
+export const Orders = mongoose.model('Order', ordersSchema, 'orders');
 export const Customers = mongoose.model('Customer', new mongoose.Schema(), 'users');
 

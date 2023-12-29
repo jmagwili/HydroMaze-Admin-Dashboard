@@ -34,4 +34,25 @@ const searchOrder = async (req, res) => {
   }
 };
 
-export { getAllOrders, searchOrder };
+const confirmOrder = async (req, res) => {
+  try{
+    const orders = await Orders.find({_id: req.body})
+    
+    for(let i in orders){
+      orders[i].status = "confirmed"
+      await orders[i].save()
+    }
+
+    res.send({message:"successfully confirmed the orders"})
+    console.log("Successfully confirmed the orders")
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export { 
+  getAllOrders,
+  searchOrder,
+  confirmOrder,
+};
