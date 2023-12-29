@@ -25,7 +25,7 @@ import CustomerDetails from "./pages/CustomerDetails.tsx";
 
 function App() {
   const [expanded, setExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState<string | null>("/");
+  const [activeItem, setActiveItem] = useState<string | null>(null);
 
   // const { loginWithRedirect, isAuthenticated} = useAuth0();
 

@@ -64,7 +64,7 @@ const Orders = () => {
   const [orders, setOrders] = useState<Orders[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(10);
-  const {expanded} = useContext(SidebarContext)
+  const {expanded, setActiveItem} = useContext(SidebarContext)
   const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
     transition: "0.1s"
   })
@@ -86,25 +86,26 @@ const Orders = () => {
   }
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const userData = await axios.get(
-  //         "http://localhost:4001/api/v1/orders/"
-  //       );
-  //       const ordersWithDateTime = userData.data.map((order: Orders) => {
-  //         const dateTime = new Date(order.createdAt);
-  //         const date = dateTime.toLocaleDateString();
-  //         const time = dateTime.toLocaleTimeString();
-  //         return { ...order, date, time };
-  //       });
-  //       setOrders(ordersWithDateTime);
-  //     } catch (e) {
-  //       console.log("Failed to fetch data\n", e);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    setActiveItem("/orders")
+    // const fetchData = async () => {
+    //   try {
+    //     const userData = await axios.get(
+    //       "http://localhost:4001/api/v1/orders/"
+    //     );
+    //     const ordersWithDateTime = userData.data.map((order: Orders) => {
+    //       const dateTime = new Date(order.createdAt);
+    //       const date = dateTime.toLocaleDateString();
+    //       const time = dateTime.toLocaleTimeString();
+    //       return { ...order, date, time };
+    //     });
+    //     setOrders(ordersWithDateTime);
+    //   } catch (e) {
+    //     console.log("Failed to fetch data\n", e);
+    //   }
+    // };
+    // fetchData();
+  }, []);
 
   useEffect(()=>{
     !expanded 

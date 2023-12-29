@@ -38,7 +38,7 @@ interface Orders {
 }
 
 export const Dashboard = () => {
-  const { expanded } = useContext(SidebarContext)
+  const { expanded, setActiveItem } = useContext(SidebarContext)
   const [expandedClass, setExpandedClass] = useState("")
   const [isLoading, setIsLoading] = useState(true);
   const [todaysOrders, setTodaysOrders] = useState(0);
@@ -90,6 +90,8 @@ export const Dashboard = () => {
   };
   
   useEffect(() => {
+    setActiveItem("/")
+
     const fetchData = async () => {
       try {
         const todaysOrders = await axios.get(

@@ -30,7 +30,7 @@ interface Customer {
 }
 
 export default function Customers() {
-  const { expanded } = useContext(SidebarContext)
+  const { expanded, setActiveItem } = useContext(SidebarContext)
   const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
     transition: "0.1s"
   })
@@ -57,6 +57,8 @@ export default function Customers() {
   }, [searchTerm, customers]);
 
   useEffect(() => {
+    setActiveItem("/customers")
+
     const fetchData = async () => {
       try {
         const userData = await axios.get(

@@ -13,15 +13,12 @@ interface SidebarItemProps {
   icon: ReactNode;
   text: string;
   to: string;
-  onItemClick: (to: string) => void; // Add this line
+  onItemClick: (to: string) => void;
 }
 
 export default function NewSidebar({ children }: SidebarProps) {
-  const {expanded, setExpanded, activeItem, setActiveItem} = useContext(SidebarContext)
+  const {expanded, setExpanded } = useContext(SidebarContext)
 
-  const handleItemClick = (to: string) => {
-    setActiveItem(to);
-  };
 
   return (
     <aside className="h-screen fixed z-50">
@@ -45,7 +42,7 @@ export default function NewSidebar({ children }: SidebarProps) {
 
         <ul className="flex-1 px-3">
           {React.Children.map(children, (child) =>
-            React.cloneElement(child as React.ReactElement, { onItemClick: handleItemClick })
+            React.cloneElement(child as React.ReactElement)
           )}
         </ul>
 
