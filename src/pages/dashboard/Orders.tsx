@@ -179,7 +179,7 @@ const Orders = () => {
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-10" />
       <div className="ml-20 ">
-      <Card className="w-[70%] ml-auto mr-auto mb-[60px]">
+      <Card className="w-[70%] ml-auto mr-auto mb-[70px]">
       <CardHeader>
         <CardTitle>Search Order</CardTitle>
       </CardHeader>
@@ -257,14 +257,18 @@ const Orders = () => {
         <Button className="w-[20%]" onClick={handleSubmit}>Search</Button>
       </CardFooter>
     </Card>
-    <div className="relative h-[50px]">
-      <div className="absolute right-0">
-        <Button className="mr-2" onClick={handleConfirm}>Accept</Button>
-        <Button onClick={handleReject}>Reject</Button>
-      </div>
-    </div>                    
     
-        <Table className="text-lg">
+    {selectedOrders.length > 0 &&
+      <div className="relative h-[50px]">
+          <div className="absolute right-0">
+            <Button className="mr-2" onClick={handleConfirm}>Accept</Button>
+            <Button onClick={handleReject}>Reject</Button>
+          </div>
+       </div>
+    }
+                    
+    
+        <Table className="text-base mt-2">
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
             <TableRow>

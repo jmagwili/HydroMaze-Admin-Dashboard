@@ -218,17 +218,20 @@ export const Dashboard = () => {
                   <TableCell>{order.date}</TableCell>
                   <TableCell>{order.time}</TableCell>
                   <TableCell>
-                    {order.status === "pending" && (
-                      <Badge variant="secondary">Pending</Badge>
-                    )}
-                    {order.status === "delivered" && <Badge>Delivered</Badge>}
-                    {order.status === "for delivery" && (
-                      <Badge>For Delivery</Badge>
-                    )}
-                    {order.status === "rejected" && (
-                      <Badge variant="destructive">Rejected</Badge>
-                    )}
-                  </TableCell>
+                  {order.status === "pending" && (
+                    <Badge variant="secondary">Pending</Badge>
+                  )}
+                  {order.status === "confirmed" && (
+                    <Badge variant="secondary">Confirmed</Badge>
+                  )}
+                  {order.status === "delivered" && <Badge>Delivered</Badge>}
+                  {order.status === "for delivery" && (
+                    <Badge>For Delivery</Badge>
+                  )}
+                  {order.status === "rejected" && (
+                    <Badge variant="destructive">Rejected</Badge>
+                  )}
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>
