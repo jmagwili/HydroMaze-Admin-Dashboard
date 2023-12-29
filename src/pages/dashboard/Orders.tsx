@@ -69,7 +69,7 @@ const Orders = () => {
   const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
     transition: "0.1s"
   })
-  const [selectedOrders, setSelectedOrders] = useState<Array<string>>([])
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([])
 
   const handleSubmit = async () => {
     try{
@@ -87,7 +87,7 @@ const Orders = () => {
     }
   }
 
-  const handleCheckChange = (isSelected:boolean, orderID:string) => {
+  const handleCheckChange = (isSelected:string | boolean, orderID:string) => {
     isSelected 
     ? setSelectedOrders([...selectedOrders, orderID])
     : setSelectedOrders(selectedOrders.filter((order)=>order !== orderID))
@@ -249,7 +249,11 @@ const Orders = () => {
             {currentOrders.map((order) => (
               <TableRow key={order._id}>
                 {order.status === "pending"  
-                  ? <TableCell><Checkbox onCheckedChange={(e)=>handleCheckChange(e,order._id)}/></TableCell>
+                  ? <TableCell>
+                      <Checkbox onCheckedChange={
+                        (checked)=>handleCheckChange(checked,order._id)}
+                      />
+                      </TableCell>
                   : <TableCell><Checkbox disabled/></TableCell>
                 }
                 <TableCell>{order.username}</TableCell>
