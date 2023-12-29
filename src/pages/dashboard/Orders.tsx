@@ -38,6 +38,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Orders {
   _id: string;
@@ -217,10 +218,18 @@ const Orders = () => {
         <Button className="w-[20%]" onClick={handleSubmit}>Search</Button>
       </CardFooter>
     </Card>
+    <div className="relative h-[50px]">
+      <div className="absolute right-0">
+        <Button className="mr-2">Accept</Button>
+        <Button>Reject</Button>
+      </div>
+    </div>                    
+    
         <Table className="text-lg">
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
             <TableRow>
+              <TableHead />
               <TableHead>Username</TableHead>
               <TableHead>Round Orders</TableHead>
               <TableHead>Slim Orders</TableHead>
@@ -233,6 +242,10 @@ const Orders = () => {
           <TableBody>
             {currentOrders.map((order) => (
               <TableRow key={order._id}>
+                {order.status === "pending"  
+                  ? <TableCell><Checkbox /></TableCell>
+                  : <TableCell><Checkbox disabled/></TableCell>
+                }
                 <TableCell>{order.username}</TableCell>
                 <TableCell>{order.round}</TableCell>
                 <TableCell>{order.slim}</TableCell>
