@@ -39,6 +39,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Link } from "react-router-dom";
 
 interface Orders {
   _id: string;
@@ -99,7 +100,10 @@ const Orders = () => {
         "http://localhost:4001/api/v1/orders/confirm",
         selectedOrders
       )
-      console.log(confirmedOrders.data)
+      if(confirmedOrders.data.successful){
+        handleSubmit()
+        setSelectedOrders([])
+      }
 
     }catch(err){
       console.log(err)
@@ -249,7 +253,7 @@ const Orders = () => {
           <TableHeader>
             <TableRow>
               <TableHead />
-              <TableHead>Username</TableHead>
+              <TableHead>Order ID</TableHead>
               <TableHead>Round Orders</TableHead>
               <TableHead>Slim Orders</TableHead>
               <TableHead>Total</TableHead>
@@ -263,13 +267,21 @@ const Orders = () => {
               <TableRow key={order._id}>
                 {order.status === "pending"  
                   ? <TableCell>
-                      <Checkbox onCheckedChange={
+                      <Checkbox
+                      onCheckedChange={
                         (checked)=>handleCheckChange(checked,order._id)}
                       />
                       </TableCell>
-                  : <TableCell><Checkbox disabled/></TableCell>
+                  : <TableCell><Checkbox checked={false} disabled/></TableCell>
                 }
-                <TableCell>{order.username}</TableCell>
+                <TableCell>
+                  <Link 
+                    to={`/orders/${order._id}`}
+                    className="underline"
+                  >
+                    {order._id}
+                  </Link>
+                </TableCell>
                 <TableCell>{order.round}</TableCell>
                 <TableCell>{order.slim}</TableCell>
                 <TableCell>{order.total}</TableCell>
@@ -278,6 +290,9 @@ const Orders = () => {
                 <TableCell>
                   {order.status === "pending" && (
                     <Badge variant="secondary">Pending</Badge>
+                  )}
+                  {order.status === "confirmed" && (
+                    <Badge variant="secondary">Confirmed</Badge>
                   )}
                   {order.status === "delivered" && <Badge>Delivered</Badge>}
                   {order.status === "for delivery" && (
