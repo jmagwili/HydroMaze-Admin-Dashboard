@@ -43,7 +43,10 @@ const confirmOrder = async (req, res) => {
       await orders[i].save()
     }
 
-    res.send({message:"successfully confirmed the orders"})
+    res.send({
+      message:"successfully confirmed the orders",
+      successful: true,
+    })
     console.log("Successfully confirmed the orders")
   } catch (error) {
     console.error("Error:", error);
@@ -51,8 +54,30 @@ const confirmOrder = async (req, res) => {
   }
 }
 
+const rejectOrder = async (req, res) => {
+  try{
+    const orders = await Orders.find({_id: req.body})
+    
+    for(let i in orders){
+      orders[i].status = "rejected"
+      await orders[i].save()
+    }
+
+    res.send({
+      message:"successfully rejected the orders",
+      successful: true,
+    })
+    console.log("Successfully rejected the orders")
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
 export { 
   getAllOrders,
   searchOrder,
   confirmOrder,
+  rejectOrder
 };
