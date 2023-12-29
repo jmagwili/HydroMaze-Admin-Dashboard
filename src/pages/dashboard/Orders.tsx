@@ -39,6 +39,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useToast } from "@/components/ui/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 import { Link } from "react-router-dom";
 
 interface Orders {
@@ -71,6 +73,7 @@ const Orders = () => {
     transition: "0.1s"
   })
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
+  const { toast } = useToast()
 
   const handleSubmit = async () => {
     try{
@@ -101,6 +104,9 @@ const Orders = () => {
         selectedOrders
       )
       if(confirmedOrders.data.successful){
+        toast({
+          title: "Orders Successfully Confirmed",
+        })
         handleSubmit()
         setSelectedOrders([])
       }
@@ -117,6 +123,9 @@ const Orders = () => {
         selectedOrders
       )
       if(confirmedOrders.data.successful){
+        toast({
+          title: "Orders Successfully Rejected",
+        })
         handleSubmit()
         setSelectedOrders([])
       }
@@ -179,6 +188,7 @@ const Orders = () => {
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-10" />
       <div className="ml-20 ">
+    
       <Card className="w-[70%] ml-auto mr-auto mb-[70px]">
       <CardHeader>
         <CardTitle>Search Order</CardTitle>
@@ -266,8 +276,7 @@ const Orders = () => {
           </div>
        </div>
     }
-                    
-    
+                       
         <Table className="text-base mt-2">
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
@@ -327,8 +336,7 @@ const Orders = () => {
           </TableBody>
         </Table>
       </div>
-
-      
+     
       <div className="flex justify-center mt-4">
         {Array.from(
           { length: Math.ceil(orders.length / ordersPerPage) },
@@ -345,6 +353,7 @@ const Orders = () => {
           )
         )}
       </div>
+      <Toaster />
     </div>
   );
 };
