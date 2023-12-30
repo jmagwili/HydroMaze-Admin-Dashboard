@@ -54,6 +54,7 @@ interface Orders {
   createdAt: string;
   date: string;
   time: string;
+  
 }
 
 import SidebarContext from "@/SidebarContext";
@@ -102,6 +103,7 @@ const Orders = () => {
       ? setSelectedOrders([...selectedOrders, orderID])
       : setSelectedOrders(selectedOrders.filter((order) => order !== orderID));
   };
+  
 
   const handleConfirm = async () => {
     try {
@@ -169,6 +171,7 @@ const Orders = () => {
         })
       : setExpandedStyle({
           transition: "0.1s",
+          width: "80vw",
         });
   }, [expanded]);
 
@@ -177,7 +180,7 @@ const Orders = () => {
   }, [searchInfo]);
 
   useEffect(() => {
-    setSearchInfo({ ...searchInfo, startDate: date?.from, endDate: date?.to });
+    setSearchInfo({ ...searchInfo, startDate: date?.from?.toISOString, endDate: date?.to?.toISOString });
   }, [date]);
 
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -192,7 +195,7 @@ const Orders = () => {
       <hr className="mt-2 mb-10" />
       <div className="ml-20 ">
         <Card
-          className={`w-[70%] ml-auto mr-auto mb-[70px] ${expanded ? 'h-auto' : 'h-[fit-content]'} transition-height duration-300 overflow-hidden`}
+          className={`w-[70%] ml-auto mr-auto mb-[70px]`}
         >
           <CardContent className="pt-5">
             <form className="grid grid-cols-4 gap-4">
@@ -241,6 +244,7 @@ const Orders = () => {
                         defaultMonth={date?.from}
                         selected={date}
                         onSelect={setDate}
+                        
                         numberOfMonths={2}
                       />
                     </PopoverContent>
