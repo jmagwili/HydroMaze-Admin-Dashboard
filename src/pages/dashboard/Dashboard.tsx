@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import "../../styles/Dashboard.css";
-import Lottie from 'lottie-react';
+import Lottie from "lottie-react";
 import animationData from "../../assets/animation.json";
 
 type StatusData = { _id: string; count: number };
@@ -40,14 +40,14 @@ interface Orders {
 }
 
 export const Dashboard = () => {
-  const { expanded, setActiveItem } = useContext(SidebarContext)
-  const [expandedClass, setExpandedClass] = useState("")
+  const { expanded, setActiveItem } = useContext(SidebarContext);
+  const [expandedClass, setExpandedClass] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [todaysOrders, setTodaysOrders] = useState(0);
   const [todaysRevenue, setTodaysRevenue] = useState(0);
   const [statusData, setStatusData] = useState<StatusData[]>([]);
   const [dailySales, setDailySales] = useState<SalesData[]>([]);
-  const [recentOrders, setRecentOrders] = useState<Orders[]>([])
+  const [recentOrders, setRecentOrders] = useState<Orders[]>([]);
   const pieOptions = {
     labels: statusData.map((data) => data._id),
     series: statusData.map((data) => data.count),
@@ -68,9 +68,9 @@ export const Dashboard = () => {
       xaxis: {
         categories: dailySales.map((data) => data.date),
         type: "datetime",
-      labels: {
-        format: "dd MMM",
-      },
+        labels: {
+          format: "dd MMM",
+        },
       },
 
       colors: ["#0084ff", "#00b8d9", "#00c7b6", "#00e396", "#0acf97"],
@@ -90,9 +90,9 @@ export const Dashboard = () => {
       },
     ],
   };
-  
+
   useEffect(() => {
-    setActiveItem("/")
+    setActiveItem("/");
 
     const fetchData = async () => {
       try {
@@ -117,18 +117,20 @@ export const Dashboard = () => {
         const salesData = await axios.get(
           "http://localhost:4001/api/v1/dashboard/daily-sales/"
         );
-        
+
         console.log(salesData.data);
         setDailySales(salesData.data);
         const recentOrdersData = await axios.get(
           "http://localhost:4001/api/v1/dashboard/recent-orders/"
         );
-        const ordersWithDateTime = recentOrdersData.data.map((order: Orders) => {
-          const dateTime = new Date(order.createdAt);
-          const date = dateTime.toLocaleDateString();
-          const time = dateTime.toLocaleTimeString();
-          return { ...order, date, time };
-        });
+        const ordersWithDateTime = recentOrdersData.data.map(
+          (order: Orders) => {
+            const dateTime = new Date(order.createdAt);
+            const date = dateTime.toLocaleDateString();
+            const time = dateTime.toLocaleTimeString();
+            return { ...order, date, time };
+          }
+        );
         setRecentOrders(ordersWithDateTime);
         setIsLoading(false);
       } catch (err) {
@@ -138,9 +140,9 @@ export const Dashboard = () => {
     fetchData();
   }, []);
 
-  useEffect(()=>{
-    setExpandedClass(!expanded ? "notExpanded" : "")
-  },[expanded])
+  useEffect(() => {
+    setExpandedClass(!expanded ? "notExpanded" : "");
+  }, [expanded]);
 
   return (
     <div className={`dashboard ${expandedClass}`}>
@@ -149,7 +151,7 @@ export const Dashboard = () => {
       </h1>
       <hr className="m-2" />
 
-      {!isLoading ?
+      {!isLoading ? (
         <>
           <div className="datacard-container">
             <DataCard
@@ -199,51 +201,58 @@ export const Dashboard = () => {
           <section className="table-section">
             <h3>Recent Orders</h3>
             <Table className="text-lg">
-            <TableCaption>All of your orders</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Username</TableHead>
-                <TableHead>Round Orders</TableHead>
-                <TableHead>Slim Orders</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Date Ordered</TableHead>
-                <TableHead>Time Ordered</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentOrders.map((order) => (
-                <TableRow key={order._id}>
-                  <TableCell>{order.username}</TableCell>
-                  <TableCell>{order.round}</TableCell>
-                  <TableCell>{order.slim}</TableCell>
-                  <TableCell>{order.total}</TableCell>
-                  <TableCell>{order.date}</TableCell>
-                  <TableCell>{order.time}</TableCell>
-                  <TableCell>
-                  {order.status === "pending" && (
-                    <Badge variant="secondary">Pending</Badge>
-                  )}
-                  {order.status === "confirmed" && (
-                    <Badge variant="secondary">Confirmed</Badge>
-                  )}
-                  {order.status === "delivered" && <Badge>Delivered</Badge>}
-                  {order.status === "for delivery" && (
-                    <Badge>For Delivery</Badge>
-                  )}
-                  {order.status === "rejected" && (
-                    <Badge variant="destructive">Rejected</Badge>
-                  )}
-                </TableCell>
+              <TableCaption>All of your orders</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Username</TableHead>
+                  <TableHead>Round Orders</TableHead>
+                  <TableHead>Slim Orders</TableHead>
+                  <TableHead>Total</TableHead>
+                  <TableHead>Date Ordered</TableHead>
+                  <TableHead>Time Ordered</TableHead>
+                  <TableHead>Status</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {recentOrders.map((order) => (
+                  <TableRow key={order._id}>
+                    <TableCell>{order.username}</TableCell>
+                    <TableCell>{order.round}</TableCell>
+                    <TableCell>{order.slim}</TableCell>
+                    <TableCell>{order.total}</TableCell>
+                    <TableCell>{order.date}</TableCell>
+                    <TableCell>{order.time}</TableCell>
+                    <TableCell>
+                      {order.status === "pending" && (
+                        <Badge variant="secondary">Pending</Badge>
+                      )}
+                      {order.status === "confirmed" && (
+                        <Badge variant="secondary">Confirmed</Badge>
+                      )}
+                      {order.status === "delivered" && <Badge>Delivered</Badge>}
+                      {order.status === "for delivery" && (
+                        <Badge>For Delivery</Badge>
+                      )}
+                      {order.status === "rejected" && (
+                        <Badge variant="destructive">Rejected</Badge>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </section>
         </>
-        :<p className="text-center mt-[50px] text-lg">Loading...</p>
-      }
+      ) : (
+        <div className="flex justify-center items-center h-screen">
+        <Lottie
+          animationData={animationData}
+          loop
+          autoplay
+          style={{ width: 300, height: 300 }}
+        />
+        </div>
+      )}
     </div>
-    
   );
 };
