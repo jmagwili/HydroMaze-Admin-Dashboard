@@ -48,6 +48,7 @@ const getRecentOrders = async (req, res) => {
   try {
     // Get recent orders for current day
     const recentOrders = await Orders.aggregate([
+      {$match: {status: "pending"}},
       { $sort: { createdAt: -1 } },
       {
         $limit: 5,
