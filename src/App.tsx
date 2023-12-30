@@ -18,6 +18,7 @@ import { IoMdAnalytics } from "react-icons/io";
 
 import SidebarContext from "./SidebarContext.ts";
 import CustomerDetails from "./pages/CustomerDetails.tsx";
+import OrderDetails from "./pages/OrderDetails.tsx";
 
 // if there is a typescript error at auth0 import, run:
 // 'npm uninstall @auth0/auth0-react'
@@ -52,6 +53,10 @@ function App() {
     {
       path: "/orders",
       element: Orders,
+    },
+    {
+      path: "/orders/:orderID",
+      element: OrderDetails,
     },
     {
       path: "/analytics",
