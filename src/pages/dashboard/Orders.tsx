@@ -30,7 +30,6 @@ import { Badge } from "@/components/ui/badge";
 import { addDays, format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange } from "react-day-picker"
- 
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -41,6 +40,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
+import { AlertButton } from "@/components/Orders/AlertButton";
 import { Link } from "react-router-dom";
 
 interface Orders {
@@ -190,79 +190,79 @@ const Orders = () => {
       <div className="ml-20 ">
     
       <Card className="w-[70%] ml-auto mr-auto mb-[70px]">
-      <CardHeader>
-        <CardTitle>Search Order</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input 
-                id="name"
-                placeholder="Name of your customer" 
-                onChange={(e)=>setSearchInfo({...searchInfo, name: e.target.value})}/>
-            </div>
-            <div className={cn("grid gap-2")}>
-            <Label>Date Range</Label>
-              <div>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      id="date"
-                      variant={"outline"}
-                      className={cn(
-                        "w-[100%] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date?.from ? (
-                        date.to ? (
-                          <>
-                            {format(date.from, "LLL dd, y")} -{" "}
-                            {format(date.to, "LLL dd, y")}
-                          </>
-                        ) : (
-                          format(date.from, "LLL dd, y")
-                        )
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      initialFocus
-                      mode="range"
-                      defaultMonth={date?.from}
-                      selected={date}
-                      onSelect={setDate}
-                      numberOfMonths={2}
-                    />
-                  </PopoverContent>
-                </Popover>
+        <CardHeader>
+          <CardTitle>Search Order</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input 
+                  id="name"
+                  placeholder="Name of your customer" 
+                  onChange={(e)=>setSearchInfo({...searchInfo, name: e.target.value})}/>
               </div>
-              
+              <div className={cn("grid gap-2")}>
+              <Label>Date Range</Label>
+                <div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="date"
+                        variant={"outline"}
+                        className={cn(
+                          "w-[100%] justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date?.from ? (
+                          date.to ? (
+                            <>
+                              {format(date.from, "LLL dd, y")} -{" "}
+                              {format(date.to, "LLL dd, y")}
+                            </>
+                          ) : (
+                            format(date.from, "LLL dd, y")
+                          )
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        initialFocus
+                        mode="range"
+                        defaultMonth={date?.from}
+                        selected={date}
+                        onSelect={setDate}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="framework">Order Status</Label>
+                <Select onValueChange={(value)=>setSearchInfo({...searchInfo, status: value})}>
+                  <SelectTrigger id="framework">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                  <SelectItem value="null">Select</SelectItem>
+                    <SelectItem value="confirmed">confirmed</SelectItem>
+                    <SelectItem value="pending">pending</SelectItem>
+                    <SelectItem value="rejected">rejected</SelectItem>
+                    <SelectItem value="delivered">delivered</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Order Status</Label>
-              <Select onValueChange={(value)=>setSearchInfo({...searchInfo, status: value})}>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                <SelectItem value="null">Select</SelectItem>
-                  <SelectItem value="confirmed">confirmed</SelectItem>
-                  <SelectItem value="pending">pending</SelectItem>
-                  <SelectItem value="rejected">rejected</SelectItem>
-                  <SelectItem value="delivered">delivered</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </form>
-      </CardContent>
+          </form>
+        </CardContent>
       <CardFooter className="flex justify-start">
         <Button className="w-[20%]" onClick={handleSubmit}>Search</Button>
       </CardFooter>
@@ -270,10 +270,17 @@ const Orders = () => {
     
     {selectedOrders.length > 0 &&
       <div className="relative h-[50px]">
-          <div className="absolute right-0">
-            <Button className="mr-2" onClick={handleConfirm}>Accept</Button>
-            <Button onClick={handleReject}>Reject</Button>
-          </div>
+        <div className="absolute right-0">
+          <AlertButton 
+            onContinue={handleConfirm} 
+            className="mr-2"
+          >
+            Accept
+          </AlertButton>
+          <AlertButton onContinue={handleReject}>
+            Reject
+          </AlertButton>
+        </div>
        </div>
     }
                        
