@@ -2,8 +2,12 @@ import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
 const today = new Date();
-  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const end = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+const end = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate() + 1
+);
 
 console.log(start);
 console.log(end);
@@ -12,30 +16,33 @@ const getOrdersToday = async (req, res) => {
     const ordersToday = await Orders.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lt: end }
-        }
+          createdAt: { $gte: start, $lt: end },
+        },
       },
       {
         $group: {
-          _id: null,
-          count: { $sum: 1 }
-        }
+          _id: 1,
+          count: { $sum: 1 },
+        },
       },
       {
         $project: {
           _id: 0,
-          count: 1
-        }
-      }
+          count: 1,
+        },
+      },
     ]);
 
-    if(ordersToday.length !== 0){
+    if (ordersToday.length !== 0) {
       res.json(ordersToday);
-    }else{
-      res.send([{
-        _id: null,
-        count: 0
-      }])
+      console.log(ordersToday);
+    } else {
+      res.send([
+        {
+          _id: null,
+          count: 0,
+        },
+      ]);
     }
 
     console.log("Successfully sent orders today");
@@ -48,7 +55,7 @@ const getRecentOrders = async (req, res) => {
   try {
     // Get recent orders for current day
     const recentOrders = await Orders.aggregate([
-      {$match: {status: "pending"}},
+      { $match: { status: "pending" } },
       { $sort: { createdAt: -1 } },
       {
         $limit: 5,
@@ -79,7 +86,7 @@ const getRevToday = async (req, res) => {
       {
         $match: {
           status: "delivered", //order must not be added to revenue if status is not delivered
-          createdAt: { $gte: start, $lt: end},
+          createdAt: { $gte: start, $lt: end },
         },
       },
       {
@@ -92,21 +99,27 @@ const getRevToday = async (req, res) => {
       },
     ]);
 
-    if(revenueToday.length !== 0){
+    if (revenueToday.length !== 0) {
       res.json(revenueToday);
-    }else{
-      res.json([{
-        _id: null,
-        revenue: 0
-      }])
+    } else {
+      res.json([
+        {
+          _id: null,
+          revenue: 0,
+        },
+      ]);
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
   }
-}
+};
 
-const startWeekDate  = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+const startWeekDate = new Date(
+  today.getFullYear(),
+  today.getMonth(),
+  today.getDate() - 7
+);
 console.log(startWeekDate);
 const getStatusData = async (req, res) => {
   try {
@@ -122,15 +135,15 @@ const getStatusData = async (req, res) => {
           count: { $sum: 1 },
         },
       },
-      
-  
     ]);
 
     if (statusData.length === 0) {
-      res.json([{ 
-        _id: 0,
-        count: 0,
-      }]);
+      res.json([
+        {
+          _id: 0,
+          count: 0,
+        },
+      ]);
     } else {
       res.json(statusData);
     }

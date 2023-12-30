@@ -15,31 +15,31 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { addDays, format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { DateRange } from "react-day-picker"
-import { cn } from "@/lib/utils"
-import { Calendar } from "@/components/ui/calendar"
+import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/components/ui/use-toast"
-import { Toaster } from "@/components/ui/toaster"
+} from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import { AlertButton } from "@/components/Orders/AlertButton";
 import { Link } from "react-router-dom";
 
@@ -59,25 +59,31 @@ interface Orders {
 import SidebarContext from "@/SidebarContext";
 
 const Orders = () => {
-  const today = new Date()
+  const today = new Date();
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(today.getFullYear(), today.getMonth(), today.getDate()),
-    to: addDays(new Date(today.getFullYear(), today.getMonth(), today.getDate()),0),
-  })
-  const [searchInfo, setSearchInfo] = useState({})
+    to: addDays(
+      new Date(today.getFullYear(), today.getMonth(), today.getDate()),
+      0
+    ),
+  });
+  const [searchInfo, setSearchInfo] = useState({});
   const [orders, setOrders] = useState<Orders[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ordersPerPage] = useState(10);
-  const {expanded, setActiveItem} = useContext(SidebarContext)
+  const { expanded, setActiveItem } = useContext(SidebarContext);
   const [expandedStyle, setExpandedStyle] = useState<CSSProperties>({
-    transition: "0.1s"
-  })
-  const [selectedOrders, setSelectedOrders] = useState<string[]>([])
-  const { toast } = useToast()
+    transition: "0.1s",
+  });
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const handleSubmit = async () => {
-    try{
-      const orderData = await axios.post("http://localhost:4001/api/v1/orders/search", searchInfo)
+    try {
+      const orderData = await axios.post(
+        "http://localhost:4001/api/v1/orders/search",
+        searchInfo
+      );
       const ordersWithDateTime = orderData.data.map((order: Orders) => {
         const dateTime = new Date(order.createdAt);
         const date = dateTime.toLocaleDateString();
@@ -85,58 +91,56 @@ const Orders = () => {
         return { ...order, date, time };
       });
       setOrders(ordersWithDateTime);
-      setCurrentPage(1)
-    }catch(error){
-      console.log(error)
+      setCurrentPage(1);
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
-  const handleCheckChange = (isSelected:string | boolean, orderID:string) => {
-    isSelected 
-    ? setSelectedOrders([...selectedOrders, orderID])
-    : setSelectedOrders(selectedOrders.filter((order)=>order !== orderID))
-  }
+  const handleCheckChange = (isSelected: string | boolean, orderID: string) => {
+    isSelected
+      ? setSelectedOrders([...selectedOrders, orderID])
+      : setSelectedOrders(selectedOrders.filter((order) => order !== orderID));
+  };
 
   const handleConfirm = async () => {
-    try{
+    try {
       const confirmedOrders = await axios.post(
         "http://localhost:4001/api/v1/orders/confirm",
         selectedOrders
-      )
-      if(confirmedOrders.data.successful){
+      );
+      if (confirmedOrders.data.successful) {
         toast({
           title: "Orders Successfully Confirmed",
-        })
-        handleSubmit()
-        setSelectedOrders([])
+        });
+        handleSubmit();
+        setSelectedOrders([]);
       }
-
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   const handleReject = async () => {
-    try{
+    try {
       const confirmedOrders = await axios.post(
         "http://localhost:4001/api/v1/orders/reject",
         selectedOrders
-      )
-      if(confirmedOrders.data.successful){
+      );
+      if (confirmedOrders.data.successful) {
         toast({
           title: "Orders Successfully Rejected",
-        })
-        handleSubmit()
-        setSelectedOrders([])
+        });
+        handleSubmit();
+        setSelectedOrders([]);
       }
-
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
-    setActiveItem("/orders")
+    setActiveItem("/orders");
     // const fetchData = async () => {
     //   try {
     //     const userData = await axios.get(
@@ -156,26 +160,25 @@ const Orders = () => {
     // fetchData();
   }, []);
 
-  useEffect(()=>{
-    !expanded 
-    ? setExpandedStyle({
-      left: "70px",
-      width: "calc(100vw - 85px)",
-      transition: "0.1s"
-    }) 
-    : setExpandedStyle({
-      transition: "0.1s"
-    })
-    
-  },[expanded])
+  useEffect(() => {
+    !expanded
+      ? setExpandedStyle({
+          left: "70px",
+          width: "calc(100vw - 85px)",
+          transition: "0.1s",
+        })
+      : setExpandedStyle({
+          transition: "0.1s",
+        });
+  }, [expanded]);
 
-  useEffect(()=>{
-    console.log(searchInfo)
-  },[searchInfo])
+  useEffect(() => {
+    console.log(searchInfo);
+  }, [searchInfo]);
 
-  useEffect(()=>{
-    setSearchInfo({...searchInfo, startDate: date?.from, endDate: date?.to})
-  },[date])
+  useEffect(() => {
+    setSearchInfo({ ...searchInfo, startDate: date?.from, endDate: date?.to });
+  }, [date]);
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -188,23 +191,23 @@ const Orders = () => {
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-10" />
       <div className="ml-20 ">
-    
-      <Card className="w-[70%] ml-auto mr-auto mb-[70px]">
-        <CardHeader>
-          <CardTitle>Search Order</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
+        <Card
+          className={`w-[70%] ml-auto mr-auto mb-[70px] ${expanded ? 'h-auto' : 'h-[fit-content]'} transition-height duration-300 overflow-hidden`}
+        >
+          <CardContent className="pt-5">
+            <form className="grid grid-cols-4 gap-4">
+              <div className=" col-span-1 flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
-                <Input 
+                <Input
                   id="name"
-                  placeholder="Name of your customer" 
-                  onChange={(e)=>setSearchInfo({...searchInfo, name: e.target.value})}/>
+                  placeholder="Name of your customer"
+                  onChange={(e) =>
+                    setSearchInfo({ ...searchInfo, name: e.target.value })
+                  }
+                />
               </div>
-              <div className={cn("grid gap-2")}>
-              <Label>Date Range</Label>
+              <div className="col-span-1 flex flex-col space-y-1.5">
+                <Label>Date Range</Label>
                 <div>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -243,16 +246,19 @@ const Orders = () => {
                     </PopoverContent>
                   </Popover>
                 </div>
-                
               </div>
-              <div className="flex flex-col space-y-1.5">
+              <div className="col-span-1 flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Order Status</Label>
-                <Select onValueChange={(value)=>setSearchInfo({...searchInfo, status: value})}>
+                <Select
+                  onValueChange={(value) =>
+                    setSearchInfo({ ...searchInfo, status: value })
+                  }
+                >
                   <SelectTrigger id="framework">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                  <SelectItem value="null">Select</SelectItem>
+                    <SelectItem value="null">Select</SelectItem>
                     <SelectItem value="confirmed">confirmed</SelectItem>
                     <SelectItem value="pending">pending</SelectItem>
                     <SelectItem value="rejected">rejected</SelectItem>
@@ -260,30 +266,25 @@ const Orders = () => {
                   </SelectContent>
                 </Select>
               </div>
+              <div className="col-span-1 flex items-end">
+                <Button onClick={handleSubmit}>Search</Button>
+              </div>
+            </form>
+          </CardContent>
+         
+        </Card>
+
+        {selectedOrders.length > 0 && (
+          <div className="relative h-[50px]">
+            <div className="absolute right-0">
+              <AlertButton onContinue={handleConfirm} className="mr-2">
+                Accept
+              </AlertButton>
+              <AlertButton onContinue={handleReject}>Reject</AlertButton>
             </div>
-          </form>
-        </CardContent>
-      <CardFooter className="flex justify-start">
-        <Button className="w-[20%]" onClick={handleSubmit}>Search</Button>
-      </CardFooter>
-    </Card>
-    
-    {selectedOrders.length > 0 &&
-      <div className="relative h-[50px]">
-        <div className="absolute right-0">
-          <AlertButton 
-            onContinue={handleConfirm} 
-            className="mr-2"
-          >
-            Accept
-          </AlertButton>
-          <AlertButton onContinue={handleReject}>
-            Reject
-          </AlertButton>
-        </div>
-       </div>
-    }
-                       
+          </div>
+        )}
+
         <Table className="text-base mt-2">
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
@@ -301,20 +302,21 @@ const Orders = () => {
           <TableBody>
             {currentOrders.map((order) => (
               <TableRow key={order._id}>
-                {order.status === "pending"  
-                  ? <TableCell>
-                      <Checkbox
-                      onCheckedChange={
-                        (checked)=>handleCheckChange(checked,order._id)}
-                      />
-                      </TableCell>
-                  : <TableCell><Checkbox checked={false} disabled/></TableCell>
-                }
+                {order.status === "pending" ? (
+                  <TableCell>
+                    <Checkbox
+                      onCheckedChange={(checked) =>
+                        handleCheckChange(checked, order._id)
+                      }
+                    />
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <Checkbox checked={false} disabled />
+                  </TableCell>
+                )}
                 <TableCell>
-                  <Link 
-                    to={`/orders/${order._id}`}
-                    className="underline"
-                  >
+                  <Link to={`/orders/${order._id}`} className="underline">
                     {order._id}
                   </Link>
                 </TableCell>
@@ -343,7 +345,7 @@ const Orders = () => {
           </TableBody>
         </Table>
       </div>
-     
+
       <div className="flex justify-center mt-4">
         {Array.from(
           { length: Math.ceil(orders.length / ordersPerPage) },
