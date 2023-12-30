@@ -6,6 +6,7 @@ import { databaseInit } from "./database.js";
 import orderRouter from './routes/orders.router.js'
 import customerRouter from './routes/customers.router.js'
 import dashboardRouter from './routes/dashboard.router.js'
+import analyticsRouter from './routes/analytics.router.js'
 const app = express();
 const port = 4001;
 
@@ -29,6 +30,7 @@ app.use(
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
+app.use("/api/v1/router", analyticsRouter);
 
 app.listen(port, console.log(`App is running \nListening to port ${port}`));
 
