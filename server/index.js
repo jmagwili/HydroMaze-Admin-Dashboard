@@ -30,7 +30,7 @@ app.use(
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
-app.use("/api/v1/router", analyticsRouter);
+app.use("/api/v1/analytics", analyticsRouter);
 
 app.listen(port, console.log(`App is running \nListening to port ${port}`));
 

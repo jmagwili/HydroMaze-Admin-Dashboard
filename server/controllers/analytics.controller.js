@@ -9,11 +9,12 @@ const getTotalRev = async (req,res) => {
               $sum: "$total",
             },
           } },
-        {$project: {id: 0, totalRevenue:1}}
+        {$project: {_id: 0, totalRevenue:1}}
       ]);
 
     res.json(totalRev);
     } catch (err) {res.json(err);}
 }
+
 
 export {getTotalRev}
