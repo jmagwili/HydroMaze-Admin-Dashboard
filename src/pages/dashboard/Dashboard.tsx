@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import "../../styles/Dashboard.css";
+import Lottie from 'lottie-react';
+import animationData from "../../assets/animation.json";
 
 type StatusData = { _id: string; count: number };
 type SalesData = {
@@ -115,7 +117,7 @@ export const Dashboard = () => {
         const salesData = await axios.get(
           "http://localhost:4001/api/v1/dashboard/daily-sales/"
         );
-        console.log("sales");
+        
         console.log(salesData.data);
         setDailySales(salesData.data);
         const recentOrdersData = await axios.get(
