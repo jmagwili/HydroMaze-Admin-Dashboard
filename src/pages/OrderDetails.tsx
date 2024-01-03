@@ -16,6 +16,10 @@ export default function OrderDetails(){
             <hr className="mt-2 mb-10" />
 
             <p>This is the order details page of order with id {orderID}</p>
+
+            <div>
+                
+            </div>
         </div>
     )
 }

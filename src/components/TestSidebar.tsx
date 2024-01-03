@@ -55,9 +55,9 @@ export default function NewSidebar({ children }: SidebarProps) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">Jonel Mantos</h4>
+              <h4 className="font-semibold">Jonel Teano</h4>
               <span className="text-xs text-gray-600">
-                jonelmantos@pornhub.com
+                jonelmantos@gmail.com
               </span>
             </div>
             <MoreVertical size={20} />

@@ -79,12 +79,15 @@ const Orders = () => {
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const { toast } = useToast();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+  
     try {
       const orderData = await axios.post(
         "http://localhost:4001/api/v1/orders/search",
         searchInfo
       );
+      console.log(orderData);
       const ordersWithDateTime = orderData.data.map((order: Orders) => {
         const dateTime = new Date(order.createdAt);
         const date = dateTime.toLocaleDateString();
@@ -97,6 +100,7 @@ const Orders = () => {
       console.log(error);
     }
   };
+  
 
   const handleCheckChange = (isSelected: string | boolean, orderID: string) => {
     isSelected
@@ -115,7 +119,7 @@ const Orders = () => {
         toast({
           title: "Orders Successfully Confirmed",
         });
-        handleSubmit();
+        // handleSubmit();
         setSelectedOrders([]);
       }
     } catch (err) {
@@ -133,7 +137,7 @@ const Orders = () => {
         toast({
           title: "Orders Successfully Rejected",
         });
-        handleSubmit();
+        // handleSubmit();
         setSelectedOrders([]);
       }
     } catch (err) {
@@ -180,8 +184,13 @@ const Orders = () => {
   }, [searchInfo]);
 
   useEffect(() => {
-    setSearchInfo({ ...searchInfo, startDate: date?.from?.toISOString, endDate: date?.to?.toISOString });
+    setSearchInfo({
+      ...searchInfo,
+      startDate: date?.from?.toISOString(),
+      endDate: date?.to?.toISOString(),
+    });
   }, [date]);
+  
 
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -198,7 +207,7 @@ const Orders = () => {
           className={`w-[70%] ml-auto mr-auto mb-[70px]`}
         >
           <CardContent className="pt-5">
-            <form className="grid grid-cols-4 gap-4">
+            <form className="grid grid-cols-4 gap-4" onSubmit={handleSubmit}>
               <div className=" col-span-1 flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
                 <Input
@@ -271,7 +280,7 @@ const Orders = () => {
                 </Select>
               </div>
               <div className="col-span-1 flex items-end">
-                <Button onClick={handleSubmit}>Search</Button>
+                <Button type="submit">Search</Button>
               </div>
             </form>
           </CardContent>
