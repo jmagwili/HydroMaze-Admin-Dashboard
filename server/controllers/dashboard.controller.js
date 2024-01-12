@@ -156,29 +156,20 @@ const getDailySales = async (req, res) => {
   try {
     const dailySales = await Orders.aggregate([
       {
-        $match: {
-          status: "delivered",
-          createdAt: { $gte: startWeekDate, $lt: end },
-        },
-      },
-      {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-          revenue: {
-            $sum: "$total",
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          date: "$_id",
-          revenue: 1,
-        },
-      },
-      {
-        $sort: { date: 1 },
-      },
+            _id: {
+                year: { $year: "$timestamp" },
+                month: { $month: "$timestamp" }
+            },
+            totalRevenue: { $sum: "$amount" }
+        }
+    },
+    {
+        $sort: {
+            "_id.year": 1,
+            "_id.month": 1
+        }
+    }
     ]);
     if (dailySales.length === 0) {
       res.json([{ revenue: 0 }]);
