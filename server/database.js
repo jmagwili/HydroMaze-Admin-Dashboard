@@ -7,10 +7,13 @@ const url = process.env.VITE_DATABASE_URI;
 
 export const databaseInit = () => {
     mongoose.connect(url)
-    const db = mongoose.connection
-    db.on('error', (error) => console.error(error))
-    db.once('open', ()=>console.log('CONNECTED TO THE DATABASE'))
-}
+        .then(() => {
+            console.log('CONNECTED TO THE DATABASE');
+        })
+        .catch((error) => {
+            console.error('Error connecting to MongoDB:', error.message);
+        });
+};
 
 const ordersSchema = new mongoose.Schema({ 
     round: Number,
