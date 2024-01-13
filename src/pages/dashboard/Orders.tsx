@@ -108,6 +108,20 @@ const Orders = () => {
       : setSelectedOrders(selectedOrders.filter((order) => order !== orderID));
   };
   
+  useEffect(() =>{
+    const getInitialData = async() => { 
+      try {
+        const ordersData = await axios.get('http://localhost:4001/api/v1/orders/');
+        const pendingOrders = ordersData.data.filter((order: Orders) => order.status === 'pending');
+        setOrders(pendingOrders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        
+      }
+    
+  }
+  getInitialData();
+  },[])
 
   const handleConfirm = async () => {
     try {
