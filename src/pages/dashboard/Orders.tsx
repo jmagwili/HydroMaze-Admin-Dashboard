@@ -113,7 +113,10 @@ const Orders = () => {
       try {
         const ordersData = await axios.get('http://localhost:4001/api/v1/orders/');
         const pendingOrders = ordersData.data.filter((order: Orders) => order.status === 'pending');
-        setOrders(pendingOrders);
+        const confirmedOrders = ordersData.data.filter((order: Orders) => order.status === 'confirmed');
+        const forDeliveryOrders = ordersData.data.filter((order: Orders) => order.status === 'for delivery');
+        const rejectedOrders = ordersData.data.filter((order: Orders) => order.status === 'rejected');
+        setOrders([...pendingOrders, ...confirmedOrders, ...forDeliveryOrders, ...rejectedOrders]);
       } catch (error) {
         console.error("Error fetching orders:", error);
         
