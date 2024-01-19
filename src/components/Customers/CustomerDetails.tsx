@@ -15,7 +15,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import axios from "axios"
 import { FaLocationDot } from "react-icons/fa6";
-import '../styles/CustomerDetails.css'
+import '../../styles/CustomerDetails.css'
 import "mapbox-gl/dist/mapbox-gl.css";
 
 interface UserData {

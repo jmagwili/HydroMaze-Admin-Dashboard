@@ -42,7 +42,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { AlertButton } from "@/components/Orders/AlertButton";
 import { Link } from "react-router-dom";
-
+import OrderDetails from "@/components/Orders/OrderDetails";
 interface Orders {
   _id: string;
   username: string;

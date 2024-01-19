@@ -17,8 +17,8 @@ import { FaPerson } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
 
 import SidebarContext from "./SidebarContext.ts";
-import CustomerDetails from "./pages/CustomerDetails.tsx";
-import OrderDetails from "./pages/OrderDetails.tsx";
+import CustomerDetails from "./components/Customers/CustomerDetails.tsx";
+import OrderDetails from "./components/Orders/OrderDetails.tsx";
 
 // if there is a typescript error at auth0 import, run:
 // 'npm uninstall @auth0/auth0-react'
