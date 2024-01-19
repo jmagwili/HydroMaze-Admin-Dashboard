@@ -96,12 +96,11 @@ const containerTypeRevenue = async (req, res) => {
 };
 
 //get daily, weekly, monthly sales
-const startDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-const endDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
 const getDailySales = async (req, res) => {
   try {
-    console.log("startDay:", startDay);
-    console.log("endDay:", endDay);
+    const startDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+    const endDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
     const weeklySalesTotal = await Orders.aggregate([
       {
         $match: {
@@ -123,14 +122,34 @@ const getDailySales = async (req, res) => {
       },
   
     ]);
+    const startMonth = new Date(today.getFullYear(), today.getMonth() -1);
+    const endMonth = new Date(today.getFullYear(), today.getMonth())
+    console.log("start",startMonth)
+    console.log("end",endMonth)
+    const monthlySalesTotal = await Orders.aggregate([
+      {
+        $match: {
+          status: "delivered",
+          createdAt: {
+            $gte: startMonth,
+            $lte: endMonth,
+          },
+          
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: {
+            $sum: "$total",
+          },
+        }
+      },
+  
+    ]);
 
-    if (weeklySalesTotal.length === 0){
-      res.json({
-        totalSales : 0
-      })
-    } else {res.json(weeklySalesTotal);}
-    
-    console.log(weeklySalesTotal);
+    const salesData = {weeklySalesTotal,monthlySalesTotal}
+    res.json(salesData);
   } catch (err) {
     res.json({ error: err });
     console.log(err);
