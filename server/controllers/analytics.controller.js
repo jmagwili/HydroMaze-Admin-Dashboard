@@ -28,12 +28,13 @@ const revenuePerMonth = async (req, res) => {
     const revenuePerMonth = await Orders.aggregate([
       {
         $match: {
-          createdAt: { $exists: true, $type: "date" }
-        }
-      },{
+          createdAt: { $exists: true, $type: "date" },
+        },
+      },
+      {
         $group: {
           _id: {
-            month : {$month: "$createdAt"}
+            month: { $month: "$createdAt" },
           },
           total: {
             $sum: "$total",
@@ -56,6 +57,45 @@ const revenuePerMonth = async (req, res) => {
   }
 };
 
+const getContainerTypeData = async (req, res) => {
 
+  try { 
+  const containerData = await Orders.aggregate([
+    {
+      $match: {
+        slim: {
+          $gt: 0,
+        },
+        round: {
+          $gt: 0,
+        },
+      },
+    },
+    {
+      $project: {
+        _id: {
+          year: {
+            $year: "$createdAt",
+          },
+          month: {
+            $month: "$createdAt",
+          },
+        },
+        totalSlimOrders: {
+          $sum: "$slim",
+        },
+        totalRoundOrders: {
+          $sum: "$round",
+        },
+      },
+    },
+  ]);
+  res.json(containerData);
+} catch (e) {
+  res.json({ error: e});
+}
+  
+
+};
 
 export { getTotalRev, revenuePerMonth };
