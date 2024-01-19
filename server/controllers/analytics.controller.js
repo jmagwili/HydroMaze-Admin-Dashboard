@@ -56,18 +56,15 @@ const revenuePerMonth = async (req, res) => {
     res.json(err);
   }
 };
-
 const containerTypeRevenue = async (req, res) => {
   try {
     const containerTypeSales = await Orders.aggregate([
       {
         $match: {
-          slim: {
-            $gt: 0,
-          },
-          round: {
-            $gt: 0,
-          },
+          $or: [
+            { slim: { $gt: 0 } },
+            { round: { $gt: 0 } },
+          ],
         },
       },
       {
@@ -77,23 +74,43 @@ const containerTypeRevenue = async (req, res) => {
               $year: "$createdAt",
             },
             month: {
-              $month: "$createdAt",
+              $dateToString: { format: "%Y-%m", date: "$createdAt" },
             },
           },
+          totalSlimOrders: "$slim",
+          totalRoundOrders: "$round",
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
           totalSlimOrders: {
-            $sum: "$slim",
+            $sum: "$totalSlimOrders",
           },
           totalRoundOrders: {
-            $sum: "$round",
+            $sum: "$totalRoundOrders",
           },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          year: "$_id.year",
+          month: "$_id.month",
+          totalSlimOrders: 1,
+          totalRoundOrders: 1,
         },
       },
     ]);
     res.json(containerTypeSales);
   } catch (e) {
-    res.json({ error: e });
+    res.json({ error: e.message });
+    console.log(e);
   }
 };
+
+
+
 
 //get daily, weekly, monthly sales
 

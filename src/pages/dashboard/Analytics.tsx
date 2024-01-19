@@ -16,7 +16,7 @@ const Analytics = () => {
 
     const salesData = async() => {
       const totalSales = await axios.get("http://localhost:4001/api/v1/analytics/total-sales");
-      const containerTypeSales = await axios.get("http://localhost:4001/api/analytics/container-type-rev");
+      const containerTypeSales = await axios.get("http://localhost:4001/api/v1/analytics/container-type-rev");
       const monthlySales = await axios.get("http://localhost:4001/api/v1/analytics/monthly-rev");
       setSalesData(totalSales.data);
       setConTypeSales(containerTypeSales.data);
@@ -27,7 +27,7 @@ const Analytics = () => {
     salesData();
 
   },[])
-  console.log("salesData",salesData)
+  console.log("salesData", salesData)
   return (
     <div className="relative left-[285px]">
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
