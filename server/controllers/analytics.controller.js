@@ -97,7 +97,7 @@ const containerTypeRevenue = async (req, res) => {
 
 //get daily, weekly, monthly sales
 
-const getDailySales = async (req, res) => {
+const getTotalSales = async (req, res) => {
   try {
     const startDay = new Date(
       today.getFullYear(),
@@ -167,4 +167,4 @@ const getDailySales = async (req, res) => {
   }
 };
 
-export { getTotalRev, revenuePerMonth, containerTypeRevenue, getDailySales };
+export { getTotalRev, revenuePerMonth, containerTypeRevenue, getTotalSales };
