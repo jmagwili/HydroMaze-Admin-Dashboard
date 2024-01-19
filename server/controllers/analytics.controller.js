@@ -57,45 +57,42 @@ const revenuePerMonth = async (req, res) => {
   }
 };
 
-const getContainerTypeData = async (req, res) => {
-
-  try { 
-  const containerData = await Orders.aggregate([
-    {
-      $match: {
-        slim: {
-          $gt: 0,
-        },
-        round: {
-          $gt: 0,
-        },
-      },
-    },
-    {
-      $project: {
-        _id: {
-          year: {
-            $year: "$createdAt",
+const containerTypeRevenue = async (req, res) => {
+  try {
+    const containerTypeSales = await Orders.aggregate([
+      {
+        $match: {
+          slim: {
+            $gt: 0,
           },
-          month: {
-            $month: "$createdAt",
+          round: {
+            $gt: 0,
           },
         },
-        totalSlimOrders: {
-          $sum: "$slim",
-        },
-        totalRoundOrders: {
-          $sum: "$round",
+      },
+      {
+        $project: {
+          _id: {
+            year: {
+              $year: "$createdAt",
+            },
+            month: {
+              $month: "$createdAt",
+            },
+          },
+          totalSlimOrders: {
+            $sum: "$slim",
+          },
+          totalRoundOrders: {
+            $sum: "$round",
+          },
         },
       },
-    },
-  ]);
-  res.json(containerData);
-} catch (e) {
-  res.json({ error: e});
-}
-  
-
+    ]);
+    res.json(containerTypeSales);
+  } catch (e) {
+    res.json({ error: e });
+  }
 };
 
-export { getTotalRev, revenuePerMonth };
+export { getTotalRev, revenuePerMonth, containerTypeRevenue};
