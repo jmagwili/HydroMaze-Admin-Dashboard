@@ -99,8 +99,16 @@ const containerTypeRevenue = async (req, res) => {
 
 const getDailySales = async (req, res) => {
   try {
-    const startDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-    const endDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    const startDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 7
+    );
+    const endDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
     const weeklySalesTotal = await Orders.aggregate([
       {
         $match: {
@@ -109,8 +117,7 @@ const getDailySales = async (req, res) => {
             $gte: startDay,
             $lte: endDay,
           },
-          
-        }
+        },
       },
       {
         $group: {
@@ -118,14 +125,13 @@ const getDailySales = async (req, res) => {
           totalSales: {
             $sum: "$total",
           },
-        }
+        },
       },
-  
     ]);
-    const startMonth = new Date(today.getFullYear(), today.getMonth() -1);
-    const endMonth = new Date(today.getFullYear(), today.getMonth())
-    console.log("start",startMonth)
-    console.log("end",endMonth)
+    const startMonth = new Date(today.getFullYear(), today.getMonth() - 1);
+    const endMonth = new Date(today.getFullYear(), today.getMonth());
+    console.log("start", startMonth);
+    console.log("end", endMonth);
     const monthlySalesTotal = await Orders.aggregate([
       {
         $match: {
@@ -134,8 +140,7 @@ const getDailySales = async (req, res) => {
             $gte: startMonth,
             $lte: endMonth,
           },
-          
-        }
+        },
       },
       {
         $group: {
@@ -143,17 +148,23 @@ const getDailySales = async (req, res) => {
           totalSales: {
             $sum: "$total",
           },
-        }
+        },
       },
-  
     ]);
 
-    const salesData = {weeklySalesTotal,monthlySalesTotal}
-    res.json(salesData);
+    const salesData = { weeklySalesTotal, monthlySalesTotal };
+    if (salesData.weeklySalesTotal.length === 0) {
+      res.json({
+        monthlySalesTotal,
+        weeklySalesTotal: 0,
+      });
+    } else {
+      res.json(salesData);
+    }
   } catch (err) {
     res.json({ error: err });
     console.log(err);
   }
 };
 
-export { getTotalRev, revenuePerMonth, containerTypeRevenue, getDailySales};
+export { getTotalRev, revenuePerMonth, containerTypeRevenue, getDailySales };
