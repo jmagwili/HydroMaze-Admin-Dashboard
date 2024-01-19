@@ -6,6 +6,8 @@ import { useState } from "react";
 const Analytics = () => {
   const { setActiveItem } = useContext(SidebarContext);
   const [salesData, setSalesData] = useState({});
+  const [conTypeSales, setConTypeSales] = useState([]);
+  const [monthlySalesData, setMonthlySalesData] = useState([]);
   useEffect(() => {
     setActiveItem("/analytics");
   }, []);
@@ -13,9 +15,12 @@ const Analytics = () => {
   useEffect(() => {
 
     const salesData = async() => {
-      const response = await axios.get("http://localhost:4001/api/v1/analytics/total-sales");
-
-      setSalesData(response.data);
+      const totalSales = await axios.get("http://localhost:4001/api/v1/analytics/total-sales");
+      const containerTypeSales = await axios.get("http://localhost:4001/api/analytics/container-type-rev");
+      const monthlySales = await axios.get("http://localhost:4001/api/v1/analytics/monthly-rev");
+      setSalesData(totalSales.data);
+      setConTypeSales(containerTypeSales.data);
+      setMonthlySalesData(monthlySales.data);
      
     }
 
