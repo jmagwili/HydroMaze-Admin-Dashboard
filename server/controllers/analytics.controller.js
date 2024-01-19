@@ -95,4 +95,46 @@ const containerTypeRevenue = async (req, res) => {
   }
 };
 
-export { getTotalRev, revenuePerMonth, containerTypeRevenue};
+//get daily, weekly, monthly sales
+const startDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+const endDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+const getDailySales = async (req, res) => {
+  try {
+    console.log("startDay:", startDay);
+    console.log("endDay:", endDay);
+    const weeklySalesTotal = await Orders.aggregate([
+      {
+        $match: {
+          status: "delivered",
+          createdAt: {
+            $gte: startDay,
+            $lte: endDay,
+          },
+          
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: {
+            $sum: "$total",
+          },
+        }
+      },
+  
+    ]);
+
+    if (weeklySalesTotal.length === 0){
+      res.json({
+        totalSales : 0
+      })
+    } else {res.json(weeklySalesTotal);}
+    
+    console.log(weeklySalesTotal);
+  } catch (err) {
+    res.json({ error: err });
+    console.log(err);
+  }
+};
+
+export { getTotalRev, revenuePerMonth, containerTypeRevenue, getDailySales};
