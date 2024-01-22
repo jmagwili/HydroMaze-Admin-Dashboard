@@ -82,9 +82,7 @@ const Orders = () => {
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const { toast } = useToast();
 
-  const handleSubmit = async (e:React.FormEvent) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-  
+  const handleSubmit = async () => {
     try {
       const orderData = await axios.post(
         "http://localhost:4001/api/v1/orders/search",
@@ -139,7 +137,7 @@ const Orders = () => {
         toast({
           title: "Orders Successfully Confirmed",
         });
-        // handleSubmit();
+        handleSubmit();
         setSelectedOrders([]);
       }
     } catch (err) {
@@ -157,7 +155,7 @@ const Orders = () => {
         toast({
           title: "Orders Successfully Rejected",
         });
-        // handleSubmit();
+        handleSubmit();
         setSelectedOrders([]);
       }
     } catch (err) {
@@ -227,7 +225,7 @@ const Orders = () => {
           className={`w-[70%] ml-auto mr-auto mb-[70px]`}
         >
           <CardContent className="pt-5">
-            <form className="grid grid-cols-4 gap-4" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-4 gap-4">
               <div className=" col-span-1 flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
                 <Input
@@ -300,9 +298,9 @@ const Orders = () => {
                 </Select>
               </div>
               <div className="col-span-1 flex items-end">
-                <Button type="submit">Search</Button>
+                <Button onClick={handleSubmit}>Search</Button>
               </div>
-            </form>
+            </div>
           </CardContent>
          
         </Card>
