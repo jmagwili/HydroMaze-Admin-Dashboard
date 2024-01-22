@@ -1,0 +1,24 @@
+.container {  
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "card1 card2 lineGraph lineGraph"
+      "card3 card4 lineGraph lineGraph"
+      "barGraph barGraph barGraph barGraph";
+  }
+  
+  .card1 { grid-area: card1; }
+  
+  .card2 { grid-area: card2; }
+  
+  .lineGraph { grid-area: lineGraph;}
+  
+  .card3 { grid-area: card3; }
+  
+  .card4 { grid-area: card4; }
+  
+  .barGraph { grid-area: barGraph; }
+  
