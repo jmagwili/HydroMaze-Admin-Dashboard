@@ -127,7 +127,7 @@ const Orders = () => {
   getInitialData();
   },[])
 
-  const handleConfirm = async () => {
+  const handleListConfirm = async () => {
     try {
       const confirmedOrders = await axios.post(
         "http://localhost:4001/api/v1/orders/confirm",
@@ -145,7 +145,7 @@ const Orders = () => {
     }
   };
 
-  const handleReject = async () => {
+  const handleListReject = async () => {
     try {
       const confirmedOrders = await axios.post(
         "http://localhost:4001/api/v1/orders/reject",
@@ -154,6 +154,24 @@ const Orders = () => {
       if (confirmedOrders.data.successful) {
         toast({
           title: "Orders Successfully Rejected",
+        });
+        handleSubmit();
+        setSelectedOrders([]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSingleConfirm = async (id: String) => {
+    try {
+      const confirmedOrders = await axios.post(
+        "http://localhost:4001/api/v1/orders/confirm",
+        [id]
+      );
+      if (confirmedOrders.data.successful) {
+        toast({
+          title: "Orders Successfully Confirmed",
         });
         handleSubmit();
         setSelectedOrders([]);
@@ -308,10 +326,10 @@ const Orders = () => {
         {selectedOrders.length > 0 && (
           <div className="relative h-[50px]">
             <div className="absolute right-0">
-              <AlertButton onContinue={handleConfirm} className="mr-2">
+              <AlertButton onContinue={handleListConfirm} className="mr-2">
                 Accept
               </AlertButton>
-              <AlertButton onContinue={handleReject}>Reject</AlertButton>
+              <AlertButton onContinue={handleListReject}>Reject</AlertButton>
             </div>
           </div>
         )}
@@ -375,9 +393,25 @@ const Orders = () => {
                 <TableCell className="text-blue-800">
                   {/* <Button className="mr-1 px-2 h-8"><GiConfirmed /></Button>
                   <Button className="mr-1 px-2 h-8"><BsXCircle /></Button> */}
-                  <button>Accept</button><br />
-                  <button>Reject</button><br />
-                  <button>Prepare</button>
+                  <AlertButton 
+                    onContinue={()=>handleSingleConfirm(order._id)}
+                    className="text-blue-800 bg-transparent h-[auto] p-0 font-normal text-base hover:bg-transparent"
+                  >
+                     Accept
+                  </AlertButton><br />
+                  <AlertButton 
+                    onContinue={()=>handleSingleConfirm(order._id)}
+                    className="text-blue-800 bg-transparent h-[auto] p-0 font-normal text-base hover:bg-transparent"
+                  >
+                     Reject
+                  </AlertButton><br />
+                  <AlertButton 
+                    onContinue={()=>handleSingleConfirm(order._id)}
+                    className="text-blue-800 bg-transparent h-[auto] p-0 font-normal text-base hover:bg-transparent"
+                  >
+                     Prepare
+                  </AlertButton><br />
+                  
                 </TableCell>
               </TableRow>
             ))}
