@@ -42,7 +42,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { AlertButton } from "@/components/Orders/AlertButton";
 import { Link } from "react-router-dom";
+import { GiConfirmed } from "react-icons/gi";
+import { BsXCircle } from "react-icons/bs";
 import OrderDetails from "@/components/Orders/OrderDetails";
+
 interface Orders {
   _id: string;
   username: string;
@@ -315,18 +318,19 @@ const Orders = () => {
           </div>
         )}
 
-        <Table className="text-base mt-2">
+        <Table className="text-base">
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead />
               <TableHead>Order ID</TableHead>
-              <TableHead>Round Orders</TableHead>
-              <TableHead>Slim Orders</TableHead>
+              <TableHead>Round</TableHead>
+              <TableHead>Slim</TableHead>
               <TableHead>Total</TableHead>
-              <TableHead>Date Ordered</TableHead>
-              <TableHead>Time Ordered</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Time</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -369,6 +373,13 @@ const Orders = () => {
                   {order.status === "rejected" && (
                     <Badge variant="destructive">Rejected</Badge>
                   )}
+                </TableCell>
+                <TableCell className="text-blue-800">
+                  {/* <Button className="mr-1 px-2 h-8"><GiConfirmed /></Button>
+                  <Button className="mr-1 px-2 h-8"><BsXCircle /></Button> */}
+                  <button>Accept</button><br />
+                  <button>Reject</button><br />
+                  <button>Prepare</button>
                 </TableCell>
               </TableRow>
             ))}
