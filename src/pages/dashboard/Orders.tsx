@@ -256,7 +256,7 @@ const Orders = () => {
     <div className={`relative left-[285px]`} style={expandedStyle}>
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">ORDERS</h1>
       <hr className="mt-2 mb-10" />
-      <div className="ml-20 ">
+      <div className="ml-[2%] w-[93%]">
         <Card
           className={`w-[70%] ml-auto mr-auto mb-[70px]`}
         >
