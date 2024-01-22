@@ -181,6 +181,24 @@ const Orders = () => {
     }
   };
 
+  const handleSingleReject = async (id:String) => {
+    try {
+      const confirmedOrders = await axios.post(
+        "http://localhost:4001/api/v1/orders/reject",
+        [id]
+      );
+      if (confirmedOrders.data.successful) {
+        toast({
+          title: "Orders Successfully Rejected",
+        });
+        handleSubmit();
+        setSelectedOrders([]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     setActiveItem("/orders");
     // const fetchData = async () => {
@@ -338,7 +356,7 @@ const Orders = () => {
           <TableCaption>All of your orders</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead />
+              <TableHead><Checkbox /></TableHead>
               <TableHead>Order ID</TableHead>
               <TableHead>Round</TableHead>
               <TableHead>Slim</TableHead>
@@ -400,18 +418,11 @@ const Orders = () => {
                      Accept
                   </AlertButton><br />
                   <AlertButton 
-                    onContinue={()=>handleSingleConfirm(order._id)}
+                    onContinue={()=>handleSingleReject(order._id)}
                     className="text-blue-800 bg-transparent h-[auto] p-0 font-normal text-base hover:bg-transparent"
                   >
                      Reject
-                  </AlertButton><br />
-                  <AlertButton 
-                    onContinue={()=>handleSingleConfirm(order._id)}
-                    className="text-blue-800 bg-transparent h-[auto] p-0 font-normal text-base hover:bg-transparent"
-                  >
-                     Prepare
-                  </AlertButton><br />
-                  
+                  </AlertButton><br />                 
                 </TableCell>
               </TableRow>
             ))}
