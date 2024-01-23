@@ -1,6 +1,5 @@
 import React from "react"
 import PesoIcon from "@/assets/PesoIcon";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaPesoSign } from "react-icons/fa6";
 interface InfoProps  {
     sales : number;

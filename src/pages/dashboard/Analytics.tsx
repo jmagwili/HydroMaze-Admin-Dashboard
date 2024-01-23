@@ -8,6 +8,7 @@ import "../../styles/Analytics.css";
 import { ApexOptions } from "apexcharts";
 import Lottie from "lottie-react";
 import AnimationData from "../../assets/animation.json";
+import { FaPesoSign } from "react-icons/fa6";
 interface conTypeSales {
   month: string;
   totalRoundOrders: number;
@@ -102,7 +103,7 @@ const Analytics = () => {
         "http://localhost:4001/api/v1/analytics/monthly-rev"
       );
 
-      if (totalSales.data.monthlySalesTotal[0]) {
+      if (totalSales.data.monthlySalesTotal) {
         setMonthTotal(totalSales.data.monthlySalesTotal[0].total);
       } else {
         setMonthTotal(0);
@@ -125,13 +126,13 @@ const Analytics = () => {
       setConTypeSales(containerTypeSales.data);
       console.log(containerTypeSales.data);
       setMonthlySalesData(monthlySales.data);
+
+      console.log(totalSales);
     };
     salesData();
     setIsLoading(false);
   }, []);
-  console.log("week", weekTotal);
-  console.log("month", monthTotal);
-  console.log("year", yearTotal);
+
 
   return (
     <>
@@ -144,10 +145,10 @@ const Analytics = () => {
 
           <div className="container">
             <div className="card1">
-              <InfoCard sales={80} label = {""} />
+              <InfoCard sales={80} label = {""} icon = {FaPesoSign} />
             </div>
             <div className="card2">
-              <InfoCard sales={weekTotal} label = {"Past Week"} />
+              <InfoCard sales={yearTotal} label = {"Past Year"} icon = {FaPesoSign}/>
             </div>
             <div className="lineGraph">
               <h1 className="font-semibold ml-5 mt-5">Slim vs Round Sales per Month</h1>
@@ -164,10 +165,10 @@ const Analytics = () => {
               />
             </div>
             <div className="card3">
-              <InfoCard sales={monthTotal} label ={"Past Month"} />
+              <InfoCard sales={monthTotal} label ={"Past Month"} icon = {FaPesoSign} />
             </div>
             <div className="card4">
-              <InfoCard sales={yearTotal} label = {"Past Year"} />
+              <InfoCard sales={weekTotal} label = {"Past Week"} icon = {FaPesoSign} />
             </div>
             <div className="barGraph">
               <h1 className="font-semibold ml-5 mt-5">Monthly Revenue</h1>

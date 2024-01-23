@@ -99,13 +99,13 @@ export const Dashboard = () => {
         const todaysOrders = await axios.get(
           "http://localhost:4001/api/v1/dashboard/orders-today/"
         );
-        console.log(todaysOrders.data[0].count);
-        setTodaysOrders(todaysOrders.data[0].count);
+        console.log("todays orders",todaysOrders.data);
+        setTodaysOrders(todaysOrders.data);
 
         const todaysRevenue = await axios.get(
           "http://localhost:4001/api/v1/dashboard/revenue-today/"
         );
-        console.log(todaysRevenue.data[0].revenue);
+        console.log("today rev",todaysRevenue.data[0].revenue);
         setTodaysRevenue(todaysRevenue.data[0].revenue);
 
         const statusData = await axios.get(

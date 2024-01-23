@@ -145,33 +145,31 @@ const getTotalSales = async (req, res) => {
     ]);
     const startMonth = new Date(today.getFullYear(), today.getMonth() - 1);
     const endMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-    console.log("start", startMonth);
-    console.log("end", endMonth);
+    console.log("start m", startMonth);
+    console.log("end m", endMonth);
     const monthlySalesTotal = await Orders.aggregate([
       {
         $match: {
           status: "delivered",
           createdAt: {
             $gte: startMonth,
-            $lte: endMonth,
+            $lt: endMonth,
           },
         },
       },
       {
         $group: {
           _id: null,
-          totalSales: {
+          total: {
             $sum: "$total",
           },
         },
       },
       { $project: {_id: 0, total: 1}}
     ]);
-    
+    console.log(monthlySalesTotal)
     const startOfYear = new Date(today.getFullYear() - 1, 0, 1);
     const endOfYear = new Date(today.getFullYear(), 0, 0);
-    console.log("start", startOfYear);
-    console.log("end", endOfYear);
     const yearlySalesTotal = await Orders.aggregate([
       { $match: { createdAt: { $gte: startOfYear, $lt: endOfYear } } },
       { $group: {

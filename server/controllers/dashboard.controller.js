@@ -2,55 +2,50 @@ import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
 const today = new Date();
-const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+const start = new Date(today.getFullYear(), today.getMonth(), today.getDate(),0);
 const end = new Date(
   today.getFullYear(),
   today.getMonth(),
-  today.getDate() + 1
+  today.getDate() + 1,0
 );
 
-console.log(start);
-console.log(end);
+import moment from 'moment';
+
 const getOrdersToday = async (req, res) => {
   try {
+    // Get the current date
+    const currentDate = moment();
+
+    // Set the start of the day (midnight)
+    const start = moment(currentDate).startOf('day');
+
+    // Set the end of the day (23:59:59)
+    const end = moment(currentDate).endOf('day');
+
     const ordersToday = await Orders.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lt: end },
+          createdAt: { $gte: start.toDate(), $lt: end.toDate() },
         },
       },
       {
         $group: {
-          _id: 1,
+          _id: null,
           count: { $sum: 1 },
         },
-      },
-      {
-        $project: {
-          _id: 0,
-          count: 1,
-        },
-      },
+      }
     ]);
 
-    if (ordersToday.length !== 0) {
-      res.json(ordersToday);
-      console.log(ordersToday);
-    } else {
-      res.send([
-        {
-          _id: null,
-          count: 0,
-        },
-      ]);
-    }
+    res.json(ordersToday);
 
-    console.log("Successfully sent orders today");
+    console.log("orders t", ordersToday);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);
   }
 };
+
 const getRecentOrders = async (req, res) => {
   try {
     // Get recent orders for current day
