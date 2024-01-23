@@ -162,15 +162,15 @@ const getTotalSales = async (req, res) => {
         },
       },
     ]);
-    const currentDate = new Date();
+    
     const startOfYear = new Date(today.getFullYear() - 1, 0, 1);
     const endOfYear = new Date(today.getFullYear(), 0, 0);
     console.log("start", startOfYear);
     console.log("end", endOfYear);
     const yearlySalesTotal = await Orders.aggregate([
       { $match: { $createdAt: { $gte: startYear, $lt: endYear } } },
-      { $group: {} },
-      {},
+      { $group: { id: null, $total: $sum} },
+      { $project: {id: 1, total: 1}},
     ]);
 
     const salesData = { weeklySalesTotal, monthlySalesTotal };
