@@ -61,10 +61,7 @@ const containerTypeRevenue = async (req, res) => {
     const containerTypeSales = await Orders.aggregate([
       {
         $match: {
-          $or: [
-            { slim: { $gt: 0 } },
-            { round: { $gt: 0 } },
-          ],
+          $or: [{ slim: { $gt: 0 } }, { round: { $gt: 0 } }],
         },
       },
       {
@@ -109,9 +106,6 @@ const containerTypeRevenue = async (req, res) => {
   }
 };
 
-
-
-
 //get daily, weekly, monthly sales
 
 const getTotalSales = async (req, res) => {
@@ -146,7 +140,7 @@ const getTotalSales = async (req, res) => {
       },
     ]);
     const startMonth = new Date(today.getFullYear(), today.getMonth() - 1);
-    const endMonth = new Date(today.getFullYear(), today.getMonth());
+    const endMonth = new Date(today.getFullYear(), today.getMonth(), 0);
     console.log("start", startMonth);
     console.log("end", endMonth);
     const monthlySalesTotal = await Orders.aggregate([
@@ -167,6 +161,16 @@ const getTotalSales = async (req, res) => {
           },
         },
       },
+    ]);
+    const currentDate = new Date();
+    const startOfYear = new Date(today.getFullYear() - 1, 0, 1);
+    const endOfYear = new Date(today.getFullYear(), 0, 0);
+    console.log("start", startOfYear);
+    console.log("end", endOfYear);
+    const yearlySalesTotal = await Orders.aggregate([
+      { $match: { $createdAt: { $gte: startYear, $lt: endYear } } },
+      { $group: {} },
+      {},
     ]);
 
     const salesData = { weeklySalesTotal, monthlySalesTotal };
