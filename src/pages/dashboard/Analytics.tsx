@@ -54,31 +54,35 @@ const Analytics = () => {
       const containerTypeSales = await axios.get("http://localhost:4001/api/v1/analytics/container-type-rev");
       const monthlySales = await axios.get("http://localhost:4001/api/v1/analytics/monthly-rev");
 
-      if (totalSales.data.monthlySalesTotal.total) {
-        setMonthTotal(totalSales.data.monthlySalesTotal.total);
+      if (totalSales.data.monthlySalesTotal[0]) {
+        setMonthTotal(totalSales.data.monthlySalesTotal[0].total);
       } else {
         setMonthTotal(0);
       }
 
-      if (totalSales.data.weeklySalesTotal.total) {
-        setWeekTotal(totalSales.data.weeklySalesTotal.total);
+      if (totalSales.data.weeklySalesTotal[0]) {
+        console.log("w:",totalSales.data.weeklySalesTotal[0].total);
+        setWeekTotal(totalSales.data.weeklySalesTotal[0].total);
       } else {
         setWeekTotal(0);
       }
 
-      if (totalSales.data.yearlySalesTotal.total) {
-        setYearTotal(totalSales.data.yearlySalesTotal.total);
+      if (totalSales.data.yearlySalesTotal[0]) {
+        setYearTotal(totalSales.data.yearlySalesTotal[0].total);
       } else {
         setYearTotal(0);
       }
 
-
+      console.log("total",totalSales.data.weeklySalesTotal[0].total)
       setConTypeSales(containerTypeSales.data);
       setMonthlySalesData(monthlySales.data);  
       
     }
     salesData();
   },[])
+  console.log("week", weekTotal);
+  console.log("month", monthTotal);
+  console.log("year", yearTotal);
 
   return (
     <div className="relative left-[285px]">
@@ -96,7 +100,7 @@ const Analytics = () => {
             series={chartOptions.series}
             type="line"
             width="100%"
-            height="100%"
+            //height="100%"
             className="dashboard-charts"
             style={{
               marginTop:"60px"
@@ -111,10 +115,11 @@ const Analytics = () => {
                 series={chartOptions.series}
                 type="bar"
                 width="100%"
-                height="100%"
+                //height="100%"
                 className="dashboard-charts"
                 style={{
-                  marginTop:"60px"
+                  marginTop:"60px",
+                  
                 }}
           />
         </div>
