@@ -1,5 +1,7 @@
 import React from "react"
-
+import PesoIcon from "@/assets/PesoIcon";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaPesoSign } from "react-icons/fa6";
 interface InfoProps  {
     sales : number;
     percentage? : number;
@@ -11,23 +13,8 @@ const InfoCard: React.FC<InfoProps> = ({sales,percentage,label}) => (
         <div className="flex flex-col px-6 py-10 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group ">
             <div className="flex flex-row justify-between items-center">
                 <div className="px-4 py-4 bg-gray-300  rounded-xl bg-opacity-30">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 group-hover:text-gray-50"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                >
-                    <path
-                    fillRule="evenodd"
-                    d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                    />
-                    <path
-                    fillRule="evenodd"
-                    d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                    />
-                </svg>
+                    <FaPesoSign/>
+                
                 </div>
                 <div className="inline-flex text-sm text-gray-600 group-hover:text-gray-200 sm:text-base">
                 <svg

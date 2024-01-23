@@ -19,7 +19,6 @@ import { Badge } from "@/components/ui/badge";
 import "../../styles/Dashboard.css";
 import Lottie from "lottie-react";
 import animationData from "../../assets/animation.json";
-import { ApexOptions } from "apexcharts";
 
 type StatusData = { _id: string; count: number };
 type SalesData = {
@@ -90,7 +89,7 @@ export const Dashboard = () => {
         data: dailySales.map((data) => data.revenue),
       },
     ],
-  } as ApexOptions;
+  };
 
   useEffect(() => {
     setActiveItem("/");
