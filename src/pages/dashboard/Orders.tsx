@@ -117,8 +117,9 @@ const Orders = () => {
         const pendingOrders = ordersData.data.filter((order: Orders) => order.status === 'pending');
         const confirmedOrders = ordersData.data.filter((order: Orders) => order.status === 'confirmed');
         const forDeliveryOrders = ordersData.data.filter((order: Orders) => order.status === 'for delivery');
+        const deliveredOrders = ordersData.data.filter((order: Orders) => order.status === 'delivered');
         const rejectedOrders = ordersData.data.filter((order: Orders) => order.status === 'rejected');
-        setOrders([...pendingOrders, ...confirmedOrders, ...forDeliveryOrders, ...rejectedOrders]);
+        setOrders([...pendingOrders, ...confirmedOrders, ...forDeliveryOrders, ...deliveredOrders, ...rejectedOrders]);
       } catch (error) {
         console.error("Error fetching orders:", error);
         
