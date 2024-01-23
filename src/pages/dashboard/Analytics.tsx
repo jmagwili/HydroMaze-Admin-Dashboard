@@ -69,20 +69,32 @@ const Analytics = () => {
         <div className="card2"><InfoCard /></div>
         <div className="lineGraph">
           <Chart
-              options={chartOptions}
-              series={chartOptions.series}
-              type="area"
-              width="450"
-              height="70%"
-              className="dashboard-charts"
-              style={{
-                marginTop:"60px"
-              }}
+            options={chartOptions}
+            series={chartOptions.series}
+            type="line"
+            width="100%"
+            height="100%"
+            className="dashboard-charts"
+            style={{
+              marginTop:"60px"
+            }}
           />
         </div>
         <div className="card3"><InfoCard /></div>
         <div className="card4"><InfoCard /></div>
-        <div className="barGraph"></div>
+        <div className="barGraph">
+          <Chart
+                options={chartOptions}
+                series={chartOptions.series}
+                type="bar"
+                width="100%"
+                height="100%"
+                className="dashboard-charts"
+                style={{
+                  marginTop:"60px"
+                }}
+          />
+        </div>
       </div>
     </div>
   );
