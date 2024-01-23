@@ -99,6 +99,7 @@ const containerTypeRevenue = async (req, res) => {
           totalRoundOrders: 1,
         },
       },
+      {$sort : {year:1}}
     ]);
     res.json(containerTypeSales);
   } catch (e) {
@@ -139,7 +140,8 @@ const getTotalSales = async (req, res) => {
           },
         },
       },
-      { $project: {_id: 0, total: 1}}
+      { $project: {_id: 0, total: 1}},
+      
     ]);
     const startMonth = new Date(today.getFullYear(), today.getMonth() - 1);
     const endMonth = new Date(today.getFullYear(), today.getMonth(), 0);

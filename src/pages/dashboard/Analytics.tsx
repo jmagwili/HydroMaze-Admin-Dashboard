@@ -143,15 +143,16 @@ const Analytics = () => {
         <div className="card1"><InfoCard sales = {20} /></div>
         <div className="card2"><InfoCard  sales = {weekTotal} /></div>
         <div className="lineGraph">
+          <h1>Sales per Container Type</h1>
           <Chart
             options={conTypeOptions}
             series={conTypeOptions.series}
             type="line"
-            width="500px"
-            height="300px"
+            width="540px"
+            height="350px"
             className="dashboard-charts"
             style={{
-              marginTop:"60px"
+              marginTop:"30px"
             }}
           />
         </div>
@@ -162,11 +163,11 @@ const Analytics = () => {
                 options={monthlySalesOptions}
                 series={monthlySalesOptions.series}
                 type="bar"
-                width="500px"
-                height="300px"
+                width="540px"
+                height="350px"
                 className="dashboard-charts"
                 style={{
-                  marginTop:"60px",
+                  marginTop:"30px",
                   
                 }}
           />
