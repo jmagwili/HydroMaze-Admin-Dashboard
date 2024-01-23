@@ -170,18 +170,25 @@ const getTotalSales = async (req, res) => {
     const yearlySalesTotal = await Orders.aggregate([
       { $match: { $createdAt: { $gte: startYear, $lt: endYear } } },
       { $group: { id: null, $total: $sum} },
-      { $project: {id: 1, total: 1}},
+      //{ $project: {id: null, total: 1}},
     ]);
 
-    const salesData = { weeklySalesTotal, monthlySalesTotal };
+    const salesData = { weeklySalesTotal, monthlySalesTotal, yearlySalesTotal };
+
     if (salesData.weeklySalesTotal.length === 0) {
-      res.json({
-        monthlySalesTotal,
-        weeklySalesTotal: 0,
-      });
-    } else {
-      res.json(salesData);
+      salesData.weeklySalesTotal = 0;
     }
+
+    if (salesData.monthlySalesTotal.length === 0) {
+      salesData.monthlySalesTotal = 0;
+    }
+
+    if (salesData.yearlySalesTotal.length === 0) {
+      salesData.yearlySalesTotal = 0;
+    }
+
+res.json(salesData);
+
   } catch (err) {
     res.json({ error: err });
     console.log(err);
