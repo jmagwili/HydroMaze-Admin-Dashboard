@@ -48,6 +48,7 @@ const revenuePerMonth = async (req, res) => {
           total: 1,
         },
       },
+      {$sort : {month:-1}}
     ]);
     res.json(revenuePerMonth);
     console.log(revenuePerMonth);
