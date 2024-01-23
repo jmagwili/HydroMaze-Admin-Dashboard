@@ -62,7 +62,12 @@ interface Orders {
 }
 
 import SidebarContext from "@/SidebarContext";
-
+const formatDate = (dateTimeString: string) => {
+  const dateTime = new Date(dateTimeString);
+  const date = dateTime.toLocaleDateString();
+  const time = dateTime.toLocaleTimeString();
+  return { date, time };
+};
 const Orders = () => {
   const today = new Date();
   const [date, setDate] = useState<DateRange | undefined>({
@@ -109,25 +114,30 @@ const Orders = () => {
       ? setSelectedOrders([...selectedOrders, orderID])
       : setSelectedOrders(selectedOrders.filter((order) => order !== orderID));
   };
-  
-  useEffect(() =>{
-    const getInitialData = async() => { 
+  useEffect(() => {
+    const getInitialData = async () => {
       try {
-        const ordersData = await axios.get('http://localhost:4001/api/v1/orders/');
-        const pendingOrders = ordersData.data.filter((order: Orders) => order.status === 'pending');
-        const confirmedOrders = ordersData.data.filter((order: Orders) => order.status === 'confirmed');
-        const forDeliveryOrders = ordersData.data.filter((order: Orders) => order.status === 'for delivery');
-        const deliveredOrders = ordersData.data.filter((order: Orders) => order.status === 'delivered');
-        const rejectedOrders = ordersData.data.filter((order: Orders) => order.status === 'rejected');
+        const ordersResponse = await axios.get('http://localhost:4001/api/v1/orders/');
+        const ordersData = ordersResponse.data.map((order: Orders) => ({
+          ...order,
+          ...formatDate(order.createdAt),
+        }));
+  
+        const pendingOrders = ordersData.filter((order: Orders) => order.status === 'pending');
+        const confirmedOrders = ordersData.filter((order: Orders) => order.status === 'confirmed');
+        const forDeliveryOrders = ordersData.filter((order: Orders) => order.status === 'for delivery');
+        const deliveredOrders = ordersData.filter((order: Orders) => order.status === 'delivered');
+        const rejectedOrders = ordersData.filter((order: Orders) => order.status === 'rejected');
+  
         setOrders([...pendingOrders, ...confirmedOrders, ...forDeliveryOrders, ...deliveredOrders, ...rejectedOrders]);
       } catch (error) {
         console.error("Error fetching orders:", error);
-        
       }
-    
-  }
-  getInitialData();
-  },[])
+    };
+  
+    getInitialData();
+  }, []);
+  
 
   const handleListConfirm = async () => {
     try {
@@ -401,7 +411,7 @@ const Orders = () => {
                     <StatusBadge status="pending"/>
                   )}
                   {order.status === "confirmed" && (
-                    <StatusBadge status="pending"/>
+                    <StatusBadge status="confirmed"/>
                   )}
                   {order.status === "delivered" && <StatusBadge status="delivered"/>}
                   {order.status === "for delivery" && (

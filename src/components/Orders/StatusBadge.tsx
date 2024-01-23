@@ -6,17 +6,15 @@ interface statusProps {
 const StatusBadge: React.FC<statusProps> = ({ status }) => {
   const getStatusStyles = () => {
     switch (status) {
-      case 'pending':
+      case 'for delivery':
         return 'border border-gray-800 text-gray-800 dark:border-gray-200 dark:text-white';
-      case 'info':
-        return 'border border-gray-500 text-gray-500 dark:text-gray-400';
       case 'delivered':
         return 'border border-teal-500 text-teal-500';
-      case 'for pickup':
+      case 'confirmed':
         return 'border border-blue-600 text-blue-600 dark:text-blue-500 dark:text-blue-500';
       case 'rejected':
         return 'border border-red-500 text-red-500';
-      case 'for delivery':
+      case 'pending':
         return 'border border-yellow-500 text-yellow-500';
       default:
         return 'border border-white text-white';
