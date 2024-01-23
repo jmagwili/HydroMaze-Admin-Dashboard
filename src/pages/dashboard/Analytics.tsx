@@ -5,27 +5,40 @@ import { useState } from "react";
 import InfoCard from "@/components/Analytics/InfoCard";
 import Chart from "react-apexcharts";
 import "../../styles/Analytics.css"
+interface conTypeSales {
+  month: string;
+  totalRoundOrders: number;
+  totalSlimOrders: number;
+  year : number;
 
+
+}
+interface monthlySales {
+  month: string;
+  total : number;
+
+
+}
 const Analytics = () => {
   const { setActiveItem } = useContext(SidebarContext);
 
   const [monthTotal, setMonthTotal] = useState<number>(0);
   const [weekTotal, setWeekTotal] = useState<number>(0);
   const [yearTotal, setYearTotal] = useState<number>(0);
-  const [conTypeSales, setConTypeSales] = useState([]);
-  const [monthlySalesData, setMonthlySalesData] = useState([]);
+  const [conTypeSales, setConTypeSales] = useState<conTypeSales[]>([]);
+  const [monthlySalesData, setMonthlySalesData] = useState<monthlySales[]>([]);
   
-  const chartOptions = {
+  const conTypeOptions = {
     options: {
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+        categories: conTypeSales.map((item) => item.month),
         type: "datetime",
         labels: {
           format: "dd MMM",
         },
       },
 
-      colors: ["#0084ff", "#00b8d9", "#00c7b6", "#00e396", "#0acf97"],
+      colors: ["#0084ff", "#00b8d9"],
       legend: {
         show: true,
       },
@@ -37,13 +50,49 @@ const Analytics = () => {
 
     series: [
       {
-        name: "Revenue",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        name: "Round",
+        data: conTypeSales.map((item) => item.totalRoundOrders),
+        
+      },
+      {
+        name: "Slim",
+        data: conTypeSales.map((item) => item.totalSlimOrders),
+        
       },
     ],
+    
+  };
+  const monthlySalesOptions = {
+    options: {
+      xaxis: {
+        categories: monthlySalesData.map((item) => item.month),
+        type: "datetime",
+        labels: {
+          format: "dd MMM",
+        },
+      },
+
+      colors: ["#0084ff", "#00b8d9"],
+      legend: {
+        show: true,
+      },
+      chart: {
+        type: "bar",
+        background: "white",
+      },
+    },
+
+    series: [
+      {
+        name: "Sales",
+        data: monthlySalesData.map((item) => item.total),
+        
+      }
+    ],
+    
   };
   
-  
+  console.log("monthly",monthlySalesData);
   useEffect(() => {
     setActiveItem("/analytics");
   }, []);
@@ -75,6 +124,7 @@ const Analytics = () => {
 
       console.log("total",totalSales.data.weeklySalesTotal[0].total)
       setConTypeSales(containerTypeSales.data);
+      console.log(containerTypeSales.data);
       setMonthlySalesData(monthlySales.data);  
       
     }
@@ -96,8 +146,8 @@ const Analytics = () => {
         <div className="card2"><InfoCard  sales = {weekTotal} /></div>
         <div className="lineGraph">
           <Chart
-            options={chartOptions}
-            series={chartOptions.series}
+            options={conTypeOptions}
+            series={conTypeOptions.series}
             type="line"
             width="100%"
             //height="100%"
@@ -111,8 +161,8 @@ const Analytics = () => {
         <div className="card4"><InfoCard  sales = {yearTotal}/></div>
         <div className="barGraph">
           <Chart
-                options={chartOptions}
-                series={chartOptions.series}
+                options={monthlySalesOptions}
+                series={monthlySalesOptions.series}
                 type="bar"
                 width="100%"
                 //height="100%"
