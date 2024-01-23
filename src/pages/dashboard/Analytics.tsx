@@ -8,7 +8,10 @@ import "../../styles/Analytics.css"
 
 const Analytics = () => {
   const { setActiveItem } = useContext(SidebarContext);
-  const [salesData, setSalesData] = useState({});
+
+  const [monthTotal, setMonthTotal] = useState<number>();
+  const [weekTotal, setWeekTotal] = useState<number>();
+  const [yearTotal, setYearTotal] = useState<number>();
   const [conTypeSales, setConTypeSales] = useState([]);
   const [monthlySalesData, setMonthlySalesData] = useState([]);
   
@@ -50,14 +53,33 @@ const Analytics = () => {
       const totalSales = await axios.get("http://localhost:4001/api/v1/analytics/total-sales");
       const containerTypeSales = await axios.get("http://localhost:4001/api/v1/analytics/container-type-rev");
       const monthlySales = await axios.get("http://localhost:4001/api/v1/analytics/monthly-rev");
-      setSalesData(totalSales.data);
+
+      if (totalSales.data.monthlySalesTotal.total) {
+        setMonthTotal(totalSales.data.monthlySalesTotal.total);
+      } else {
+        setMonthTotal(0);
+      }
+
+      if (totalSales.data.weeklySalesTotal.total) {
+        setWeekTotal(totalSales.data.weeklySalesTotal.total);
+      } else {
+        setWeekTotal(0);
+      }
+
+      if (totalSales.data.yearlySalesTotal.total) {
+        setYearTotal(totalSales.data.yearlySalesTotal.total);
+      } else {
+        setYearTotal(0);
+      }
+
+
       setConTypeSales(containerTypeSales.data);
       setMonthlySalesData(monthlySales.data);  
-      console.log("Total Sales: " + totalSales.data);
+      
     }
     salesData();
   },[])
-  console.log("salesData", salesData)
+
   return (
     <div className="relative left-[285px]">
       <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
