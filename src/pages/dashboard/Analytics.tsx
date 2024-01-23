@@ -5,6 +5,7 @@ import { useState } from "react";
 import InfoCard from "@/components/Analytics/InfoCard";
 import Chart from "react-apexcharts";
 import "../../styles/Analytics.css"
+import { ApexOptions } from "apexcharts";
 interface conTypeSales {
   month: string;
   totalRoundOrders: number;
@@ -61,7 +62,7 @@ const Analytics = () => {
       },
     ],
     
-  };
+  } as ApexOptions;
   const monthlySalesOptions = {
     options: {
       xaxis: {
@@ -71,8 +72,7 @@ const Analytics = () => {
           format: "dd MMM",
         },
       },
-
-      colors: ["#0084ff", "#00b8d9"],
+      colors: ["#0084ff"],
       legend: {
         show: true,
       },
@@ -81,16 +81,14 @@ const Analytics = () => {
         background: "white",
       },
     },
-
     series: [
       {
         name: "Sales",
         data: monthlySalesData.map((item) => item.total),
-        
-      }
+      },
     ],
-    
-  };
+  } as ApexOptions;
+  
   
   console.log("monthly",monthlySalesData);
   useEffect(() => {
@@ -149,8 +147,8 @@ const Analytics = () => {
             options={conTypeOptions}
             series={conTypeOptions.series}
             type="line"
-            width="100%"
-            //height="100%"
+            width="500px"
+            height="300px"
             className="dashboard-charts"
             style={{
               marginTop:"60px"
@@ -164,8 +162,8 @@ const Analytics = () => {
                 options={monthlySalesOptions}
                 series={monthlySalesOptions.series}
                 type="bar"
-                width="100%"
-                //height="100%"
+                width="500px"
+                height="300px"
                 className="dashboard-charts"
                 style={{
                   marginTop:"60px",
