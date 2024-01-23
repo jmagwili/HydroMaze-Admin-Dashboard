@@ -66,8 +66,8 @@ const Analytics = () => {
       <hr className="m-2" />
 
       <div className="container">
-        <div className="card1"><InfoCard /></div>
-        <div className="card2"><InfoCard /></div>
+        <div className="card1"><InfoCard sales = {20} /></div>
+        <div className="card2"><InfoCard  sales = {20} /></div>
         <div className="lineGraph">
           <Chart
             options={chartOptions}
@@ -81,8 +81,8 @@ const Analytics = () => {
             }}
           />
         </div>
-        <div className="card3"><InfoCard /></div>
-        <div className="card4"><InfoCard /></div>
+        <div className="card3"><InfoCard  sales = {20}/></div>
+        <div className="card4"><InfoCard  sales = {20}/></div>
         <div className="barGraph">
           <Chart
                 options={chartOptions}
