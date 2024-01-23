@@ -2,42 +2,43 @@ import { Orders } from "../database.js";
 import { Customers } from "../database.js";
 
 const today = new Date();
-const start = new Date(today.getFullYear(), today.getMonth(), today.getDate(),0);
+const start = new Date(today.getFullYear(), today.getMonth(), today.getDate()-1);
 const end = new Date(
   today.getFullYear(),
   today.getMonth(),
-  today.getDate() + 1,0
+  today.getDate() ,
 );
 
-import moment from 'moment';
 
 const getOrdersToday = async (req, res) => {
   try {
-    // Get the current date
-    const currentDate = moment();
-
-    // Set the start of the day (midnight)
-    const start = moment(currentDate).startOf('day');
-
-    // Set the end of the day (23:59:59)
-    const end = moment(currentDate).endOf('day');
-
+    // Get the current dat
+    
+    console.log(start);
+    console.log(end);
     const ordersToday = await Orders.aggregate([
       {
         $match: {
-          createdAt: { $gte: start.toDate(), $lt: end.toDate() },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          count: { $sum: 1 },
-        },
+          createdAt: {
+            $gte: start,
+            $lt: end,
+          },
+        }
+      },{
+        $group : {
+          
+            _id: null,
+            count: {
+              $sum: 1,
+            },
+          
+        }
       }
+      
     ]);
 
     res.json(ordersToday);
-
+    console.log(ordersToday);
     console.log("orders t", ordersToday);
 
   } catch (error) {
@@ -74,7 +75,8 @@ const getCustomersToday = async (req, res) => {
     console.log(error);
   }
 };
-
+const startMonth = new Date(today.getFullYear(), today.getMonth() - 1, 0);
+const endMonth = new Date(today.getFullYear(), today.getMonth() , 0);
 const getRevToday = async (req, res) => {
   try {
     const revenueToday = await Orders.aggregate([
@@ -96,6 +98,7 @@ const getRevToday = async (req, res) => {
 
     if (revenueToday.length !== 0) {
       res.json(revenueToday);
+      console.log(revenueToday);
     } else {
       res.json([
         {
@@ -109,7 +112,41 @@ const getRevToday = async (req, res) => {
     console.log(error);
   }
 };
+const getRevMonth = async (req, res) => {
+  try {
+    const revenueMonth = await Orders.aggregate([
+      {
+        $match: {
+          status: "delivered", 
+          createdAt: { $gte: startMonth, $lt: endMonth },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          revenue: {
+            $sum: "$total",
+          },
+        },
+      },
+    ]);
 
+    if (revenueMonth.length !== 0) {
+      res.json(revenueMonth);
+      console.log(revenueMonth);
+    } else {
+      res.json([
+        {
+          _id: null,
+          revenue: 0,
+        },
+      ]);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log(error);
+  }
+};
 const startWeekDate = new Date(
   today.getFullYear(),
   today.getMonth(),
@@ -193,4 +230,5 @@ export {
   getStatusData,
   getDailySales,
   getRecentOrders,
+  getRevMonth
 };
