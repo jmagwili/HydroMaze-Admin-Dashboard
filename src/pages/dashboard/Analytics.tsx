@@ -6,6 +6,8 @@ import InfoCard from "@/components/Analytics/InfoCard";
 import Chart from "react-apexcharts";
 import "../../styles/Analytics.css";
 import { ApexOptions } from "apexcharts";
+import Lottie from "lottie-react";
+import AnimationData from "../../assets/animation.json";
 interface conTypeSales {
   month: string;
   totalRoundOrders: number;
@@ -24,6 +26,7 @@ const Analytics = () => {
   const [yearTotal, setYearTotal] = useState<number>(0);
   const [conTypeSales, setConTypeSales] = useState<conTypeSales[]>([]);
   const [monthlySalesData, setMonthlySalesData] = useState<monthlySales[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const conTypeOptions = {
     options: {
@@ -65,7 +68,7 @@ const Analytics = () => {
           format: "dd MMM",
         },
       },
-      colors: ["#0084ff"],
+      colors: ["#0084ff", "#00b8d9", "#00c7b6", "#00e396", "#0acf97"],
       legend: {
         show: true,
       },
@@ -124,62 +127,75 @@ const Analytics = () => {
       setMonthlySalesData(monthlySales.data);
     };
     salesData();
+    setIsLoading(false);
   }, []);
   console.log("week", weekTotal);
   console.log("month", monthTotal);
   console.log("year", yearTotal);
 
   return (
-    <div className="relative left-[285px]">
-      <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
-        ANALYTICS
-      </h1>
-      <hr className="m-2" />
+    <>
+      {!isLoading ? (
+        <div className="relative left-[285px]">
+          <h1 className="ml-5 mt-5 font-semibold text-gray-800 text-3xl">
+            ANALYTICS
+          </h1>
+          <hr className="m-2" />
 
-      <div className="container">
-        <div className="card1">
-          <InfoCard sales={20} />
+          <div className="container">
+            <div className="card1">
+              <InfoCard sales={80} label = {""} />
+            </div>
+            <div className="card2">
+              <InfoCard sales={weekTotal} label = {"Past Week"} />
+            </div>
+            <div className="lineGraph">
+              <h1 className="font-semibold ml-5 mt-5">Slim vs Round Sales per Month</h1>
+              <Chart
+                options={conTypeOptions}
+                series={conTypeOptions.series}
+                type="line"
+                width="530px"
+                height="350px"
+                className="dashboard-charts"
+                style={{
+                  marginTop: "30px",
+                }}
+              />
+            </div>
+            <div className="card3">
+              <InfoCard sales={monthTotal} label ={"Past Month"} />
+            </div>
+            <div className="card4">
+              <InfoCard sales={yearTotal} label = {"Past Year"} />
+            </div>
+            <div className="barGraph">
+              <h1 className="font-semibold ml-5 mt-5">Monthly Revenue</h1>
+              <Chart
+                options={monthlySalesOptions}
+                series={monthlySalesOptions.series}
+                type="bar"
+                width="530px"
+                height="350px"
+                className="dashboard-charts"
+                style={{
+                  marginTop: "30px",
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="card2">
-          <InfoCard sales={weekTotal} />
-        </div>
-        <div className="lineGraph">
-          <h1 className="font-semibold ml-5 mt-5">Slim vs Round Sales per Month</h1>
-          <Chart
-            options={conTypeOptions}
-            series={conTypeOptions.series}
-            type="line"
-            width="530px"
-            height="350px"
-            className="dashboard-charts"
-            style={{
-              marginTop: "30px",
-            }}
-          />
-        </div>
-        <div className="card3">
-          <InfoCard sales={monthTotal} />
-        </div>
-        <div className="card4">
-          <InfoCard sales={yearTotal} />
-        </div>
-        <div className="barGraph">
-          <h1 className="font-semibold ml-5 mt-5">Monthly Revenue</h1>
-          <Chart
-            options={monthlySalesOptions}
-            series={monthlySalesOptions.series}
-            type="bar"
-            width="530px"
-            height="350px"
-            className="dashboard-charts"
-            style={{
-              marginTop: "30px",
-            }}
-          />
-        </div>
-      </div>
-    </div>
+      ): (<div className="flex justify-center items-center">
+      <Lottie
+        animationData={AnimationData}
+        loop
+        autoplay
+        style={{ width: 300, height: 300 }}
+      />
+      </div>)}
+    </>
   );
-};
+}
+
 
 export default Analytics;

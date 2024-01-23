@@ -3,9 +3,10 @@ import React from "react"
 interface InfoProps  {
     sales : number;
     percentage? : number;
+    label : string;
 } 
 
-const InfoCard: React.FC<InfoProps> = ({sales}, {percentage}) => ( 
+const InfoCard: React.FC<InfoProps> = ({sales,percentage,label}) => ( 
     <div className="w-full p-2  inline-block">
         <div className="flex flex-col px-6 py-10 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group ">
             <div className="flex flex-row justify-between items-center">
@@ -50,7 +51,7 @@ const InfoCard: React.FC<InfoProps> = ({sales}, {percentage}) => (
                 {sales}
             </h1>
             <div className="flex flex-row justify-between group-hover:text-gray-200">
-                <p>Total Revenue</p>
+                <p>{label}</p>
                 <span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
