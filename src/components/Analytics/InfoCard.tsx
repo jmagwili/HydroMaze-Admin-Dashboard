@@ -47,7 +47,7 @@ const InfoCard: React.FC<InfoProps> = ({sales}, {percentage}) => (
                 </div>
             </div>
             <h1 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-gray-700 mt-12 group-hover:text-gray-50">
-                P 4000
+                {sales}
             </h1>
             <div className="flex flex-row justify-between group-hover:text-gray-200">
                 <p>Total Revenue</p>

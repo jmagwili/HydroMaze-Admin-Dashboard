@@ -9,9 +9,9 @@ import "../../styles/Analytics.css"
 const Analytics = () => {
   const { setActiveItem } = useContext(SidebarContext);
 
-  const [monthTotal, setMonthTotal] = useState<number>();
-  const [weekTotal, setWeekTotal] = useState<number>();
-  const [yearTotal, setYearTotal] = useState<number>();
+  const [monthTotal, setMonthTotal] = useState<number>(0);
+  const [weekTotal, setWeekTotal] = useState<number>(0);
+  const [yearTotal, setYearTotal] = useState<number>(0);
   const [conTypeSales, setConTypeSales] = useState([]);
   const [monthlySalesData, setMonthlySalesData] = useState([]);
   
@@ -93,7 +93,7 @@ const Analytics = () => {
 
       <div className="container">
         <div className="card1"><InfoCard sales = {20} /></div>
-        <div className="card2"><InfoCard  sales = {20} /></div>
+        <div className="card2"><InfoCard  sales = {weekTotal} /></div>
         <div className="lineGraph">
           <Chart
             options={chartOptions}
@@ -107,8 +107,8 @@ const Analytics = () => {
             }}
           />
         </div>
-        <div className="card3"><InfoCard  sales = {20}/></div>
-        <div className="card4"><InfoCard  sales = {20}/></div>
+        <div className="card3"><InfoCard  sales = {monthTotal}/></div>
+        <div className="card4"><InfoCard  sales = {yearTotal}/></div>
         <div className="barGraph">
           <Chart
                 options={chartOptions}
