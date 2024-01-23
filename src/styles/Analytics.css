@@ -13,11 +13,24 @@
   
   .card2 { grid-area: card2; }
   
-  .lineGraph { grid-area: lineGraph;}
+  .lineGraph { 
+    grid-area: lineGraph;
+    width: 550px; 
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   
   .card3 { grid-area: card3; }
   
   .card4 { grid-area: card4;}
   
-  .barGraph { grid-area: barGraph; }
+  .barGraph { 
+    grid-area: barGraph; 
+    width: 550px; 
+    padding: 5px;
+   
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   
