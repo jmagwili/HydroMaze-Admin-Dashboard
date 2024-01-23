@@ -53,6 +53,7 @@ const Analytics = () => {
       setSalesData(totalSales.data);
       setConTypeSales(containerTypeSales.data);
       setMonthlySalesData(monthlySales.data);  
+      console.log("Total Sales: " + totalSales.data);
     }
     salesData();
   },[])
