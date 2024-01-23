@@ -81,7 +81,7 @@ export function SidebarItem({ icon, text, to, onItemClick }: SidebarItemProps) {
           transition-colors group mt-6 
           ${
             activeItem === to
-              ? "bg-gradient-to-tr from-blue-700 to-blue-700 text-white"
+              ? "bg-gradient-to-tr from-blue-500 to-blue-500 text-white"
               : "hover:bg-blue-100 text-gray-600"
           }
         `}

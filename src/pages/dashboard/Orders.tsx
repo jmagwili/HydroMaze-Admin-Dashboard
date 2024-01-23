@@ -45,6 +45,7 @@ import { Link } from "react-router-dom";
 import { GiConfirmed } from "react-icons/gi";
 import { BsXCircle } from "react-icons/bs";
 import OrderDetails from "@/components/Orders/OrderDetails";
+import StatusBadge from "@/components/Orders/StatusBadge";
 
 interface Orders {
   _id: string;
@@ -334,7 +335,8 @@ const Orders = () => {
                 </Select>
               </div>
               <div className="col-span-1 flex items-end">
-                <Button onClick={handleSubmit}>Search</Button>
+                {/* <Button onClick={handleSubmit}>Search</Button> */}
+                <button type="button" onClick={handleSubmit} className="px-5 py-2.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
               </div>
             </div>
           </CardContent>
@@ -395,17 +397,17 @@ const Orders = () => {
                 <TableCell>{order.time}</TableCell>
                 <TableCell>
                   {order.status === "pending" && (
-                    <Badge variant="secondary">Pending</Badge>
+                    <StatusBadge status="pending"/>
                   )}
                   {order.status === "confirmed" && (
-                    <Badge variant="secondary">Confirmed</Badge>
+                    <StatusBadge status="pending"/>
                   )}
-                  {order.status === "delivered" && <Badge>Delivered</Badge>}
+                  {order.status === "delivered" && <StatusBadge status="delivered"/>}
                   {order.status === "for delivery" && (
-                    <Badge>For Delivery</Badge>
+                    <StatusBadge status="for delivery"/>
                   )}
                   {order.status === "rejected" && (
-                    <Badge variant="destructive">Rejected</Badge>
+                    <StatusBadge status="rejected"/>
                   )}
                 </TableCell>
                 <TableCell className="text-blue-800">
