@@ -133,11 +133,12 @@ const getTotalSales = async (req, res) => {
       {
         $group: {
           _id: null,
-          totalSales: {
+          total: {
             $sum: "$total",
           },
         },
       },
+      { $project: {_id: 0, total: 1}}
     ]);
     const startMonth = new Date(today.getFullYear(), today.getMonth() - 1);
     const endMonth = new Date(today.getFullYear(), today.getMonth(), 0);
@@ -161,6 +162,7 @@ const getTotalSales = async (req, res) => {
           },
         },
       },
+      { $project: {_id: 0, total: 1}}
     ]);
     
     const startOfYear = new Date(today.getFullYear() - 1, 0, 1);
@@ -175,22 +177,22 @@ const getTotalSales = async (req, res) => {
           $sum: "$total",
         },
       }},
-      //{ $project: {id: null, total: 1}},
+      { $project: {_id: 0, total: 1}},
     ]);
 
     const salesData = { weeklySalesTotal, monthlySalesTotal, yearlySalesTotal };
 
-    if (salesData.weeklySalesTotal.length === 0) {
-      salesData.weeklySalesTotal = 0;
-    }
+    // if (salesData.weeklySalesTotal.length === 0) {
+    //   salesData.weeklySalesTotal = 0;
+    // }
 
-    if (salesData.monthlySalesTotal.length === 0) {
-      salesData.monthlySalesTotal = 0;
-    }
+    // if (salesData.monthlySalesTotal.length === 0) {
+    //   salesData.monthlySalesTotal = 0;
+    // }
 
-    if (salesData.yearlySalesTotal.length === 0) {
-      salesData.yearlySalesTotal = 0;
-    }
+    // if (salesData.yearlySalesTotal.length === 0) {
+    //   salesData.yearlySalesTotal = 0;
+    // }
 
   res.json(salesData);
 
