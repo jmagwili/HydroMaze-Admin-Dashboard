@@ -30,7 +30,7 @@ const InfoCard: React.FC<InfoProps> = ({sales,percentage,label}) => (
                     d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                 </svg>
-                12%
+                
                 </div>
             </div>
             <h1 className="text-3xl sm:text-4xl xl:text-5xl font-bold text-gray-700 mt-12 group-hover:text-gray-50">
