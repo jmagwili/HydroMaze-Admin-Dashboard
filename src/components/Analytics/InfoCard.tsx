@@ -1,18 +1,19 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import PesoIcon from "@/assets/PesoIcon";
 import { FaPesoSign } from "react-icons/fa6";
 interface InfoProps  {
     sales : number;
     percentage? : number;
     label : string;
+    icon : ReactNode;
 } 
 
-const InfoCard: React.FC<InfoProps> = ({sales,percentage,label}) => ( 
+const InfoCard: React.FC<InfoProps> = ({sales,percentage,label, icon}) => ( 
     <div className="w-full p-2  inline-block">
         <div className="flex flex-col px-6 py-10 overflow-hidden bg-white hover:bg-gradient-to-br hover:from-purple-400 hover:via-blue-400 hover:to-blue-500 rounded-xl shadow-lg duration-300 hover:shadow-2xl group ">
             <div className="flex flex-row justify-between items-center">
                 <div className="px-4 py-4 bg-gray-300  rounded-xl bg-opacity-30">
-                    <FaPesoSign/>
+                    
                 
                 </div>
                 <div className="inline-flex text-sm text-gray-600 group-hover:text-gray-200 sm:text-base">

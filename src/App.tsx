@@ -28,17 +28,6 @@ function App() {
   const [expanded, setExpanded] = useState(true);
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
-  // const { loginWithRedirect, isAuthenticated} = useAuth0();
-
-  // useEffect(() => {
-  //   const delay = setTimeout(() => {
-  //     if (!isAuthenticated) {
-  //       loginWithRedirect();
-  //     }
-  //   }, 2000);
-
-  //   return () => clearTimeout(delay);
-  // }, [isAuthenticated, loginWithRedirect]);
 
 
   const routes = [

@@ -36,11 +36,14 @@ const getOrdersToday = async (req, res) => {
       }
       
     ]);
-
+     if(ordersToday.length === 0) {
+        res.json({count: 0});
+          console.log("no orders today", ordersToday);
+        
+     } else { 
     res.json(ordersToday);
-    console.log(ordersToday);
     console.log("orders t", ordersToday);
-
+     }
   } catch (error) {
     res.status(500).json({ message: error.message });
     console.log(error);

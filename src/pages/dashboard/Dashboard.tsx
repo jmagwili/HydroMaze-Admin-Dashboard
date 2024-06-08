@@ -100,9 +100,11 @@ export const Dashboard = () => {
         const todaysOrders = await axios.get(
           "http://localhost:4001/api/v1/dashboard/orders-today/"
         );
-        console.log("todays orders",todaysOrders.data[0].count);
-        setTodaysOrders(todaysOrders.data[0].count);
-
+        if(todaysOrders.data === null) { setTodaysOrders(0)}
+        else{
+        console.log("todays orders",todaysOrders.data.count);
+        setTodaysOrders(todaysOrders.data.count);
+        }
         const todaysRevenue = await axios.get(
           "http://localhost:4001/api/v1/dashboard/revenue-today/"
         );
