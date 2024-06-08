@@ -145,7 +145,7 @@ const Analytics = () => {
 
           <div className="container">
             <div className="card1">
-              <InfoCard sales={80} label = {""} icon = {FaPesoSign} />
+              <InfoCard sales={monthTotal + yearTotal} label = {"Total Revenue"} icon = {FaPesoSign} />
             </div>
             <div className="card2">
               <InfoCard sales={yearTotal} label = {"Past Year"} icon = {FaPesoSign}/>

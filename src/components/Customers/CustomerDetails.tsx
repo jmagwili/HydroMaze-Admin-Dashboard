@@ -17,7 +17,7 @@ import axios from "axios"
 import { FaLocationDot } from "react-icons/fa6";
 import '../../styles/CustomerDetails.css'
 import "mapbox-gl/dist/mapbox-gl.css";
-
+import StatusBadge from "../Orders/StatusBadge";
 interface UserData {
     phone: string;
     picture: string;
@@ -250,15 +250,18 @@ export default function CustomerDetails() {
                                         <TableCell>{order.total}</TableCell>
                                         <TableCell>
                                         {order.status === "pending" && (
-                                            <Badge variant="secondary">Pending</Badge>
-                                        )}
-                                        {order.status === "delivered" && <Badge>Delivered</Badge>}
-                                        {order.status === "for delivery" && (
-                                            <Badge>For Delivery</Badge>
-                                        )}
-                                        {order.status === "rejected" && (
-                                            <Badge variant="destructive">Rejected</Badge>
-                                        )}
+                    <StatusBadge status="pending"/>
+                  )}
+                  {order.status === "confirmed" && (
+                    <StatusBadge status="confirmed"/>
+                  )}
+                  {order.status === "delivered" && <StatusBadge status="delivered"/>}
+                  {order.status === "for delivery" && (
+                    <StatusBadge status="for delivery"/>
+                  )}
+                  {order.status === "rejected" && (
+                    <StatusBadge status="rejected"/>
+                  )}
                                         </TableCell>
                                     </TableRow>
                                 ))}
